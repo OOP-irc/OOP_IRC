@@ -65,7 +65,8 @@ static inline void log(const std::string& message)
     strftime(buffer, sizeof(buffer), "%d-%m-%Y %H:%M:%S", timeinfo);
     std::string str(buffer);
 
-    (void)message;
+    // 고민해보기
+    // (void)message;
     std::cout << "\033[0;34m[" << str << "]\033[0m ";
     std::cout << message << std::endl;
 }

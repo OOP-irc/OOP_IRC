@@ -11,14 +11,15 @@
 
 class Parser;
 
-#include "Command.hpp"
+#include "Manual.hpp"
 
 class Parser
 {
     private:
 
         Server*                             _srv;
-        std::map<std::string, Command *>    _commands;
+        std::map<std::string, Manual *>    _manunals;
+        // std::map<std::string, Manual *>    _commands;
 
         std::string     trim(const std::string& str);
 

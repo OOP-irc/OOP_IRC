@@ -58,8 +58,6 @@ class Server
         Server();// 
         Server(const Server& src);
 
-
-
         // 캡슐화이동
         void            on_client_connect();
         void            on_client_disconnect(int fd);
@@ -68,10 +66,8 @@ class Server
         /* Handle Clients */
         std::string     read_message(int fd); // 소켓에서 읽어온 메서지 검증, 
 
-
         /* Create Socket */
         int             create_socket();
-
 
         /* 추가, 조회, 삭제 */
 
