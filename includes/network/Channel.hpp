@@ -64,6 +64,7 @@ class Channel
         void                        set_key(std::string key);
         void                        set_limit(size_t limit);
         void                        set_ext_msg(bool flag);
+        //                          set_client(std::vector<Client *>   clients);
 };
 
 #endif

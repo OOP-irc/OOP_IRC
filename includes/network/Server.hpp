@@ -45,9 +45,15 @@ class Server
         const std::string       _pass;// 사용
 
         std::vector<pollfd>     _pfds;// 사용
-        // std::vector<Channel *>  _channels;//여기 없음
 
-        std::map<int, Client *> _clients; // 사용 map으로 사용
+
+        // 클라이언트, 채널 목록(자료구조 변경 가능)
+        std::set<Channel *> _channels;
+        std::map<int, Client *> _clients; 
+
+        // 채널들에 속해 있는 클라이언트들의 목록(자료구조 변경가능)
+        std::map<Channel*, std::set<Client *>  _channels;
+
 
         Server();// 
         Server(const Server& src);
@@ -66,6 +72,15 @@ class Server
         /* Create Socket */
         int             create_socket();
 
+
+        /* 추가, 조회, 삭제 */
+
+        //insert()
+        
+        //select()
+        
+        //delete()
+
     public:
 
         /* Constructor and Destructor */
@@ -82,6 +97,10 @@ class Server
         std::string     get_password() const;
         Client*         get_client(const std::string &nickname);
         // Channel*        get_channel(const std::string &name);
+
+        //채널 Getter
+
+        //클라이언트 Getter
 
 
         /* Create Channel */

@@ -37,7 +37,10 @@ class Client
         ClientState     _state;
         Channel*        _channel;
 
-        std::map<int, Client *>  _channels; // 한 클라이언트 여러채널 최대 10개
+
+        // 한 클라이언트 여러채널 최대 10개
+        // 서버가 업데이트 담당
+        std::map<int, Client *>  _channels; 
 
 
         Client();
