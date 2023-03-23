@@ -6,13 +6,15 @@
 #    By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/22 17:08:26 by mikim3            #+#    #+#              #
-#    Updated: 2023/03/22 17:10:06 by mikim3           ###   ########.fr        #
+#    Updated: 2023/03/23 19:22:11 by mikim3           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= ircserv
 
 SRCS		= main.cpp \
+
+SRCDIR = ./src
 
 OBJS		= $(SRCS:%.c=%.o)
 LIBC		= ar rcs
