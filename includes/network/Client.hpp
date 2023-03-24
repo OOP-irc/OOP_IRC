@@ -68,7 +68,7 @@ class Client
         std::string     mHostname;
 
         eClientState     mState;
-        std::map<int, Client *>  mChannels; //// 한 클라이언트 여러채널 최대 10개
+        std::map<int, mChannels*>  mChannels; //// 한 클라이언트 여러채널 최대 10개
 
 
 };

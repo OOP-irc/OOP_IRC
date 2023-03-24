@@ -38,13 +38,13 @@ class Server
     private:
         
         // int                     _running; //폐기
-        int                     _sock;// 소켓통신
+        int                     _sock;// 서버의 소켓 파일 디스크립터를 나타내는 정수
 
         const std::string       _host;// 사용
         const std::string       _port;// 사용
         const std::string       _password;// 사용
 
-        std::vector<pollfd>     _pfds;// 사용
+        std::vector<pollfd>     _pfds;// 모니터링할 파일 디스크립터를 나타내는 pollfd 구조체의 벡터
 
 
         // 클라이언트, 채널 목록(자료구조 변경 가능)
