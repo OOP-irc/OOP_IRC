@@ -1,4 +1,3 @@
-
 #ifndef IRC_SERVER_HPP
 #define IRC_SERVER_HPP
 
@@ -26,7 +25,6 @@ class Server;
 #include "Channel.hpp"
 #include "command/Parser.hpp"
 
-
 #define MAX_CONNECTIONS 999
 
 class Server
@@ -36,24 +34,32 @@ class Server
     typedef std::map<int, Client *>::iterator   client_iterator;
 
     private:
+<<<<<<< HEAD
         
         // int                     _running; //폐기
         int                     _sock;// 서버의 소켓 파일 디스크립터를 나타내는 정수
+=======
+        int                     mSock;// 소켓통신
+>>>>>>> 226262828387b3b19a3faa676da3f8ee50620fee
 
-        const std::string       _host;// 사용
-        const std::string       _port;// 사용
-        const std::string       _password;// 사용
+        const std::string       mHost;// 사용
+        const std::string       mPort;// 사용
+        const std::string       mPassword;// 사용
 
+<<<<<<< HEAD
         std::vector<pollfd>     _pfds;// 모니터링할 파일 디스크립터를 나타내는 pollfd 구조체의 벡터
+=======
+        // mPollfd == PollFileDescriptor
+        std::vector<pollfd>     mPollFd;// 사용
+>>>>>>> 226262828387b3b19a3faa676da3f8ee50620fee
 
 
         // 클라이언트, 채널 목록(자료구조 변경 가능)
         // std::set<Channel *> _channels;
-        std::map<int, Client *> _clients; 
+        std::map<int, Client *> mClients; 
 
         // 채널들에 속해 있는 클라이언트들의 목록(자료구조 변경가능)
         // std::map<Channel*, std::set<Client *>  _channels;
-
 
         Server();// 
         Server(const Server& src);
@@ -66,15 +72,12 @@ class Server
         /* Handle Clients */
         std::string     read_message(int fd); // 소켓에서 읽어온 메서지 검증, 
 
-        /* Create Socket */
+        /* 소켓 생성 */
         int             create_socket();
 
         /* 추가, 조회, 삭제 */
-
         //insert()
-        
         //select()
-        
         //delete()
 
     public:
@@ -102,8 +105,6 @@ class Server
         /* Create Channel */
 
         // Channel*        create_channel(const std::string &name, const std::string &key, Client *client);
-
-
 };
 
 #endif
