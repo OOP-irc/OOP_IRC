@@ -40,30 +40,30 @@ class Channel
         void                        Broadcast(const std::string& message);
         void                        Broadcast(const std::string& message, Client* exclude);
 
-        void                        Add_client(Client* client);
-        void                        Remove_client(Client* client);
+        void                        AddClient(Client* client);
+        void                        RemoveClient(Client* client);
 
         void                        Kick(Client* client, Client* target, const std::string& reason);
 
 
         /* Getters */
 
-        std::string                 Get_name() const;
-        Client*                     Get_admin() const;
+        std::string                 GetName() const;
+        Client*                     GetAdmin() const;
         
-        std::string                 Get_key() const;
-        size_t                      Get_limit() const;
-        bool                        Ext_msg() const;
+        std::string                 GetKey() const;
+        size_t                      GetLimit() const;
+        bool                        ExtMsg() const;
 
-        size_t                      Get_size() const;
-        std::vector<std::string>    Get_nicknames();
+        size_t                      GetSize() const;
+        std::vector<std::string>    GetNicknames();
 
 
         /* Setters */
 
-        void                        Set_key(std::string key);
-        void                        Set_limit(size_t limit);
-        void                        Set_ext_msg(bool flag);
+        void                        SetKey(std::string key);
+        void                        SetLimit(size_t limit);
+        void                        SetExtMsg(bool flag);
         //                          Set_client(std::vector<Client *>   clients);
 };
 
