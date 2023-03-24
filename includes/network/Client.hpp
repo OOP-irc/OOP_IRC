@@ -1,4 +1,3 @@
-
 #ifndef IRC_CLIENT_HPP
 #define IRC_CLIENT_HPP
 
@@ -13,10 +12,9 @@ class Client;
 #include "Channel.hpp"
 #include "response.hpp"
 
-
-enum ClientState
+enum eClientState
 {
-    HANDSHAKE,
+    CONNECTED,
     LOGIN,
     REGISTERED,
     DISCONNECTED
@@ -26,21 +24,21 @@ class Client
 {
     private:
         
-        int             _fd;
-        int             _port;
+        int             mFd;
+        int             mPort;
 
-        std::string     _nickname;
-        std::string     _username;
-        std::string     _realname;
-        std::string     _hostname;
+        std::string     mNickname;
+        std::string     mUsername;
+        std::string     mRealname;
+        std::string     mHostname;
 
-        ClientState     _state;
-        Channel*        _channel;
+        eClientState     mState;
+        Channel*        mChannel;
 
 
         // 한 클라이언트 여러채널 최대 10개
         // 서버가 업데이트 담당
-        std::map<int, Client *>  _channels; 
+        std::map<int, Client *>  mChannels; 
 
 
         Client();
@@ -60,44 +58,42 @@ class Client
 
         /* Check state */
 
-        bool            is_registered() const;
+        bool            Is_registered() const;
 
 
         /* Send/Recieve Actions */
 
-        void            send(const std::string& message) const; // 이름 변경
+        void            Send(const std::string& message) const; // 이름 변경
 
-        void            welcome();
+        void            Welcome();
 
 
         /* Client Actions */
 
-        void            join(Channel *channel);
-        void            leave();
+        void            Join(Channel *channel);
+        void            Leave();
 
         /* Getters */
 
-        int             get_fd() const;
-        int             get_port() const;
+        int             Get_fd() const;
+        int             Get_port() const;
 
-        std::string     get_nickname() const;
-        std::string     get_username() const;
-        std::string     get_realname() const;
-        std::string     get_hostname() const;
-        std::string     get_prefix() const;
+        std::string     Get_nickname() const;
+        std::string     Get_username() const;
+        std::string     Get_realname() const;
+        std::string     Get_hostname() const;
+        std::string     Get_prefix() const;
 
-        Channel*        get_channel() const; // 서버에서 옮김
+        Channel*        Get_channel() const; // 서버에서 옮김
 
     
         /* Setters */
 
-        void            set_nickname(const std::string &nickname);
-        void            set_username(const std::string &username);
-        void            set_realname(const std::string &realname);
-        void            set_state(ClientState state);
-        void            set_channel(Channel *channel);
-
-
+        void            Set_nickname(const std::string &nickname);
+        void            Set_username(const std::string &username);
+        void            Set_realname(const std::string &realname);
+        void            Set_state(eClientState state);
+        void            Set_channel(Channel *channel);
 };
 
 #endif

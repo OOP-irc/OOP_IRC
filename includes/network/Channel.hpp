@@ -15,14 +15,14 @@ class Channel
 
     private:
 
-        std::string             _name;
-        Client*                 _admin;
-        std::vector<Client *>   _clients;
+        std::string             mName;
+        Client*                 mAdmin;
+        std::vector<Client *>   mClients;
 
         /* Modes */
-        std::string             _k; // channel key
-        size_t                  _l; // limit of channel members
-        bool                    _n; // yes/no external messages
+        std::string             mModeK; // channel key
+        size_t                  mModeL; // limit of channel members
+        bool                    mModeN; // yes/no external messages
 
         Channel();
         Channel(const Channel& src);
@@ -37,34 +37,34 @@ class Channel
 
         /* Channel Actions */
 
-        void                        broadcast(const std::string& message);
-        void                        broadcast(const std::string& message, Client* exclude);
+        void                        Broadcast(const std::string& message);
+        void                        Broadcast(const std::string& message, Client* exclude);
 
-        void                        add_client(Client* client);
-        void                        remove_client(Client* client);
+        void                        Add_client(Client* client);
+        void                        Remove_client(Client* client);
 
-        void                        kick(Client* client, Client* target, const std::string& reason);
+        void                        Kick(Client* client, Client* target, const std::string& reason);
 
 
         /* Getters */
 
-        std::string                 get_name() const;
-        Client*                     get_admin() const;
+        std::string                 Get_name() const;
+        Client*                     Get_admin() const;
         
-        std::string                 get_key() const;
-        size_t                      get_limit() const;
-        bool                        ext_msg() const;
+        std::string                 Get_key() const;
+        size_t                      Get_limit() const;
+        bool                        Ext_msg() const;
 
-        size_t                      get_size() const;
-        std::vector<std::string>    get_nicknames();
+        size_t                      Get_size() const;
+        std::vector<std::string>    Get_nicknames();
 
 
         /* Setters */
 
-        void                        set_key(std::string key);
-        void                        set_limit(size_t limit);
-        void                        set_ext_msg(bool flag);
-        //                          set_client(std::vector<Client *>   clients);
+        void                        Set_key(std::string key);
+        void                        Set_limit(size_t limit);
+        void                        Set_ext_msg(bool flag);
+        //                          Set_client(std::vector<Client *>   clients);
 };
 
 #endif
