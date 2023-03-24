@@ -22,8 +22,43 @@ enum eClientState
 
 class Client 
 {
+    public:
+        /* Costructor and Destructor */
+        Client(int fd, int port, const std::string &hostname);
+        ~Client();
+
+        /* Send/Recieve Actions */
+        void            Send(const std::string& message) const; // 이름 변경
+        void            Welcome();
+
+        /* Client Actions */
+        void            Join(Channel *channel);
+        void            Leave();
+
+        /* Getters */
+        int             GetFd() const;
+        int             GetPort() const;
+        std::string     GetNickname() const;
+        std::string     GetUsername() const;
+        std::string     GetRealname() const;
+        std::string     GetHostname() const;
+        std::string     GetRrefix() const;
+        eClientState    GetState() const;
+        Channel*        GetChannel() const; // 서버에서 옮김
+
+        /* Setters */
+        void            SetNickname(const std::string &nickname);
+        void            SetUsername(const std::string &username);
+        void            SetRealname(const std::string &realname);
+        void            SetState(eClientState state);
+        void            SetChannel(Channel *channel);
+
     private:
+        Client();
+        Client(const Client &src);
         
+        void            reply(const std::string& reply); // 캡슐화 이동
+            
         int             mFd;
         int             mPort;
 
@@ -33,67 +68,9 @@ class Client
         std::string     mHostname;
 
         eClientState     mState;
-        Channel*        mChannel;
+        std::map<int, mChannels*>  mChannels; //// 한 클라이언트 여러채널 최대 10개
 
 
-        // 한 클라이언트 여러채널 최대 10개
-        // 서버가 업데이트 담당
-        std::map<int, Client *>  mChannels; 
-
-
-        Client();
-        Client(const Client &src);
-
-
-        // 캡슐화 이동
-
-        void            reply(const std::string& reply);
-
-    public:
-
-        /* Costructor and Destructor */
-        
-        Client(int fd, int port, const std::string &hostname);
-        ~Client();
-
-        /* Check state */
-
-        bool            Is_registered() const;
-
-
-        /* Send/Recieve Actions */
-
-        void            Send(const std::string& message) const; // 이름 변경
-
-        void            Welcome();
-
-
-        /* Client Actions */
-
-        void            Join(Channel *channel);
-        void            Leave();
-
-        /* Getters */
-
-        int             Get_fd() const;
-        int             Get_port() const;
-
-        std::string     Get_nickname() const;
-        std::string     Get_username() const;
-        std::string     Get_realname() const;
-        std::string     Get_hostname() const;
-        std::string     Get_prefix() const;
-
-        Channel*        Get_channel() const; // 서버에서 옮김
-
-    
-        /* Setters */
-
-        void            Set_nickname(const std::string &nickname);
-        void            Set_username(const std::string &username);
-        void            Set_realname(const std::string &realname);
-        void            Set_state(eClientState state);
-        void            Set_channel(Channel *channel);
 };
 
 #endif
