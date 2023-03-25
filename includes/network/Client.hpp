@@ -29,7 +29,7 @@ class Client
 
         /* Send/Recieve Actions */
         void            Send(const std::string& message) const; // 이름 변경
-        void            Welcome();
+        void            HandleClientLoginAndLog();
 
         /* Client Actions */
         void            Join(Channel *channel);
@@ -42,7 +42,6 @@ class Client
         std::string     GetUsername() const;
         std::string     GetRealname() const;
         std::string     GetHostname() const;
-        std::string     GetRrefix() const;
         eClientState    GetState() const;
         Channel*        GetChannel() const; // 서버에서 옮김
 
@@ -57,8 +56,6 @@ class Client
         Client();
         Client(const Client &src);
         
-        void            reply(const std::string& reply); // 캡슐화 이동
-            
         int             mFd;
         int             mPort;
 
@@ -69,8 +66,6 @@ class Client
 
         eClientState     mState;
         std::map<int, mChannels*>  mChannels; //// 한 클라이언트 여러채널 최대 10개
-
-
 };
 
 #endif
