@@ -7,7 +7,7 @@ class Channel;
 #include "Server.hpp"
 #include "Client.hpp"
 
-#include "../response.hpp"
+#include "../Log.hpp"
 
 class Channel 
 {
