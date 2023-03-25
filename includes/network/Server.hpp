@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <vector>
 #include <map>
+#include <set>
 
 class Server;
 
@@ -34,32 +35,18 @@ class Server
     typedef std::map<int, Client *>::iterator   client_iterator;
 
     private:
-<<<<<<< HEAD
-        
-        // int                     _running; //폐기
-        int                     _sock;// 서버의 소켓 파일 디스크립터를 나타내는 정수
-=======
         int                     mSock;// 소켓통신
->>>>>>> 226262828387b3b19a3faa676da3f8ee50620fee
 
         const std::string       mHost;// 사용
         const std::string       mPort;// 사용
         const std::string       mPassword;// 사용
 
-<<<<<<< HEAD
-        std::vector<pollfd>     _pfds;// 모니터링할 파일 디스크립터를 나타내는 pollfd 구조체의 벡터
-=======
         // mPollfd == PollFileDescriptor
         std::vector<pollfd>     mPollFd;// 사용
->>>>>>> 226262828387b3b19a3faa676da3f8ee50620fee
-
 
         // 클라이언트, 채널 목록(자료구조 변경 가능)
-        // std::set<Channel *> _channels;
-        std::map<int, Client *> mClients; 
-
-        // 채널들에 속해 있는 클라이언트들의 목록(자료구조 변경가능)
-        // std::map<Channel*, std::set<Client *>  _channels;
+        std::set<Channel *> mChannels;
+        std::map<int, Client> mClients;
 
         Server();// 
         Server(const Server& src);
