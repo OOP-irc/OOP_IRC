@@ -10,7 +10,7 @@
 class Client;
 
 #include "Channel.hpp"
-#include "response.hpp"
+#include "Log.hpp"
 
 enum eClientState
 {

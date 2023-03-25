@@ -17,7 +17,8 @@ class Channel
 
         std::string             mName;
         Client*                 mAdmin;
-        std::vector<Client *>   mClients;
+        std::set<Client *>      mClientsSet;
+        std::vector<Client *>   mClientsArray;
 
         /* Modes */
         std::string             mModeK; // channel key
