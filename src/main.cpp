@@ -11,7 +11,7 @@ int main(int ac, char **av)
 
     try
     {
-        server.start();
+        server.Start();
         return 0;
     }
     catch (const std::exception& e)
