@@ -54,15 +54,16 @@ class Server
         Server(const Server& src);
 
         // 캡슐화이동
-        void            on_client_connect();
-        void            on_client_disconnect(int fd);
-        void            on_client_message(int fd);
+        void            onClientConnect();
+        void            onClientDisconnect(int fd);
+        void            onClientMessage(int fd);
 
         /* Handle Clients */
-        std::string     read_message(int fd); // 소켓에서 읽어온 메서지 검증, 
+        std::string     readMessage(int fd); // 소켓에서 읽어온 메서지 검증, 
 
         /* 소켓 생성 */
-        int             create_socket();
+        int             createSocket();
+
 
         /* 추가, 조회, 삭제 */
         //insert()
@@ -81,12 +82,12 @@ class Server
 
         /* Initialize and Listen */
 
-        void            start();
+        void            Start();
 
         /* Getters */
 
-        std::string     get_password() const;
-        Client*         get_client(const std::string &nickname);
+        std::string     GetPassword() const;
+        Client*         GetClient(const std::string &nickname);
         // Channel*        get_channel(const std::string &name);
 
         //채널 Getter

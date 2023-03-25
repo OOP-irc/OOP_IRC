@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:46:48 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/23 15:49:50 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/25 17:04:22 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ class Manual
 {
     protected:
 
-        Server* _srv;
-        bool    _auth;
+        Server* mServer;
+        bool    mAuth;
 
         Manual();
         Manual(const Manual& src);

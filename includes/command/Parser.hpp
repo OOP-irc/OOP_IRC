@@ -16,11 +16,9 @@ class Parser;
 class Parser
 {
     private:
-
-        Server*                             _srv;
-        std::map<std::string, Manual *>    _manunals;
+        Server*                             mServer;
+        std::map<std::string, Manual *>    mManuals;
         // std::map<std::string, Manual *>    _commands;
-
         std::string     trim(const std::string& str);
 
     public:
@@ -28,7 +26,7 @@ class Parser
         Parser(Server* srv);
         ~Parser();
 
-        void    invoke(Client* client, const std::string& message);
+        void    Invoke(Client* client, const std::string& message);
 };
 
 #endif
