@@ -13,9 +13,11 @@
 
 #include <stdexcept>
 #include <cerrno>
+#include <time.h>
 #include <string>
 
 #include <algorithm>
+#include <cassert>
 #include <vector>
 #include <map>
 #include <set>
@@ -66,6 +68,9 @@ class Server
         //insert()
         //select()
         //delete()
+
+        /* 로그 */
+        static void            log(const std::string &message);
 
     public:
 
