@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/25 17:45:09 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/27 19:28:37 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,71 @@ Server::Server(const std::string &port, const std::string &password)
 Server::~Server()
 {
 	// delete _parser;
+    // for (size_t i = 0; i < mChannels.size(); i++)
+    //     delete mClients[i];
+}
 
-    for (size_t i = 0; i < _channels.size(); i++)
-        delete mClients[i];
+/* Initialize and Listen */
 
+void            Server::Start()
+{
+	// add the server to the poll
+	pollfd srv = {mSock, POLLIN, 0};
+	mPollFd.push_back(srv);
+
+	log("Server is listening...");
+	while (1)
+	{
+		if (poll(mPollFd.begin().base(), mPollFd.size(), -1) < 0)
+			throw std::runtime_error("Error while polling from fd!");
+
+		for (pfd_iterator it = mPollFd.begin(); it != mPollFd.end(); it++)
+		{
+			if (it->revents == 0)
+				continue;
+
+			if ((it->revents & POLLHUP) == POLLHUP)
+			{
+				this->onClientDisconnect(it->fd);
+				break;
+			}
+
+			if ((it->revents & POLLIN) == POLLIN)
+			{
+				if (it->fd == mSock)
+				{
+					this->onClientConnect();
+					break;
+				}
+
+				this->onClientMessage(it->fd);
+			}
+		}
+	}
 }
 
 /* Handle Clients */
 
 void            Server::onClientConnect()
 {
-    // accept a connection
-
     int         fd;
     sockaddr_in addr = {};
     socklen_t   size = sizeof(addr);
 
+    // accept()로 서버 소켓과 연결된 클라이언트의 fd 생성
+	
     fd = accept(mSock, (sockaddr *) &addr, &size);
     if (fd < 0)
         throw std::runtime_error("Error while accepting a new client!");
 
-    // including the client fd in the poll
-
+    // 클라이언트의 fd를 poll 목록에 추가
     pollfd  pollFd = {fd, POLLIN, 0};
-    mPollFds.push_back(pollFd);
+    mPollFd.push_back(pollFd);
 
     // getting hostname from the client address
 
     char hostname[NI_MAXHOST];
+	// 클라이언트의 IP주소에서 호스트네임을 가져온다.
     int res = getnameinfo((struct sockaddr *) &addr, sizeof(addr), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV);
     if (res != 0)
         throw std::runtime_error("Error while getting a hostname on a new client!");
@@ -71,7 +108,6 @@ void            Server::onClientDisconnect(int fd)
     try
     {
         // finding the client and removing
-
         Client* client = mClients.at(fd);
 
         client->Leave();
@@ -82,18 +118,19 @@ void            Server::onClientDisconnect(int fd)
 		sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
 		log(message);
 
+		//fd를 키로가지는 client삭제
         mClients.erase(fd);
 
         // removing the client fd from the poll
 
-        pfd_iterator it_b = mPollFds.begin();
-        pfd_iterator it_e = mPollFds.end();
+        pfd_iterator it_b = mPollFd.begin();
+        pfd_iterator it_e = mPollFd.end();
 
         while (it_b != it_e)
         {
             if (it_b->fd == fd)
             {
-                mPollFds.erase(it_b);
+                mPollFd.erase(it_b);
                 close(fd);
                 break;
             }
@@ -126,7 +163,6 @@ void            Server::onClientMessage(int fd)
 std::string     Server::readMessage(int fd)
 {
     std::string message;
-    
     char buffer[100];
 	memset(buffer, 0, 100);
 
@@ -134,12 +170,10 @@ std::string     Server::readMessage(int fd)
     {
 		memset(buffer, 0, 100);
         // EWOULDBLOCK은 아직은 클라이언트가 write를 하지 않았음을 의미
-         if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
+        if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
             throw std::runtime_error("Error while reading buffer from a client!");
-
         message.append(buffer);
     }
-
     return message;
 }
 
@@ -180,4 +214,64 @@ int             Server::createSocket()
         throw std::runtime_error("Error while listening on a socket!");
 
     return socketFd;
+}
+
+
+/* Getters */
+
+std::string     Server::GetPassword() const 
+{
+    return mPassword;
+}
+
+Client*         Server::GetClient(const std::string& nickname)
+{
+    client_iterator it_b = mClients.begin();
+    client_iterator it_e = mClients.end();
+
+    while (it_b != it_e)
+    {
+        if (!nickname.compare(it_b->second->GetNickname()))
+            return it_b->second;
+
+        it_b++;
+    }
+
+    return NULL;
+}
+
+Channel*        Server::GetChannel(const std::string& name)
+{
+    channel_iterator it_b = mChannels.begin();
+    channel_iterator it_e = mChannels.end();
+
+    while (it_b != it_e)
+    {
+        if (!name.compare((*it_b)->GetName()))
+            return (*it_b);
+
+        it_b++;
+    }
+
+    return NULL;
+}
+
+std::string     Server::GetPassword() const
+{
+    return mPassword;
+}
+
+Client*         Server::GetClient(const std::string &nickname)
+{
+    client_iterator it_b = mClients.begin();
+    client_iterator it_e = mClients.end();
+
+    while (it_b != it_e)
+    {
+        if (!nickname.compare(it_b->second->GetNickname()))
+            return it_b->second;
+        it_b++;
+    }
+
+    return NULL;
 }
