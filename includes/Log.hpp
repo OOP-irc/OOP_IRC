@@ -16,11 +16,10 @@
 #define ERR_UNKNOWNCOMMAND(source, command)             "421 " + source + " " + command + " :Unknown command"
 #define ERR_NEEDMOREPARAMS(source, command)             "461 " + source + " " + command + " :Not enough parameters"
 
-#define ERR_TOOMANYCHANNELS(source, channel)            "405 " + source + " " + channel + " :You have joined too many channels"
+
 #define ERR_NOTONCHANNEL(source, channel)               "442 " + source + " " + channel + " :You're not on that channel"
 #define ERR_NOSUCHCHANNEL(source, channel)              "403 " + source + " " + channel + " :No such channel"
-#define ERR_BADCHANNELKEY(source, channel)              "475 " + source + " " + channel + " :Cannot join channel (+k)"
-#define ERR_CHANNELISFULL(source, channel)              "471 " + source + " " + channel + " :Cannot join channel (+l)"
+
 
 #define ERR_CHANOPRIVSNEEDED(source, channel)           "482 " + source + " " + channel + " :You're not channel operator"
 
@@ -55,30 +54,49 @@ public :
     }
 
     /* 유저가 아직 등록되지 않았음을 알림 */
-    static std::string GetERR_NOTREGISTERED() 
+    static std::string GetERRNOTREGISTERED() 
     {
         return "451 :You have not registered";
     }
 
-    static std::string GetRPL_NAMEREPLY()
-    {
-
-    }
-
     /* Numeric Responses */   
-    static std::string GetRPL_NAMREPLY(const std::string& channelName, const std::string& users) 
+    static std::string GetRPLNAMREPLY(const std::string& channelName, const std::string& users) 
     {
         return "353 = " + channelName + " :" + users;
     }
 
-    static std::string GetRPL_ENDOFNAMES(const std::string& channelName) 
+    static std::string GetRPLENDOFNAMES(const std::string& channelName) 
     {
         return "366 " + channelName + " :End of /NAMES list.";
     }
 
-    static std::string GetRPL_JOIN(const std::string& clientPrefix, const std::string& channelName)
+    static std::string GetRPLJOIN(const std::string& clientPrefix, const std::string& channelName)
     {
         return ":" + clientPrefix + " Join :" + "" + channelName;
+    }
+
+    /* 사용자가 키(비밀번호)로 채널에 가입하려고 하는데 제공된 키가 올바르지 않을 때   보내는 오류입니다. 사용자가 채널에 참여하려면 올바른 키가 필요합니다. */
+    static std::string GetERRBADCHANNELKEY(const std::string& clientPrefix, const std::string& channelName)
+    {
+        return "475 " + clientPrefix + " " + channelName + " :Cannot join channel (+k)";
+    }
+
+    /* 이 오류는 사용자가 최대 사용자 제한(+l 채널 모드로 설정)에 도달한 채널에 가입하려고 할 때 발생합니다. 사용자는 더 많은 사용자를 위한 공간이 생길 때까지 채널에 참여할 수 없습니다 */
+    static std::string GetERRCHANNELISFULL(const std::string& clientPrefix, const std::string& channelName)
+    {
+        return "471 " + clientPrefix + " " + channelName + " :Cannot join channel (+l)";
+    }
+
+    /* 이 오류는 사용자가 서버에서 허용한 것보다 더 많은 채널에 참여하려고 할 때 전송됩니다. 사용자는 새 채널에 가입하기 전에 일부 채널을 나가야 합니다. */
+    static std::string GetERRTOOMANYCHANNELS(const std::string& clientPrefix, const std::string& channelName)
+    {
+        return "405 " + clientPrefix + " " + channelName + " :You have joined too many channels";
+    }
+
+    /* 이 오류는 사용자가 이미 사용 중이거나 임시로 예약되어 현재 사용할 수 없는 리소스(예: 닉네임 또는 채널 이름)를 사용하려고 할 때 전송됩니다. */
+    static std::string GetERRUNAVAILRESOURCE(const std::string& clientPrefix, const std::string& overlappedName)
+    {
+        return "437 " + overlappedName + " :Nick/channel is temporarily unavailable";
     }
 };
 

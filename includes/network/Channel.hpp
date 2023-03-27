@@ -17,7 +17,7 @@ class Channel
         ~Channel();
 
         /* Channel Actions */
-        void                        Join(Channel *channel);
+        void                        Join(Client *Client);
         void                        Leave();
         void                        Broadcast(const std::string& message);
         void                        Broadcast(const std::string& message, Client* exclude);

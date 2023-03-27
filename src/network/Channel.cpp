@@ -12,10 +12,9 @@ int                        Channel::Join(Client *Client)
 {
     assert(Client != NULL);
     
-    // 클라이언트가 
     if (Client->GetState() != REGISTERED)
     {
-        Client->SendErrorToClient(Log::GetERR_NOTREGISTERED());
+        Client->SendErrorToClient(Log::GetERRNOTREGISTERED());
     }
 
     //Client를 추가한다
@@ -33,16 +32,16 @@ int                        Channel::Join(Client *Client)
     }
 
     // 클라이언트에 대답을 보낸다
-    Client->SendToClient(Log::GetRPL_NAMREPLY(mName, clientsOnChannel), *this);
-    Client->SendToClient(Log::GetRPL_ENDOFNAMES(mName), *this);
+    Client->SendToClient(Log::GetRPLNAMREPLY(mName, clientsOnChannel), *this);
+    Client->SendToClient(Log::GetRPLENDOFNAMES(mName), *this);
 
-    channel->broadcast(Log::GetRPL_JOIN(Client->GetPrefix(), channel->get_name()));
+    channel->broadcast(Log::GetRPLJOIN(Client->GetPrefix(), channel->get_name()));
     log(Client->GetNickname() + " has joined to the channel " + channel->get_name());
 }
 
 void                        Channel::Leave()
 {
-    
+
 }
 
 // void            Client::leave()
