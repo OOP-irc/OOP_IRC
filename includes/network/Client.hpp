@@ -28,12 +28,9 @@ class Client
         ~Client();
 
         /* Send/Recieve Actions */
-        void            Send(const std::string& message) const; // 이름 변경
+        void            SendToClient(const std::string& message, Channel& channel) const;
+        void            SendErrorToClient(const std::string& message) const;
         void            HandleClientLoginAndLog();
-
-        /* Client Actions */
-        void            Join(Channel *channel);
-        void            Leave();
 
         /* Getters */
         int             GetFd() const;
@@ -42,19 +39,20 @@ class Client
         std::string     GetUsername() const;
         std::string     GetRealname() const;
         std::string     GetHostname() const;
+        std::string     GetPrefix() const; // 클라이언트에게 메세지 보낼 때 쓰는 접두사
         eClientState    GetState() const;
-        Channel*        GetChannel() const; // 서버에서 옮김
 
         /* Setters */
         void            SetNickname(const std::string &nickname);
         void            SetUsername(const std::string &username);
         void            SetRealname(const std::string &realname);
         void            SetState(eClientState state);
-        void            SetChannel(Channel *channel);
 
     private:
         Client();
         Client(const Client &src);
+
+        bool            trySend(const std::string& message) const;
         
         int             mFd;
         int             mPort;
@@ -65,7 +63,6 @@ class Client
         std::string     mHostname;
 
         eClientState     mState;
-        std::map<int, mChannels*>  mChannels; //// 한 클라이언트 여러채널 최대 10개
 };
 
 #endif

@@ -4,6 +4,9 @@ Client::Client(int fd, int port, const std::string &hostname)
     : mFd(fd)
     , mPort(port)
     , mHostname(hostname)
+    , mUsername("")
+    , mRealname("")
+    , mNickname("")
     , mState(CONNECTED)
 {
 }
@@ -12,16 +15,22 @@ Client::~Client()
 {
 }
 
-void            Client::Send(const std::string& message) const
+Client::Client(const Client &src)
 {
-    assert(strlen(message.c_str()) == 0);
 
-    //message에 "\r\n을 추가해야 할 수도 있음"
-    if (send(mFd, message.c_str(), strlen(message.c_str()), 0) == -1)
+}
+
+void            Client::SendToClient(const std::string& message, Channel& channel) const
+{
+    if (trySend(message) == false)
     {
-        Log::log("Error Send it client");
-        Send(ERR_CANNOTSENDTOCHAN(channel->GetName());
+        SendErrorToClient(Log::GetERRCANNOTSENDTOCHAN(channel.GetName()));
     }
+}
+
+void            Client::SendErrorToClient(const std::string& message) const
+{
+    trySend(message);
 }
 
 /*
@@ -31,24 +40,90 @@ void            Client::HandleClientLoginAndLog()
 {
     if (mState != LOGIN || mUsername.empty() || mRealname.empty() || mNickname.empty())
     {
-
+        trySend(Log::GetERR_NOTREGISTERED());
 		return;
     }
 
-    
     mState = REGISTERED;
-    this->reply(RPL_WELCOME(_nickname));
+    trySend(Log::GetRPLWELCOME(mNickname, mUsername, mHostname));
 
-    char message[100];
-    sprintf(message, "%s:%d is now known as %s.", _hostname.c_str(), _port, _nickname.c_str());
-    log(message);
+    char buffer[100];
+    sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
+    Log::log(buffer);
 }
 
+int             Client::GetFd() const
+{  
+    return mFd;
+}
 
-std::string     Client::GetPrefix() const 
+int             Client::GetPort() const
 {
-    std::string username = mUsername.empty() ? "" : "!" + mUsername;
-    std::string hostname = mHostname.empty() ? "" : "@" + mHostname;
+    return mPort;
+}
 
-    return mNickname + username + hostname;
+std::string     Client::GetNickname() const
+{
+    return mNickname;
+}
+
+std::string     Client::GetUsername() const
+{
+    return mUsername;
+}
+
+std::string     Client::GetRealname() const
+{
+    return mRealname;
+}
+
+std::string     Client::GetHostname() const
+{
+    return mHostname;
+}
+
+std::string     Client::GetPrefix() const
+{
+    return mNickname + "!" + mUsername + "@" + mHostname;
+}
+
+eClientState    Client::GetState() const
+{
+    return mState;
+}
+
+void            Client::SetNickname(const std::string &nickname)
+{
+    mNickname = nickname;
+}
+
+void            Client::SetUsername(const std::string &username)
+{
+    mUsername = username;
+}
+
+void            Client::SetRealname(const std::string &realname)
+{
+    mRealname = realname;
+}
+
+void            Client::SetState(eClientState state)
+{
+    mState = state;
+}
+
+bool            Client::trySend(const std::string& message) const
+{
+    assert(strlen(message.c_str()) == 0);
+
+    std::string formattedMessage = message + "\r\n";
+
+    if (send(mFd, formattedMessage.c_str(), strlen(formattedMessage.c_str()), 0) == -1)
+    {
+        Log::log("Error Send it client");
+        
+        return false;
+    }
+
+    return true;
 }
