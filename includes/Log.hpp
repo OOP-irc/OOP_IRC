@@ -16,7 +16,6 @@
 #define ERR_UNKNOWNCOMMAND(source, command)             "421 " + source + " " + command + " :Unknown command"
 #define ERR_NEEDMOREPARAMS(source, command)             "461 " + source + " " + command + " :Not enough parameters"
 
-#define ERR_NOTONCHANNEL(source, channel)               "442 " + source + " " + channel + " :You're not on that channel"
 #define ERR_NOSUCHCHANNEL(source, channel)              "403 " + source + " " + channel + " :No such channel"
 
 #define ERR_CHANOPRIVSNEEDED(source, channel)           "482 " + source + " " + channel + " :You're not channel operator"
@@ -24,7 +23,6 @@
 #define ERR_USERNOTINCHANNEL(source, nickname, channel) "441 " + source + " " + nickname + " " + channel + " :They aren't on that channel"
 
 /* Command Responses */
-#define RPL_PART(source, channel)                       ":" + source + " PART :" + channel
 #define RPL_PING(source, token)                         ":" + source + " PONG :" + token
 #define RPL_PRIVMSG(source, target, message)            ":" + source + " PRIVMSG " + target + " :" + message
 #define RPL_NOTICE(source, target, message)             ":" + source + " NOTICE " + target + " :" + message
@@ -67,6 +65,12 @@ public :
     
     /* 유저가 채널에 등록했을 때 메세지를 남김 */
     static std::string GetRPLJOIN(const std::string& clientPrefix, const std::string& channelName);
+
+    /* 클라이언트가 채널에 없을 때 */
+    static std::string GetERRNOTONCHANNEL(const std::string& clientPrefix, const std::string& channelName);
+
+    /* 유저가 떠났을 떄 메세지를 남김*/
+    static std::string GetRPLPART(const std::string& clientPrefix, const std::string& channelName);
 };
 
 #endif

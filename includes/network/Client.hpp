@@ -20,7 +20,7 @@ enum eClientState
     DISCONNECTED
 };
 
-class Client 
+class Client
 {
     public:
         /* Costructor and Destructor */

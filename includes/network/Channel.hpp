@@ -3,26 +3,27 @@
 
 class Channel;
 
+#include <algorithm>
+
 #include "Server.hpp"
 #include "Client.hpp"
 #include "../Log.hpp"
 
+
 class Channel 
 {
-    typedef std::vector<Client *>::iterator client_iterator;
-
     public:
         /* Constructor and Destructor */
         Channel(const std::string &name, const std::string &key, Client* admin);
         ~Channel();
 
         /* Channel Actions */
-        void                        Join(Client *Client);
-        void                        Leave();
+        void                        Join(Client *client);
+        void                        Leave(Client *client);
         void                        Broadcast(const std::string& message);
-        void                        Broadcast(const std::string& message, Client* exclude);
-        void                        AddClient(Client* client);
-        void                        RemoveClient(Client* client);
+        //void                        Broadcast(const std::string& message, Client* exclude);
+        //void                        AddClient(Client* client);
+        //void                        RemoveClient(Client* client);
         void                        Kick(Client* client, Client* target, const std::string& reason);
 
 

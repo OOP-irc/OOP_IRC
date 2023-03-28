@@ -66,3 +66,14 @@ static std::string GetERRUNAVAILRESOURCE(const std::string& clientPrefix, const 
 {
     return "437 " + overlappedName + " :Nick/channel is temporarily unavailable";
 }
+
+static std::string GetERRNOTONCHANNEL(const std::string& clientPrefix, const std::string& channelName)
+{
+    return "442 " + clientPrefix + " " + channelName + " :You're not on that channel";
+}
+
+static std::string GetRPLPART(const std::string& clientPrefix, const std::string& channelName)
+{
+    return ":" + clientPrefix + " PART :" + channelName;
+}
+          

@@ -8,18 +8,21 @@ Channel::Channel(const std::string &name, const std::string &password, Client* c
 {    
 }
 
-int                        Channel::Join(Client *Client)
+void                        Channel::Join(Client *client)
 {
-    assert(Client != NULL);
+    assert(client != NULL);
     
-    if (Client->GetState() != REGISTERED)
+    if (client->GetState() != REGISTERED)
     {
-        Client->SendErrorToClient(Log::GetERRNOTREGISTERED());
+        client->SendErrorToClient(Log::GetERRNOTREGISTERED());
+        return;
     }
 
-    //Client를 추가한다
-    mClientsArray.push_back(Client);
-    mClientsSet.insert(Client);
+
+    //Client를 Channel에 추가한다
+    mClientsArray.push_back(client);
+    mClientsSet.insert(client);
+
 
     //채널에 참여한 클라이언트 이름을 추가한다
     std::string clientsOnChannel = "";
@@ -31,32 +34,51 @@ int                        Channel::Join(Client *Client)
         clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
     }
 
+
+
     // 클라이언트에 대답을 보낸다
-    Client->SendToClient(Log::GetRPLNAMREPLY(mName, clientsOnChannel), *this);
-    Client->SendToClient(Log::GetRPLENDOFNAMES(mName), *this);
+    client->SendToClient(Log::GetRPLNAMREPLY(mName, clientsOnChannel), *this);
+    client->SendToClient(Log::GetRPLENDOFNAMES(mName), *this);
 
-    channel->broadcast(Log::GetRPLJOIN(Client->GetPrefix(), channel->get_name()));
-    log(Client->GetNickname() + " has joined to the channel " + channel->get_name());
+
+
+    // 클라이언트의 채널 참여를 알린다
+    Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
+    Log::log(client->GetNickname() + " has joined to the channel " + mName);
 }
 
-void                        Channel::Leave()
+void                        Channel::Leave(Client *client)
 {
+    assert(GetClientCount != 0);
+    assert(client != NULL);
 
+    // 채널에서 클라이언트를 삭제한다
+    std::set<Client *>::iterator itSet = mClientsSet.find(client);
+    if (itSet == mClientsSet.end())
+    {
+        /* 클라이언트가 채널에 없을 때 */
+        client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), mName));
+        return ;
+    }
+    mClientsSet.erase(itSet);
+    
+    std::vector<Client *>::iterator itArray = std::find(mClientsArray.begin(), mClientsArray.end(), client);
+    assert(itArray != mClientsArray.end());
+
+    mClientsArray.erase(itArray);
+
+    // 떠났음을 채널에 알리고 로그를 찍는다
+    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
+    Log::log(client->GetPrefix() + " has left the channel");
 }
 
-// void            Client::leave()
-// {
-//     if (!_channel)
-//         return;
-
-//     const std::string name = _channel->get_name();
-
-//     _channel->broadcast(RPL_PART(get_prefix(), _channel->get_name()));
-//     _channel->remove_client(this);
-
-//     std::string message = _nickname + " has left the channel " + name;
-//     log(message);
-// }
+void                        Channel::Broadcast(const std::string& message)
+{
+    for (int i = 0; i < mClientsArray.size(); i++)
+    {
+        mClientsArray[i]->SendToClient(message, *this);
+    }
+}
 
 std::string                 Channel::GetName() const
 {

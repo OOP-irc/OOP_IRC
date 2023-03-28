@@ -40,7 +40,7 @@ void            Client::HandleClientLoginAndLog()
 {
     if (mState != LOGIN || mUsername.empty() || mRealname.empty() || mNickname.empty())
     {
-        trySend(Log::GetERR_NOTREGISTERED());
+        trySend(Log::GetERRNOTREGISTERED());
 		return;
     }
 
