@@ -20,7 +20,7 @@ enum eClientState
     DISCONNECTED
 };
 
-class Client 
+class Client
 {
     public:
         /* Costructor and Destructor */
@@ -31,6 +31,9 @@ class Client
         void            SendToClient(const std::string& message, Channel& channel) const;
         void            SendErrorToClient(const std::string& message) const;
         void            HandleClientLoginAndLog();
+        void            AddJoindInChannel();
+        void            RemoveJoindInChannel();
+        bool            IsFullJoindInChannlCount();
 
         /* Getters */
         int             GetFd() const;
@@ -41,6 +44,7 @@ class Client
         std::string     GetHostname() const;
         std::string     GetPrefix() const; // 클라이언트에게 메세지 보낼 때 쓰는 접두사
         eClientState    GetState() const;
+        int             GetJoindInChannel() const;
 
         /* Setters */
         void            SetNickname(const std::string &nickname);
@@ -56,6 +60,8 @@ class Client
         
         int             mFd;
         int             mPort;
+        int             mJoinedInChannel;
+        const int       MAX_JOINED_IN_CHANNEL;
 
         std::string     mNickname;
         std::string     mUsername;
