@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:46:48 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/27 19:52:11 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/28 13:46:49 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ class Manual
 
     public:
 
-        explicit Manual(Server* srv, bool auth = true);
+        explicit Manual(Server* server, bool auth = true);
         virtual ~Manual();
 
-        bool auth_required() const;
+        bool AuthRequired() const;
 
-        virtual void execute(Client* client, std::vector<std::string> args) = 0;
+        virtual void Execute(Client* client, std::vector<std::string> args) = 0;
 };
 
 
@@ -53,120 +53,120 @@ class Notice : public Manual
 {
     public:
 
-        Notice(Server* srv);
+        Notice(Server* server);
         ~Notice();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class PrivMsg : public Manual
 {
     public:
 
-        PrivMsg(Server* srv);
+        PrivMsg(Server* server);
         ~PrivMsg();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Part : public Manual
 {
     public:
 
-        Part(Server* srv);
+        Part(Server* server);
         ~Part();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Quit : public Manual
 {
     public:
 
-        Quit(Server* srv, bool auth);
+        Quit(Server* server, bool auth);
         ~Quit();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Join : public Manual
 {
     public:
 
-        Join(Server* srv);
+        Join(Server* server);
         ~Join();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class User : public Manual
 {
     public:
 
-        User(Server* srvi, bool auth);
+        User(Server* serveri, bool auth);
         ~User();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Nick : public Manual
 {
     public:
 
-        Nick(Server* srv, bool auth);
+        Nick(Server* server, bool auth);
         ~Nick();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Pass : public Manual
 {
     public:
 
-        Pass(Server* srv, bool auth);
+        Pass(Server* server, bool auth);
         ~Pass();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Kick : public Manual
 {
     public:
 
-        Kick(Server* srv);
+        Kick(Server* server);
         ~Kick();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Ping : public Manual
 {
     public:
 
-        Ping(Server* srv);
+        Ping(Server* server);
         ~Ping();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Pong : public Manual
 {
     public:
 
-        Pong(Server* srv);
+        Pong(Server* server);
         ~Pong();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 class Mode : public Manual
 {
     public:
 
-        Mode(Server* srv);
+        Mode(Server* server);
         ~Mode();
 
-        void    execute(Client* client, std::vector<std::string> args);
+        void    Execute(Client* client, std::vector<std::string> args);
 };
 
 #endif
