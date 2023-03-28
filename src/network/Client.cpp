@@ -3,6 +3,8 @@
 Client::Client(int fd, int port, const std::string &hostname)
     : mFd(fd)
     , mPort(port)
+    , mJoinedInChannel(0)
+    , MAX_JOINED_IN_CHANNEL(0)
     , mHostname(hostname)
     , mUsername("")
     , mRealname("")
@@ -50,6 +52,23 @@ void            Client::HandleClientLoginAndLog()
     char buffer[100];
     sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
     Log::log(buffer);
+}
+
+void            Client::AddJoindInChannel()
+{
+    mJoinedInChannel++;
+    assert(mJoinedInChannel < MAX_JOINED_IN_CHANNEL);
+}
+
+void            Client::RemoveJoindInChannel()
+{
+    mJoinedInChannel--;
+    assert(mJoinedInChannel < 0);
+}
+
+bool            Client::IsFullJoindInChannlCount()
+{
+    return mJoinedInChannel < MAX_JOINED_IN_CHANNEL ? true : false;
 }
 
 int             Client::GetFd() const
