@@ -12,28 +12,29 @@
 
 #include "manual/Parser.hpp"
 
-Parser::Parser(Server* srv) : _srv(srv)
+Parser::Parser(Server* server) 
+    : mServer(server)
 {
-    _commands["PASS"] = new Pass(_srv, false);
-    _commands["NICK"] = new Nick(_srv, false);
-    _commands["USER"] = new User(_srv, false);
-    _commands["QUIT"] = new Quit(_srv, false);
+    mManuals["PASS"] = new Pass(mServer, false);
+    mManuals["NICK"] = new Nick(mServer, false);
+    mManuals["USER"] = new User(mServer, false);
+    // mManuals["QUIT"] = new Quit(mServer, false);
 
-    _commands["PING"] = new Ping(_srv);
-    _commands["PONG"] = new Pong(_srv);
-    _commands["JOIN"] = new Join(_srv);
-    _commands["PART"] = new Part(_srv);
-    _commands["KICK"] = new Kick(_srv);
-    _commands["MODE"] = new Mode(_srv);
+    mManuals["PING"] = new Ping(mServer);
+    mManuals["PONG"] = new Pong(mServer);
+    mManuals["JOIN"] = new Join(mServer);
+    mManuals["PART"] = new Part(mServer);
+    // mManuals["KICK"] = new Kick(mServer);
+    // mManuals["MODE"] = new Mode(mServer);
 
-	_commands["PRIVMSG"] = new PrivMsg(_srv);
-	_commands["NOTICE"] = new Notice(_srv);
+	mManuals["PRIVMSG"] = new PrivMsg(mServer);
+	// mManuals["NOTICE"] = new Notice(mServer);
 }
 
 Parser::~Parser ()
 {
-    std::map<std::string, Command *>::iterator it = _commands.begin();
-    std::map<std::string, Command *>::iterator end = _commands.end();
+    std::map<std::string, Manual *>::iterator it = mManuals.begin();
+    std::map<std::string, Manual *>::iterator end = mManuals.end();
 
     while (it != end)
     {
@@ -59,7 +60,7 @@ std::string     Parser::trim(const std::string& str)
     return result;
 }
 
-void            Parser::invoke(Client* client, const std::string& message)
+void            Parser::Invoke(Client* client, const std::string& message)
 {
     std::stringstream   ss(message);
     std::string         syntax;
@@ -76,23 +77,22 @@ void            Parser::invoke(Client* client, const std::string& message)
             std::stringstream           line(syntax.substr(name.length(), syntax.length()));
             std::string                 buf;
 
-            Command *cmd = _commands.at(name);
+            Manual *manual = mManuals.at(name);
 
             while (line >> buf)
                 args.push_back(buf);
 
-
-            if (!client->is_registered() && cmd->auth_required())
+            if (client->GetState() == false && manual->AuthRequired())
             {
-                client->reply(ERR_NOTREGISTERED(client->get_nickname()));
+                client->SendErrorToClient(Log::GetERRNOTREGISTERED());
                 return;
             }
 
-            cmd->execute(client, args);
+            manual->Execute(client, args);
         }
         catch (const std::exception& e)
         {
-            client->reply(ERR_UNKNOWNCOMMAND(client->get_nickname(), name));
+            client->SendErrorToClient(Log::GetERRUNKNOWNCOMMAND(client->GetNickname(), name));
         }
     }
 }

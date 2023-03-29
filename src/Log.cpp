@@ -91,3 +91,8 @@ static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::str
 {
     return ":" + clientPrefix + " PRIVMSG " + channelName + " :" + message;
 }
+
+static std::string GetERRUNKNOWNCOMMAND(const std::string& clientNickname, const std::string& commandName)
+{
+    return "421 " + clientNickname + " " + commandName + " :Unknown command";
+}
