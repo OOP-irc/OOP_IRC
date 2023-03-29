@@ -31,9 +31,10 @@ class Client
         void            SendToClient(const std::string& message, Channel& channel) const;
         void            SendErrorToClient(const std::string& message) const;
         void            HandleClientLoginAndLog();
-        void            AddJoindInChannel();
-        void            RemoveJoindInChannel();
+        void            AddJoindInChannel(Channel *channel);
+        void            RemoveJoindInChannel(Channel *channel);
         bool            IsFullJoindInChannlCount();
+        void            LeaveAllChannel();
 
         /* Getters */
         int             GetFd() const;
@@ -62,6 +63,8 @@ class Client
         int             mPort;
         int             mJoinedInChannel;
         const int       MAX_JOINED_IN_CHANNEL;
+
+        std::set<Channel *>      mChannels;
 
         std::string     mNickname;
         std::string     mUsername;

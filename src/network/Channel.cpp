@@ -2,11 +2,35 @@
 
 Channel::Channel(const std::string &name, const std::string &password, Client* clientOperator)
     : mName(name)
-    , mPassword(password)
     , mClientOperator(clientOperator)
     , mClientLimitCount(10)
     , MAXIMUM_CLIENT_COUNT(10)
+    , mPassword(password)
 {    
+}
+
+Channel::~Channel()
+{
+    // {
+    //     std::set<Client *>::iterator start = mClientsSet.begin();
+    //     std::set<Client *>::iterator end = mClientsSet.end();
+    //     while (start != end)
+    //     {
+    //         delete *start;
+    //         ++start;
+    //     }
+    //     mClientsSet.clear();
+    // }
+    // {
+    //     std::vector<Client *>::iterator start = mClientsArray.begin();
+    //     std::vector<Client *>::iterator end = mClientsArray.end();
+    //     while (start != end)
+    //     {
+    //         delete *start;
+    //         ++start;
+    //     }
+    //     mClientsArray.clear();
+    // }
 }
 
 void                        Channel::Join(Client *client, const std::string& password)
@@ -27,7 +51,7 @@ void                        Channel::Join(Client *client, const std::string& pas
         return;
     }
 
-    if (GetClientCount() == GetModeClientLimitCount())
+    if (GetClientCount() == (unsigned int)GetModeClientLimitCount())
     {
         /* 이 오류는 사용자가 최대 사용자 제한(+l 채널 모드로 설정)에 도달한 채널에 가입하려고 할 때 발생합니다. 사용자는 더 많은 사용자를 위한 공간이 생길 때까지 채널에 참여할 수 없습니다 */
         client->SendErrorToClient(Log::GetERRCHANNELISFULL(client->GetPrefix(), mName));
@@ -45,14 +69,14 @@ void                        Channel::Join(Client *client, const std::string& pas
     mClientsArray.push_back(client);
     mClientsSet.insert(client);
     
-    //Client의 등록된 채널 수를 증가시킨다
-    client->AddJoindInChannel();
+    //Client의 등록된 채널을 증가시킨다
+    client->AddJoindInChannel(this);
 
     //채널에 참여한 클라이언트 이름을 추가한다
     std::string clientsOnChannel = "";
 
     clientsOnChannel.append(mClientsArray[0]->GetNickname()); 
-    for (int i = 1; i < mClientsArray.size(); ++i)
+    for (size_t i = 1; i < mClientsArray.size(); ++i)
     {
         clientsOnChannel.append(" ");
         clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
@@ -70,7 +94,7 @@ void                        Channel::Join(Client *client, const std::string& pas
 
 void                        Channel::Leave(Client *client)
 {
-    assert(GetClientCount != 0);
+    assert(GetClientCount() != 0);
     assert(client != NULL);
 
     // 채널에서 클라이언트를 삭제한다
@@ -88,8 +112,8 @@ void                        Channel::Leave(Client *client)
 
     mClientsArray.erase(itArray);
 
-    // 클라이언트에서 자신이 등록된 채널 수를 줄인다
-    client->RemoveJoindInChannel();
+    // 클라이언트에서 자신이 등록된 채널을 줄인다
+    client->RemoveJoindInChannel(this);
 
     // 떠났음을 채널에 알리고 로그를 찍는다
     Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
@@ -98,7 +122,7 @@ void                        Channel::Leave(Client *client)
 
 void                        Channel::Broadcast(const std::string& message)
 {
-    for (int i = 0; i < mClientsArray.size(); i++)
+    for (size_t i = 0; i < mClientsArray.size(); ++i)
     {
         mClientsArray[i]->SendToClient(message, *this);
     }
@@ -136,7 +160,7 @@ std::string                 Channel::GetPassword() const
     return mPassword;
 }
 
-size_t                      Channel::GetModeClientLimitCount() const
+int                      Channel::GetModeClientLimitCount() const
 {
     return mClientLimitCount;
 }
@@ -151,7 +175,7 @@ void                        Channel::SetPassword(std::string key)
     mPassword = key;
 }
 
-void                        Channel::SetLimit(size_t clientLimitCount)
+void                        Channel::SetLimit(int clientLimitCount)
 {
     mClientLimitCount = clientLimitCount > MAXIMUM_CLIENT_COUNT ? MAXIMUM_CLIENT_COUNT : clientLimitCount;
 }

@@ -33,7 +33,7 @@ class Channel
         Client&                     GetClientOperator() const;
         unsigned int                GetClientCount() const;
         std::string                 GetPassword() const;
-        size_t                      GetModeClientLimitCount() const;
+        int                         GetModeClientLimitCount() const;
         bool                        GetModeN() const;
 
         //bool                        ExtMsg() const;
@@ -44,7 +44,7 @@ class Channel
 
         /* Setters */
         void                        SetPassword(std::string key);
-        void                        SetLimit(size_t clientLimitCount);
+        void                        SetLimit(int clientLimitCount);
         //void                        SetExtMsg(bool flag);
         //                            Set_client(std::vector<Client *>   clients);
     private:
@@ -54,7 +54,7 @@ class Channel
         std::string             mName;
         Client*                 mClientOperator;
         bool                    mClientCount;
-        size_t                  mClientLimitCount;
+        int                     mClientLimitCount;
         const int               MAXIMUM_CLIENT_COUNT;
 
         std::set<Client *>      mClientsSet;

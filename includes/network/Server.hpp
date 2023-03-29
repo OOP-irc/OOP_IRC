@@ -23,10 +23,12 @@
 #include <set>
 
 class Server;
+class Parser;
 
 #include "Client.hpp"
 #include "Channel.hpp"
-#include "manual/Parser.hpp"
+#include "../manual/Parser.hpp"
+#include "../Log.hpp"
 
 #define MAX_CONNECTIONS 999
 
@@ -54,7 +56,6 @@ class Server
 
     private:
         int                     mSock;
-
         const std::string       mHost;
         const std::string       mPort;
         const std::string       mPassword;
@@ -66,7 +67,9 @@ class Server
         std::map<std::string, Channel *> mChannels;
         std::map<int, Client *> mClients;
 
-        Server();//
+        Parser *mParser;
+
+        Server();
         Server(const Server& src);
 
         // 캡슐화이동
@@ -75,7 +78,8 @@ class Server
         void            onClientMessage(int fd);
 
         /* Handle Clients */
-        std::string     readMessage(int fd); // 소켓에서 읽어온 메서지 검증, 
+        std::string     readMessage(int fd); // 소켓에서 읽어온 메서지 검증
+        void            removeClientOnServerAndChannel(int fd, Client *client);
 
         /* 소켓 생성 */
         int             createSocket();
