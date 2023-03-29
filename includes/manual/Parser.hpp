@@ -18,11 +18,9 @@ class Parser
     private:
         Server*                             mServer;
         std::map<std::string, Manual *>    mManuals;
-        // std::map<std::string, Manual *>    _commands;
         std::string     trim(const std::string& str);
 
     public:
-
         Parser(Server* srv);
         ~Parser();
 

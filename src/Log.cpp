@@ -76,4 +76,23 @@ static std::string GetRPLPART(const std::string& clientPrefix, const std::string
 {
     return ":" + clientPrefix + " PART :" + channelName;
 }
-          
+
+static std::string GetERRNEEDMOREPARAMS(const std::string& clientNickname, const std::string& commandName)
+{
+    return "461 " + clientNickname + " " + commandName + " :Not enough parameters";
+}
+
+static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName)
+{
+    return "403 " + clientPrefix + " " + channelName + " :No such channel";
+}
+
+static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message)
+{
+    return ":" + clientPrefix + " PRIVMSG " + channelName + " :" + message;
+}
+
+static std::string GetERRUNKNOWNCOMMAND(const std::string& clientNickname, const std::string& commandName)
+{
+    return "421 " + clientNickname + " " + commandName + " :Unknown command";
+}

@@ -25,6 +25,7 @@ class Channel
         //void                        AddClient(Client* client);
         //void                        RemoveClient(Client* client);
         void                        Kick(Client* client, Client* target, const std::string& reason);
+        bool                        IsClientInChannel(Client *client);
 
 
         /* Getters */

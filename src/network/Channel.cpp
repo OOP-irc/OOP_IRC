@@ -88,7 +88,7 @@ void                        Channel::Leave(Client *client)
 
     mClientsArray.erase(itArray);
 
-    // 클라이언트에서 자신이 등록된 채널 수를 줄이낟
+    // 클라이언트에서 자신이 등록된 채널 수를 줄인다
     client->RemoveJoindInChannel();
 
     // 떠났음을 채널에 알리고 로그를 찍는다
@@ -102,6 +102,16 @@ void                        Channel::Broadcast(const std::string& message)
     {
         mClientsArray[i]->SendToClient(message, *this);
     }
+}
+
+bool                        Channel::IsClientInChannel(Client *client)
+{
+    std::set<Client *>::iterator itSet = mClientsSet.find(client);
+    if (itSet == mClientsSet.end())
+    {
+        return false;
+    }
+    return true;
 }
 
 std::string                 Channel::GetName() const
