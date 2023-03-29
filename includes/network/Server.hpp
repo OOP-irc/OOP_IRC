@@ -76,7 +76,8 @@ class Server
         void            onClientMessage(int fd);
 
         /* Handle Clients */
-        std::string     readMessage(int fd); // 소켓에서 읽어온 메서지 검증, 
+        std::string     readMessage(int fd); // 소켓에서 읽어온 메서지 검증
+        void            removeClientOnServerAndChannel(int fd, Client *client);
 
         /* 소켓 생성 */
         int             createSocket();

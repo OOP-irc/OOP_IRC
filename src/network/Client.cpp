@@ -49,16 +49,31 @@ void            Client::HandleClientLoginAndLog()
     Log::log(buffer);
 }
 
-void            Client::AddJoindInChannel()
+void            Client::AddJoindInChannel(Channel *channel)
 {
     mJoinedInChannel++;
     assert(mJoinedInChannel < MAX_JOINED_IN_CHANNEL);
+
+    mChannels.insert(channel);
 }
 
-void            Client::RemoveJoindInChannel()
+void            Client::RemoveJoindInChannel(Channel *channel)
 {
     mJoinedInChannel--;
     assert(mJoinedInChannel < 0);
+
+    mChannels.erase(channel);
+}
+
+void            Client::LeaveAllChannel()
+{
+    std::set<Channel *>::iterator channel_iter = mChannels.begin();
+    std::set<Channel *>::iterator channel_end = mChannels.end();
+    while (channel_iter != channel_end)
+    {
+        (*channel_iter)->Leave(this);
+        ++channel_iter;
+    }
 }
 
 bool            Client::IsFullJoindInChannlCount()

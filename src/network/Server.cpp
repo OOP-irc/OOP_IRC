@@ -22,26 +22,30 @@ Server::Server(const std::string &port, const std::string &password)
 Server::~Server()
 {
 	delete mParser;
-
-    channel_iterator start = mChannels.begin();
-    channel_iterator end = mChannels.end();
-
-    while (start != end)
+    
     {
-        delete start->second;
-        ++start;
+        channel_iterator start = mChannels.begin();
+        channel_iterator end = mChannels.end();
+
+        while (start != end)
+        {
+            delete start->second;
+            ++start;
+        }
+        mChannels.clear();
     }
-    mChannels.clear();
 
-    client_iterator start = mClients.begin();
-    client_iterator end = mClients.end();
-
-    while (start != end)
     {
-        delete start->second;
-        ++start;
+        client_iterator start = mClients.begin();
+        client_iterator end = mClients.end();
+
+        while (start != end)
+        {
+            delete start->second;
+            ++start;
+        }
+        mClients.clear();
     }
-    mClients.clear();
 }
 
 void    deleteMemberMap()
@@ -132,17 +136,14 @@ void            Server::onClientDisconnect(int fd)
     {
         // finding the client and removing
         Client* client = mClients.at(fd);
+        assert(client != NULL);
 
-        client->Leave();
+        removeClientOnServerAndChannel(fd, client);
 
         // log about disconnecting 
-
         char message[1000];
 		sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
 		Log::log(message);
-
-		//fd를 키로가지는 client삭제
-        mClients.erase(fd);
 
         // removing the client fd from the poll
 
@@ -198,6 +199,15 @@ std::string     Server::readMessage(int fd)
         message.append(buffer);
     }
     return message;
+}
+
+void            Server::removeClientOnServerAndChannel(int fd, Client *client)
+{
+    client->LeaveAllChannel();
+
+    delete client;
+
+    mClients.erase(fd);
 }
 
 // 서브젝트 조건에 맞는 소켓을 만든 이후 그 소켓의 fd값을 반환한다.
@@ -269,7 +279,7 @@ Channel*        Server::GetChannel(const std::string& name)
 
     if (it != mChannels.end())
     {
-        return *it;
+        return it->second;
     }
 
     return NULL;

@@ -49,7 +49,7 @@ public :
     static std::string GetERRTOOMANYCHANNELS(const std::string& clientPrefix, const std::string& channelName);
 
     /* 이 오류는 사용자가 이미 사용 중이거나 임시로 예약되어 현재 사용할 수 없는 리소스(예: 닉네임 또는 채널 이름)를 사용하려고 할 때 전송됩니다. */
-    static std::string GetERRUNAVAILRESOURCE(const std::string& clientPrefix, const std::string& overlappedName);
+    static std::string GetERRUNAVAILRESOURCE(const std::string& overlappedName);
 
     /* 채널에 들어온 유저에게 채널 안 유저 목록을 보냄 */
     static std::string GetRPLNAMREPLY(const std::string& channelName, const std::string& users);

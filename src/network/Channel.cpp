@@ -11,26 +11,26 @@ Channel::Channel(const std::string &name, const std::string &password, Client* c
 
 Channel::~Channel()
 {
-    {
-        std::set<Client *>::iterator start = mClientsSet.begin();
-        std::set<Client *>::iterator end = mClientsSet.end();
-        if (start != end)
-        {
-            delete *start;
-            ++start;
-        }
-        mClientsSet.clear();
-    }
-    {
-        std::vector<Client *>::iterator start = mClientsArray.begin();
-        std::vector<Client *>::iterator end = mClientsArray.end();
-        if (start != end)
-        {
-            delete *start;
-            ++start;
-        }
-        mClientsArray.clear();
-    }
+    // {
+    //     std::set<Client *>::iterator start = mClientsSet.begin();
+    //     std::set<Client *>::iterator end = mClientsSet.end();
+    //     while (start != end)
+    //     {
+    //         delete *start;
+    //         ++start;
+    //     }
+    //     mClientsSet.clear();
+    // }
+    // {
+    //     std::vector<Client *>::iterator start = mClientsArray.begin();
+    //     std::vector<Client *>::iterator end = mClientsArray.end();
+    //     while (start != end)
+    //     {
+    //         delete *start;
+    //         ++start;
+    //     }
+    //     mClientsArray.clear();
+    // }
 }
 
 void                        Channel::Join(Client *client, const std::string& password)
@@ -69,8 +69,8 @@ void                        Channel::Join(Client *client, const std::string& pas
     mClientsArray.push_back(client);
     mClientsSet.insert(client);
     
-    //Client의 등록된 채널 수를 증가시킨다
-    client->AddJoindInChannel();
+    //Client의 등록된 채널을 증가시킨다
+    client->AddJoindInChannel(this);
 
     //채널에 참여한 클라이언트 이름을 추가한다
     std::string clientsOnChannel = "";
@@ -112,8 +112,8 @@ void                        Channel::Leave(Client *client)
 
     mClientsArray.erase(itArray);
 
-    // 클라이언트에서 자신이 등록된 채널 수를 줄인다
-    client->RemoveJoindInChannel();
+    // 클라이언트에서 자신이 등록된 채널을 줄인다
+    client->RemoveJoindInChannel(this);
 
     // 떠났음을 채널에 알리고 로그를 찍는다
     Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));

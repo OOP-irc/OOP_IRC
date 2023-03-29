@@ -62,7 +62,7 @@ static std::string GetERRTOOMANYCHANNELS(const std::string& clientPrefix, const 
     return "405 " + clientPrefix + " " + channelName + " :You have joined too many channels";
 }
 
-static std::string GetERRUNAVAILRESOURCE(const std::string& clientPrefix, const std::string& overlappedName)
+static std::string GetERRUNAVAILRESOURCE(const std::string& overlappedName)
 {
     return "437 " + overlappedName + " :Nick/channel is temporarily unavailable";
 }
