@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:49:40 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 15:32:44 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 17:10:40 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	Ping::Execute(Client* client, std::vector<std::string> args)
 {
 	if (args.empty())
 	{
-		client->Reply(ERR_NEEDMOREPARAMS(client->GetNickname(), "PING"));
+		client->SendErrorToClient(ERR_NEEDMOREPARAMS(client->GetNickname(), "PING"));
 		return ;
 	}
 
-	client->Write(RPL_PING(client->GetPrefix(), args.at(0)));
+	client->trySend(RPL_PING(client->GetPrefix(), args.at(0)));
 }

@@ -80,6 +80,16 @@ public :
 
     /* 해당하는 커맨드가 서버에 없을 때 */
     static std::string GetERRUNKNOWNCOMMAND(const std::string& clientPrefix, const std::string& commandName);
+
+    static std::string GetERRALREADYREGISTRED
+#define ERR_ALREADYREGISTRED(source)                   "462 " + source + " :Unauthorized command (already registered)"
+
+    ERR_NONICKNAMEGIVEN
+#define ERR_NONICKNAMEGIVEN(source)                     "431 " + source + " :Nickname not given"
+
+    ERR_NICKNAMEINUSE
+#define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
+
 };
 
 #endif

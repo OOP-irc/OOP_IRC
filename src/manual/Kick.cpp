@@ -6,15 +6,20 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:47:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 16:28:16 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 17:24:03 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "manual/Manual.hpp"
 
-Kick::Kick(Server* server) : Manual(server) {}
+Kick::Kick(Server* server) 
+    : Manual(server) 
+{
+}
 
-Kick::~Kick() {}
+Kick::~Kick() 
+{
+}
 
 // syntax: KICK <channel> <client> :[<message>]
 
@@ -22,7 +27,7 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.size() < 2)
     {
-        client->Reply(ERR_NEEDMOREPARAMS(client->GetNickname(), "KICK"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "KICK"));
         return;
     }
 
@@ -46,23 +51,26 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         }
     }
 
-    Channel *channel = client->GetChannel();
+    // GetJoindInChannel 아직 미구현 
+    Channel *channel = client->GetJoindInChannel();
 
     // 명령을 입력한 본인이 채널에 속해있는지 확인 ERR_NOTONCHANNEL
     if (!channel || channel->GetName() != name)
     {
-        client->Reply(ERR_NOTONCHANNEL(client->GetNickname(), name));
+        client->SendErrorToClient(ERR_NOTONCHANNEL(client->GetNickname(), name));
         return;
     }
 
     // if (channel->GetAdmin() != client)
     // {
-    //     client->Reply(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
+    //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
     //     return;
     // }
-    if (channel->GetClientOperator() != client)
+    
+    // client를 client->GetClient()          GetClient() {  return (this*);}
+    if (channel->GetClientOperator() != client->GetClient())
     {
-        client->Reply(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
+        client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
         return;
     }
 
@@ -71,13 +79,13 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
     // 서버 안에 일치하는 클라이언트가 없음  
     if (!targetClient)
     {
-        client->Reply(ERR_NOSUCHNICK(client->GetNickname(), target));
+        client->SendErrorToClient(ERR_NOSUCHNICK(client->GetNickname(), target));
         return;
     }
 
-    if (!targetClient->GetChannel() || targetClient->GetChannel() != channel)
+    if (!targetClient->GetJoindInChannel() || targetClient->GetJoindInChannel() != channel)
     {
-        client->Reply(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
+        client->SendErrorToClient(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
         return;
     }
 

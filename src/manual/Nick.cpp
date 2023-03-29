@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 14:46:37 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 17:25:19 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
 {
     if (args.empty() || args[0].empty())
     {
-        client->Reply(ERR_NONICKNAMEGIVEN(client->GetNickname()));
+        client->SendErrorToClient(ERR_NONICKNAMEGIVEN(client->GetNickname()));
         return ;
     }
 
@@ -33,14 +33,13 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
 
     if (mServer->GetClient(nickname))
     {
-        client->Reply(ERR_NICKNAMEINUSE(client->GetNickname()));
+        client->SendErrorToClient(ERR_NICKNAMEINUSE(client->GetNickname()));
         return ;
     }
     
     // ERR_ERRONEUSNICKNAME 잘못된 형식의 닉네임
 
 
-    
 
     client->SetNickname(nickname);
     client->Welcome();

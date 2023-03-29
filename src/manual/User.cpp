@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   USER.cpp                                           :+:      :+:    :+:   */
+/*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/28 17:24:55 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 17:00:16 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,16 @@ User::~User() {}
 
 void    User::Execute(Client* client, std::vector<std::string> args)
 {
+    // 이미 USER 등록된 유저가 또 USER를 한 경우 
     if (client->IsRegistered())
     {
-        client->Reply(ERR_ALREADYREGISTRED(client->GetNickname()));
+        client->SendErrorToClient(ERR_ALREADYREGISTRED(client->GetNickname()));
         return;
     }
 
     if (args.size() < 4) 
     {
-        client->Reply(ERR_NEEDMOREPARAMS(client->GetNickname(), "USER"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "USER"));
         return;
     }
 
