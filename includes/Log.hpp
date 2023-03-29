@@ -8,14 +8,17 @@
 
 /* Error Responses */
 
-#define ERR_ALREADYREGISTRED(source)                   "462 " + source + " :You may not register"
+#define ERR_ALREADYREGISTRED(source)                   "462 " + source + " :Unauthorized command (already registered)"
 #define ERR_PASSWDMISMATCH(source)                      "464 " + source + " :Password is incorrect"
 #define ERR_NONICKNAMEGIVEN(source)                     "431 " + source + " :Nickname not given"
 #define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
 
 #define ERR_CHANOPRIVSNEEDED(source, channel)           "482 " + source + " " + channel + " :You're not channel operator"
+#define ERR_NOTONCHANNEL(source, channel)               "442 " + source + " " + channel + " :You're not on that channel"
+
 #define ERR_NOSUCHNICK(source, nickname)                "401 " + source + " " + nickname + " :No such nick/channel"
 #define ERR_USERNOTINCHANNEL(source, nickname, channel) "441 " + source + " " + nickname + " " + channel + " :They aren't on that channel"
+
 
 /* Command Responses */
 #define RPL_PING(source, token)                         ":" + source + " PONG :" + token
@@ -77,6 +80,18 @@ public :
 
     /* 해당하는 커맨드가 서버에 없을 때 */
     static std::string GetERRUNKNOWNCOMMAND(const std::string& clientPrefix, const std::string& commandName);
+
+    /* 이미 서버에  등록이 되어 있는데 또 등록을 시도 할떄 */
+    static std::string GetERRALREADYREGISTRED(const std::string& clientPrefix);
+
+    /* 닉네임을 빈킨으로 제출했을때 */
+    static std::string GetERRNONICKNAMEGIVEN(const std::string& clientPrefix);
+
+    /* 사용중인 닉네임 */
+    static std::string GetERRNICKNAMEINUSE(const std::string& clientPrefix);
+
+    /* 서버 접속 비밀번호가 틀림 */
+    static std::string GetERRPASSWDMISMATCH(const std::string& clientPrefix);
 };
 
 #endif

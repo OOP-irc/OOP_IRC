@@ -96,3 +96,23 @@ static std::string GetERRUNKNOWNCOMMAND(const std::string& clientNickname, const
 {
     return "421 " + clientNickname + " " + commandName + " :Unknown command";
 }
+
+static std::string GetERRALREADYREGISTRED(const std::string& clientPrefix)
+{
+    return "462 " + clientPrefix + " :Unauthorized command (already registered)";
+}
+
+static std::string GetERRNONICKNAMEGIVEN(const std::string& clientPrefix)
+{
+    return "431 " + clientPrefix + " :Nickname not given";
+}
+
+static std::string GetERRNICKNAMEINUSE(const std::string& clientPrefix)
+{
+    return "433 " + clientPrefix + " " + clientPrefix  + " :Nickname is already in use";
+}
+
+static std::string GetERRPASSWDMISMATCH(const std::string& clientPrefix)
+{
+    return "464 " + clientPrefix + " :Password is incorrect";
+}
