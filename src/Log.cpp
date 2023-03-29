@@ -86,3 +86,8 @@ static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const st
 {
     return "403 " + clientPrefix + " " + channelName + " :No such channel";
 }
+
+static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message)
+{
+    return ":" + clientPrefix + " PRIVMSG " + channelName + " :" + message;
+}

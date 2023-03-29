@@ -53,14 +53,14 @@ class Server
         Channel*        CreateChannel(const std::string &name, const std::string &password, Client *client);
 
     private:
-        int                     mSock;// 소켓통신
+        int                     mSock;
 
-        const std::string       mHost;// 사용
-        const std::string       mPort;// 사용
-        const std::string       mPassword;// 사용
+        const std::string       mHost;
+        const std::string       mPort;
+        const std::string       mPassword;
 
         // mPollfd == PollFileDescriptor
-        std::vector<pollfd>     mPollFd;// 사용
+        std::vector<pollfd>     mPollFd;
 
         // 클라이언트, 채널 목록(자료구조 변경 가능)
         std::map<std::string, Channel *> mChannels;
@@ -79,14 +79,6 @@ class Server
 
         /* 소켓 생성 */
         int             createSocket();
-
-        /* 추가, 조회, 삭제 */
-        //insert()
-        //select()
-        //delete()
-
-        /* 로그 */
-        static void            log(const std::string &message);
 
 };
 #endif

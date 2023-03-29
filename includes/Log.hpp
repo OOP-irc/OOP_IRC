@@ -23,7 +23,6 @@
 
 /* Command Responses */
 #define RPL_PING(source, token)                         ":" + source + " PONG :" + token
-#define RPL_PRIVMSG(source, target, message)            ":" + source + " PRIVMSG " + target + " :" + message
 #define RPL_NOTICE(source, target, message)             ":" + source + " NOTICE " + target + " :" + message
 #define RPL_QUIT(source, message)                       ":" + source + " QUIT :Quit: " + message
 #define RPL_KICK(source, channel, target, reason)       ":" + source + " KICK " + channel + " " + target + " :" + reason
@@ -76,6 +75,9 @@ public :
 
     /* 해당하는 채널이 없을 때 */
     static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName);
+
+    /* 서버에게 응답 보낼 때 쓰는 메세지 */
+    static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message);
 };
 
 #endif
