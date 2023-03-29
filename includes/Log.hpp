@@ -8,7 +8,7 @@
 
 /* Error Responses */
 
-#define ERR_ALREADYREGISTERED(source)                   "462 " + source + " :You may not register"
+#define ERR_ALREADYREGISTRED(source)                   "462 " + source + " :You may not register"
 #define ERR_PASSWDMISMATCH(source)                      "464 " + source + " :Password is incorrect"
 #define ERR_NONICKNAMEGIVEN(source)                     "431 " + source + " :Nickname not given"
 #define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
