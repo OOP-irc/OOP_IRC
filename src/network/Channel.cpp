@@ -58,11 +58,9 @@ void                        Channel::Join(Client *client, const std::string& pas
         clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
     }
 
-
     // 클라이언트에 대답을 보낸다
     client->SendToClient(Log::GetRPLNAMREPLY(mName, clientsOnChannel), *this);
     client->SendToClient(Log::GetRPLENDOFNAMES(mName), *this);
-
 
 
     // 클라이언트의 채널 참여를 알린다

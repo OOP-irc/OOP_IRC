@@ -26,7 +26,7 @@ class Server;
 
 #include "Client.hpp"
 #include "Channel.hpp"
-#include "command/Parser.hpp"
+#include "manual/Parser.hpp"
 
 #define MAX_CONNECTIONS 999
 
