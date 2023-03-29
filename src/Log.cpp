@@ -76,4 +76,8 @@ static std::string GetRPLPART(const std::string& clientPrefix, const std::string
 {
     return ":" + clientPrefix + " PART :" + channelName;
 }
-          
+
+static std::string GetERRNEEDMOREPARAMS(const std::string& clientNickname, const std::string& commandName)
+{
+    return "461 " + clientNickname + " " + commandName + " :Not enough parameters";
+}

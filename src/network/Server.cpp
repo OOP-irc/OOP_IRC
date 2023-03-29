@@ -242,15 +242,11 @@ Client*         Server::GetClient(const std::string& nickname)
 
 Channel*        Server::GetChannel(const std::string& name)
 {
-    channel_iterator it_b = mChannels.begin();
-    channel_iterator it_e = mChannels.end();
+    channel_iterator it = mChannels.find(name);
 
-    while (it_b != it_e)
+    if (it != mChannels.end())
     {
-        if (!name.compare((*it_b)->GetName()))
-            return (*it_b);
-
-        it_b++;
+        return *it;
     }
 
     return NULL;
@@ -274,4 +270,14 @@ Client*         Server::GetClient(const std::string &nickname)
     }
 
     return NULL;
+}
+
+Channel*        Server::CreateChannel(const std::string &name, const std::string &password, Client *client)
+{
+    Channel *newChan = new Channel(name, password, client);
+    assert(newChan != NULL);
+
+    mChannels.insert(std::pair<std::string, Channel *>(name, newChan));
+
+    return newChan;
 }

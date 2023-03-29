@@ -14,7 +14,6 @@
 #define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
 
 #define ERR_UNKNOWNCOMMAND(source, command)             "421 " + source + " " + command + " :Unknown command"
-#define ERR_NEEDMOREPARAMS(source, command)             "461 " + source + " " + command + " :Not enough parameters"
 
 #define ERR_NOSUCHCHANNEL(source, channel)              "403 " + source + " " + channel + " :No such channel"
 
@@ -71,6 +70,9 @@ public :
 
     /* 유저가 떠났을 떄 메세지를 남김*/
     static std::string GetRPLPART(const std::string& clientPrefix, const std::string& channelName);
+
+    static std::string GetERRNEEDMOREPARAMS(const std::string& clientPrefix, const std::string& commandName);
+
 };
 
 #endif

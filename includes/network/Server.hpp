@@ -32,28 +32,25 @@ class Server;
 
 class Server
 {
-    typedef std::vector<pollfd>::iterator		pfd_iterator;
-    typedef std::set<Channel *>::iterator		channel_iterator;
-    typedef std::map<int, Client *>::iterator	client_iterator;
+    typedef std::vector<pollfd>::iterator	            	pfd_iterator;
+    typedef std::map<std::string, Channel *>::iterator		channel_iterator;
+    typedef std::map<int, Client *>::iterator	            client_iterator;
 
     public:
-
         /* Constructor and Destructor */
-
         Server(const std::string &port, const std::string &password);
         ~Server();
 
         /* Initialize and Listen */
-
         void            Start();
 
         /* Getters */
-
         Channel*		GetChannel(const std::string &name);
         Client*			GetClient(const std::string &nickname);
         std::string		GetPassword() const;
 
-        // Channel*        create_channel(const std::string &name, const std::string &key, Client *client);
+        /* manage channel and client*/
+        Channel*        CreateChannel(const std::string &name, const std::string &password, Client *client);
 
     private:
         int                     mSock;// 소켓통신
@@ -66,7 +63,7 @@ class Server
         std::vector<pollfd>     mPollFd;// 사용
 
         // 클라이언트, 채널 목록(자료구조 변경 가능)
-        std::set<Channel *> mChannels;
+        std::map<std::string, Channel *> mChannels;
         std::map<int, Client *> mClients;
 
         Server();//
@@ -92,5 +89,5 @@ class Server
         static void            log(const std::string &message);
 
 };
-
 #endif
+
