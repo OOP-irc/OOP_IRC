@@ -10,30 +10,40 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= ircserv
+NAME = ircserv
 
-SRCS		= main.cpp \
+SRCS = $(wildcard src/*.cpp src/network/*.cpp src/manual/*.cpp)
+OBJS = $(SRCS:.cpp=.o)
 
-SRCDIR = ./src
+CC = c++
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
+INCLUDES = -I ./includes
 
-OBJS		= $(SRCS:%.c=%.o)
-LIBC		= ar rcs
-FLAGS		= -Wall -Wextra -Werror
+RM = rm -rf
 
-all			:	$(NAME)
 
-$(NAME)		:	$(OBJS)
-		c++ -o $(NAME) $(OBJS)
+.cpp.o:
+	$(CC) $(FLAGS) $(INCLUDES) -c $< -o $(<:.cpp=.o)
 
-%.o			:	%.c
-		c++ $(FLAGS) -c $^ -I./ -o $@
+all: $(NAME)
 
-clean		:
-		rm -f $(OBJS)
+$(NAME): $(OBJS)
+	@echo "\n"
+	@echo "\033[0;32mCompiling IRC server..."
+	@$(CC) $(FLAGS) $(INCLUDES) $(OBJS) -o $(NAME)
+	@echo "Done!\033[0m"
 
-fclean		:	clean
-		rm -f $(NAME)
+clean:
+	@echo "\033[0;31mRemoving binaries..."
+	@$(RM) $(OBJS)
+	@echo "Done!\n\033[0m"
 
-re			:	fclean all
+fclean: clean
+	@echo "\033[0;31mRemoving executable..."
+	@$(RM) $(NAME)
+	@echo "Done!\n\033[0m"
 
-.PHONY		:	all clean fclean re bonus
+re: fclean all
+
+.PHONY: all clean, fclean, re
+

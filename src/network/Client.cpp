@@ -5,10 +5,10 @@ Client::Client(int fd, int port, const std::string &hostname)
     , mPort(port)
     , mJoinedInChannel(0)
     , MAX_JOINED_IN_CHANNEL(0)
-    , mHostname(hostname)
+    , mNickname("")
     , mUsername("")
     , mRealname("")
-    , mNickname("")
+    , mHostname(hostname)
     , mState(CONNECTED)
 {
 }

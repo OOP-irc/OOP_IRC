@@ -23,10 +23,12 @@
 #include <set>
 
 class Server;
+class Parser;
 
 #include "Client.hpp"
 #include "Channel.hpp"
-#include "manual/Parser.hpp"
+#include "../manual/Parser.hpp"
+#include "../Log.hpp"
 
 #define MAX_CONNECTIONS 999
 

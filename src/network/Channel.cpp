@@ -2,10 +2,10 @@
 
 Channel::Channel(const std::string &name, const std::string &password, Client* clientOperator)
     : mName(name)
-    , mPassword(password)
     , mClientOperator(clientOperator)
     , mClientLimitCount(10)
     , MAXIMUM_CLIENT_COUNT(10)
+    , mPassword(password)
 {    
 }
 
@@ -51,7 +51,7 @@ void                        Channel::Join(Client *client, const std::string& pas
         return;
     }
 
-    if (GetClientCount() == GetModeClientLimitCount())
+    if (GetClientCount() == (unsigned int)GetModeClientLimitCount())
     {
         /* 이 오류는 사용자가 최대 사용자 제한(+l 채널 모드로 설정)에 도달한 채널에 가입하려고 할 때 발생합니다. 사용자는 더 많은 사용자를 위한 공간이 생길 때까지 채널에 참여할 수 없습니다 */
         client->SendErrorToClient(Log::GetERRCHANNELISFULL(client->GetPrefix(), mName));
@@ -76,7 +76,7 @@ void                        Channel::Join(Client *client, const std::string& pas
     std::string clientsOnChannel = "";
 
     clientsOnChannel.append(mClientsArray[0]->GetNickname()); 
-    for (int i = 1; i < mClientsArray.size(); ++i)
+    for (size_t i = 1; i < mClientsArray.size(); ++i)
     {
         clientsOnChannel.append(" ");
         clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
@@ -122,7 +122,7 @@ void                        Channel::Leave(Client *client)
 
 void                        Channel::Broadcast(const std::string& message)
 {
-    for (int i = 0; i < mClientsArray.size(); i++)
+    for (size_t i = 0; i < mClientsArray.size(); ++i)
     {
         mClientsArray[i]->SendToClient(message, *this);
     }
@@ -160,7 +160,7 @@ std::string                 Channel::GetPassword() const
     return mPassword;
 }
 
-size_t                      Channel::GetModeClientLimitCount() const
+int                      Channel::GetModeClientLimitCount() const
 {
     return mClientLimitCount;
 }
@@ -175,7 +175,7 @@ void                        Channel::SetPassword(std::string key)
     mPassword = key;
 }
 
-void                        Channel::SetLimit(size_t clientLimitCount)
+void                        Channel::SetLimit(int clientLimitCount)
 {
     mClientLimitCount = clientLimitCount > MAXIMUM_CLIENT_COUNT ? MAXIMUM_CLIENT_COUNT : clientLimitCount;
 }

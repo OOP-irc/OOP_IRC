@@ -285,26 +285,6 @@ Channel*        Server::GetChannel(const std::string& name)
     return NULL;
 }
 
-std::string     Server::GetPassword() const
-{
-    return mPassword;
-}
-
-Client*         Server::GetClient(const std::string &nickname)
-{
-    client_iterator it_b = mClients.begin();
-    client_iterator it_e = mClients.end();
-
-    while (it_b != it_e)
-    {
-        if (!nickname.compare(it_b->second->GetNickname()))
-            return it_b->second;
-        it_b++;
-    }
-
-    return NULL;
-}
-
 Channel*        Server::CreateChannel(const std::string &name, const std::string &password, Client *client)
 {
     Channel *newChan = new Channel(name, password, client);
