@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:47:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 17:24:03 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 19:51:20 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
     //     return;
     // }
     
-    // client를 client->GetClient()          GetClient() {  return (this*);}
-    if (channel->GetClientOperator() != client->GetClient())
+    // 
+    if (channel->GetClientOperator() != mServer->GetClient(client->GetNickname()))
     {
         client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
         return;
