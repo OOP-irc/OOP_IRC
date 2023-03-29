@@ -60,6 +60,10 @@
         "utility": "cpp",
         "vector": "cpp",
         "iomanip": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "__hash_table": "cpp",
+        "array": "cpp",
+        "complex": "cpp",
+        "unordered_map": "cpp"
     }
 }
