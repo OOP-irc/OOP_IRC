@@ -81,3 +81,8 @@ static std::string GetERRNEEDMOREPARAMS(const std::string& clientNickname, const
 {
     return "461 " + clientNickname + " " + commandName + " :Not enough parameters";
 }
+
+static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName)
+{
+    return "403 " + clientPrefix + " " + channelName + " :No such channel";
+}

@@ -15,7 +15,7 @@
 
 #define ERR_UNKNOWNCOMMAND(source, command)             "421 " + source + " " + command + " :Unknown command"
 
-#define ERR_NOSUCHCHANNEL(source, channel)              "403 " + source + " " + channel + " :No such channel"
+
 
 #define ERR_CHANOPRIVSNEEDED(source, channel)           "482 " + source + " " + channel + " :You're not channel operator"
 #define ERR_NOSUCHNICK(source, nickname)                "401 " + source + " " + nickname + " :No such nick/channel"
@@ -71,8 +71,11 @@ public :
     /* 유저가 떠났을 떄 메세지를 남김*/
     static std::string GetRPLPART(const std::string& clientPrefix, const std::string& channelName);
 
+    /* 커맨드 실행 시 필요한 매개변수가 없을 때 */
     static std::string GetERRNEEDMOREPARAMS(const std::string& clientPrefix, const std::string& commandName);
 
+    /* 해당하는 채널이 없을 때 */
+    static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName);
 };
 
 #endif

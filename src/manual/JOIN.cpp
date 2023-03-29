@@ -23,9 +23,7 @@ void    Join::Execute(Client* client, std::vector<std::string> args)
     std::string pass = args.size() > 1 ? args[1] : "";
 
 
-    // 채널을 얻어온다
-    // 채널이 없으면 투투가가해해줘
-
+    // 채널을 서버에서 받아오거나 생성한다
     Channel *chan = mServer->GetChannel(name);
     if (chan == NULL)
     {
