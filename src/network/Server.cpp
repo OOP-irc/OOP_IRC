@@ -16,14 +16,37 @@ Server::Server(const std::string &port, const std::string &password)
     : mHost("127.0.0.1"), mPort(port), mPassword(password)
 {
     mSock = createSocket();
-    // _parser = new Parser(this);
+    mParser = new Parser(this);
 }
 
 Server::~Server()
 {
-	// delete _parser;
-    // for (size_t i = 0; i < mChannels.size(); i++)
-    //     delete mClients[i];
+	delete mParser;
+
+    channel_iterator start = mChannels.begin();
+    channel_iterator end = mChannels.end();
+
+    while (start != end)
+    {
+        delete start->second;
+        ++start;
+    }
+    mChannels.clear();
+
+    client_iterator start = mClients.begin();
+    client_iterator end = mClients.end();
+
+    while (start != end)
+    {
+        delete start->second;
+        ++start;
+    }
+    mClients.clear();
+}
+
+void    deleteMemberMap()
+{
+
 }
 
 /* Initialize and Listen */
@@ -34,7 +57,7 @@ void            Server::Start()
 	pollfd srv = {mSock, POLLIN, 0};
 	mPollFd.push_back(srv);
 
-	log("Server is listening...");
+	Log::log("Server is listening...");
 	while (1)
 	{
 		if (poll(mPollFd.begin().base(), mPollFd.size(), -1) < 0)
@@ -100,7 +123,7 @@ void            Server::onClientConnect()
 
     char message[1000];
     sprintf(message, "%s:%d has connected.", client->GetHostname().c_str(), client->GetPort());
-    log(message);
+    Log::log(message);
 }
 
 void            Server::onClientDisconnect(int fd)
@@ -116,7 +139,7 @@ void            Server::onClientDisconnect(int fd)
 
         char message[1000];
 		sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
-		log(message);
+		Log::log(message);
 
 		//fd를 키로가지는 client삭제
         mClients.erase(fd);

@@ -54,7 +54,6 @@ class Server
 
     private:
         int                     mSock;
-
         const std::string       mHost;
         const std::string       mPort;
         const std::string       mPassword;
@@ -66,7 +65,9 @@ class Server
         std::map<std::string, Channel *> mChannels;
         std::map<int, Client *> mClients;
 
-        Server();//
+        Parser *mParser;
+
+        Server();
         Server(const Server& src);
 
         // 캡슐화이동

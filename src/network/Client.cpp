@@ -17,11 +17,6 @@ Client::~Client()
 {
 }
 
-Client::Client(const Client &src)
-{
-
-}
-
 void            Client::SendToClient(const std::string& message, Channel& channel) const
 {
     if (trySend(message) == false)

@@ -9,6 +9,27 @@ Channel::Channel(const std::string &name, const std::string &password, Client* c
 {    
 }
 
+Channel::~Channel()
+{
+    std::set<Client *>::iterator start = mClientsSet.begin();
+    std::set<Client *>::iterator end = mClientsSet.end();
+    if (start != end)
+    {
+        delete *start;
+        ++start;
+    }
+    mClientsSet.clear();
+
+    std::vector<Client *>::iterator start = mClientsArray.begin();
+    std::vector<Client *>::iterator end = mClientsArray.end();
+    if (start != end)
+    {
+        delete *start;
+        ++start;
+    }
+    mClientsArray.clear();
+}
+
 void                        Channel::Join(Client *client, const std::string& password)
 {
     assert(client != NULL);
