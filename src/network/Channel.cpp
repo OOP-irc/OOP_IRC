@@ -11,23 +11,26 @@ Channel::Channel(const std::string &name, const std::string &password, Client* c
 
 Channel::~Channel()
 {
-    std::set<Client *>::iterator start = mClientsSet.begin();
-    std::set<Client *>::iterator end = mClientsSet.end();
-    if (start != end)
     {
-        delete *start;
-        ++start;
+        std::set<Client *>::iterator start = mClientsSet.begin();
+        std::set<Client *>::iterator end = mClientsSet.end();
+        if (start != end)
+        {
+            delete *start;
+            ++start;
+        }
+        mClientsSet.clear();
     }
-    mClientsSet.clear();
-
-    std::vector<Client *>::iterator start = mClientsArray.begin();
-    std::vector<Client *>::iterator end = mClientsArray.end();
-    if (start != end)
     {
-        delete *start;
-        ++start;
+        std::vector<Client *>::iterator start = mClientsArray.begin();
+        std::vector<Client *>::iterator end = mClientsArray.end();
+        if (start != end)
+        {
+            delete *start;
+            ++start;
+        }
+        mClientsArray.clear();
     }
-    mClientsArray.clear();
 }
 
 void                        Channel::Join(Client *client, const std::string& password)
@@ -91,7 +94,7 @@ void                        Channel::Join(Client *client, const std::string& pas
 
 void                        Channel::Leave(Client *client)
 {
-    assert(GetClientCount != 0);
+    assert(GetClientCount() != 0);
     assert(client != NULL);
 
     // 채널에서 클라이언트를 삭제한다
