@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 14:47:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 15:32:48 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 16:28:16 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,39 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
     }
 
     Channel *channel = client->GetChannel();
+
+    // 명령을 입력한 본인이 채널에 속해있는지 확인 ERR_NOTONCHANNEL
     if (!channel || channel->GetName() != name)
     {
         client->Reply(ERR_NOTONCHANNEL(client->GetNickname(), name));
         return;
     }
 
-    if (channel->GetAdmin() != client)
+    // if (channel->GetAdmin() != client)
+    // {
+    //     client->Reply(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
+    //     return;
+    // }
+    if (channel->GetClientOperator() != client)
     {
         client->Reply(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
         return;
     }
 
-    Client *dest = mServer->GetClient(target);
-    if (!dest)
+    Client *targetClient = mServer->GetClient(target);
+
+    // 서버 안에 일치하는 클라이언트가 없음  
+    if (!targetClient)
     {
         client->Reply(ERR_NOSUCHNICK(client->GetNickname(), target));
         return;
     }
 
-    if (!dest->GetChannel() || dest->GetChannel() != channel)
+    if (!targetClient->GetChannel() || targetClient->GetChannel() != channel)
     {
-        client->Reply(ERR_USERNOTINCHANNEL(client->GetNickname(), dest->GetNickname(), name));
+        client->Reply(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
         return;
     }
 
-    // if everything is fine
-    channel->Kick(client, dest, reason);
+    channel->Kick(client, targetClient, reason);
 }
