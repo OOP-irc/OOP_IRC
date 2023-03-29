@@ -76,7 +76,7 @@ public :
     static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message);
 
     /* 해당하는 커맨드가 서버에 없을 때 */
-    static std::string GetERRUNKNOWNCOMMAND(const std::string& clientPrefix, const std::string& commandName);
+    static std::string GetERRUNKNOWNCOMMAND(const std::string& clientNickname, const std::string& commandName);
 };
 
 #endif
