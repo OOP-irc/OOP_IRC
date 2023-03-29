@@ -96,3 +96,23 @@ std::string Log::GetERRUNKNOWNCOMMAND(const std::string& clientNickname, const s
 {
     return "421 " + clientNickname + " " + commandName + " :Unknown command";
 }
+
+std::string Log::GetERRALREADYREGISTRED(const std::string& clientPrefix)
+{
+    return "462 " + clientPrefix + " :Unauthorized command (already registered)";
+}
+
+std::string Log::GetERRNONICKNAMEGIVEN(const std::string& clientPrefix)
+{
+    return "431 " + clientPrefix + " :Nickname not given";
+}
+
+std::string Log::GetERRNICKNAMEINUSE(const std::string& clientPrefix)
+{
+    return "433 " + clientPrefix + " " + clientPrefix  + " :Nickname is already in use";
+}
+
+std::string Log::GetERRPASSWDMISMATCH(const std::string& clientPrefix)
+{
+    return "464 " + clientPrefix + " :Password is incorrect";
+}

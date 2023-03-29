@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   PONG.cpp                                           :+:      :+:    :+:   */
+/*   Ping.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/28 17:23:25 by mikim3           ###   ########.fr       */
+/*   Created: 2023/03/27 19:49:40 by mikim3            #+#    #+#             */
+/*   Updated: 2023/03/29 17:10:40 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "manual/Manual.hpp"
 
-Pong::Pong(Server* server) : Manual(server) {}
+Ping::Ping(Server* server) : Manual(server) {}
 
-Pong::~Pong() {}
+Ping::~Ping() {}
 
-// syntax: PONG <server1> [<server2>]
+// syntax: PING <server1> [<server2>]
 // ERR_NOORIGIN ERR_NOSUCHSERVER //둘다 ft_irc에서 구현 불가능
 
-void    Pong::Execute(Client* client, std::vector<str::string> args)
+void	Ping::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.empty())
-    {
-        client->Reply(ERR_NEEDMOREPARAMS(client->GetNickname(), "PONG"));
-        return ;
-    }
+	if (args.empty())
+	{
+		client->SendErrorToClient(ERR_NEEDMOREPARAMS(client->GetNickname(), "PING"));
+		return ;
+	}
 
-    client->Write(RPL_PING(client->GetPrefix(), args.at(0)));
+	client->trySend(RPL_PING(client->GetPrefix(), args.at(0)));
 }

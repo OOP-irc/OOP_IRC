@@ -13,7 +13,7 @@ Part::~Part()
 
 void    Part::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.empty()) 
+    if (args.empty())
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "JOIN"));
         return;
