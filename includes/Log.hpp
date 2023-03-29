@@ -13,18 +13,12 @@
 #define ERR_NONICKNAMEGIVEN(source)                     "431 " + source + " :Nickname not given"
 #define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
 
-#define ERR_UNKNOWNCOMMAND(source, command)             "421 " + source + " " + command + " :Unknown command"
-#define ERR_NEEDMOREPARAMS(source, command)             "461 " + source + " " + command + " :Not enough parameters"
-
-#define ERR_NOSUCHCHANNEL(source, channel)              "403 " + source + " " + channel + " :No such channel"
-
 #define ERR_CHANOPRIVSNEEDED(source, channel)           "482 " + source + " " + channel + " :You're not channel operator"
 #define ERR_NOSUCHNICK(source, nickname)                "401 " + source + " " + nickname + " :No such nick/channel"
 #define ERR_USERNOTINCHANNEL(source, nickname, channel) "441 " + source + " " + nickname + " " + channel + " :They aren't on that channel"
 
 /* Command Responses */
 #define RPL_PING(source, token)                         ":" + source + " PONG :" + token
-#define RPL_PRIVMSG(source, target, message)            ":" + source + " PRIVMSG " + target + " :" + message
 #define RPL_NOTICE(source, target, message)             ":" + source + " NOTICE " + target + " :" + message
 #define RPL_QUIT(source, message)                       ":" + source + " QUIT :Quit: " + message
 #define RPL_KICK(source, channel, target, reason)       ":" + source + " KICK " + channel + " " + target + " :" + reason
@@ -71,6 +65,18 @@ public :
 
     /* 유저가 떠났을 떄 메세지를 남김*/
     static std::string GetRPLPART(const std::string& clientPrefix, const std::string& channelName);
+
+    /* 커맨드 실행 시 필요한 매개변수가 없을 때 */
+    static std::string GetERRNEEDMOREPARAMS(const std::string& clientPrefix, const std::string& commandName);
+
+    /* 해당하는 채널이 없을 때 */
+    static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName);
+
+    /* 서버에게 응답 보낼 때 쓰는 메세지 */
+    static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message);
+
+    /* 해당하는 커맨드가 서버에 없을 때 */
+    static std::string GetERRUNKNOWNCOMMAND(const std::string& clientPrefix, const std::string& commandName);
 };
 
 #endif
