@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 17:00:16 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/29 19:24:03 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ User::~User() {}
 void    User::Execute(Client* client, std::vector<std::string> args)
 {
     // 이미 USER 등록된 유저가 또 USER를 한 경우 
-    if (client->IsRegistered())
+    
+    // LOGIN 상태가 정확히 어떤 상태인지 애매함
+    if (client->GetState() == REGISTERED || client->GetState() == LOGIN)
     {
         client->SendErrorToClient(ERR_ALREADYREGISTRED(client->GetNickname()));
         return;
@@ -46,6 +48,7 @@ void    User::Execute(Client* client, std::vector<std::string> args)
     
     client->SetUsername(args[0]);
     client->SetRealname(args[3]);
+    //
     client->Welcome();
 
 }

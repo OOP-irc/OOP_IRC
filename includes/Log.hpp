@@ -81,15 +81,17 @@ public :
     /* 해당하는 커맨드가 서버에 없을 때 */
     static std::string GetERRUNKNOWNCOMMAND(const std::string& clientPrefix, const std::string& commandName);
 
-    static std::string GetERRALREADYREGISTRED
-#define ERR_ALREADYREGISTRED(source)                   "462 " + source + " :Unauthorized command (already registered)"
+    /* 이미 서버에  등록이 되어 있는데 또 등록을 시도 할떄 */
+    static std::string GetERRALREADYREGISTRED(const std::string& clientPrefix);
 
-    ERR_NONICKNAMEGIVEN
-#define ERR_NONICKNAMEGIVEN(source)                     "431 " + source + " :Nickname not given"
+    /* 닉네임을 빈킨으로 제출했을때 */
+    static std::string GetERRNONICKNAMEGIVEN(const std::string& clientPrefix);
 
-    ERR_NICKNAMEINUSE
-#define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
+    /* 사용중인 닉네임 */
+    static std::string GetERRNICKNAMEINUSE(const std::string& clientPrefix);
 
+    /* 서버 접속 비밀번호가 틀림 */
+    static std::string GetERRPASSWDMISMATCH(const std::string& clientPrefix);
 };
 
 #endif
