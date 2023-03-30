@@ -83,8 +83,8 @@ void                        Channel::Join(Client *client, const std::string& pas
     }
 
     // 클라이언트에 대답을 보낸다
-    client->SendToClient(Log::GetRPLNAMREPLY(mName, clientsOnChannel), *this);
-    client->SendToClient(Log::GetRPLENDOFNAMES(mName), *this);
+    client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
+    client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
 
 
     // 클라이언트의 채널 참여를 알린다
@@ -96,6 +96,11 @@ void                        Channel::Leave(Client *client)
 {
     assert(GetClientCount() != 0);
     assert(client != NULL);
+
+    // 떠났음을 채널에 알리고 로그를 찍는다
+    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
+    Log::log(client->GetPrefix() + " has left the channel");
+
 
     // 채널에서 클라이언트를 삭제한다
     std::set<Client *>::iterator itSet = mClientsSet.find(client);
@@ -112,12 +117,9 @@ void                        Channel::Leave(Client *client)
 
     mClientsArray.erase(itArray);
 
+
     // 클라이언트에서 자신이 등록된 채널을 줄인다
     client->RemoveJoindInChannel(this);
-
-    // 떠났음을 채널에 알리고 로그를 찍는다
-    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
-    Log::log(client->GetPrefix() + " has left the channel");
 }
 
 void                        Channel::Broadcast(const std::string& message)

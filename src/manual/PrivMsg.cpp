@@ -45,7 +45,7 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
 
         if (channel == NULL)
         {
-            client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetNickname(), channelName));
+            client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetPrefix(), client->GetNickname(), channelName));
             return;
         }
 

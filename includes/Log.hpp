@@ -8,14 +8,12 @@
 
 /* Error Responses */
 
-#define ERR_ALREADYREGISTRED(source)                   "462 " + source + " :Unauthorized command (already registered)"
+#define ERR_ALREADYREGISTRED(source)                    "462 " + source + " :Unauthorized command (already registered)"
 #define ERR_PASSWDMISMATCH(source)                      "464 " + source + " :Password is incorrect"
 #define ERR_NONICKNAMEGIVEN(source)                     "431 " + source + " :Nickname not given"
 #define ERR_NICKNAMEINUSE(source)                       "433 " + source + " " + source  + " :Nickname is already in use"
-
 #define ERR_CHANOPRIVSNEEDED(source, channel)           "482 " + source + " " + channel + " :You're not channel operator"
 #define ERR_NOTONCHANNEL(source, channel)               "442 " + source + " " + channel + " :You're not on that channel"
-
 #define ERR_NOSUCHNICK(source, nickname)                "401 " + source + " " + nickname + " :No such nick/channel"
 #define ERR_USERNOTINCHANNEL(source, nickname, channel) "441 " + source + " " + nickname + " " + channel + " :They aren't on that channel"
 
@@ -34,7 +32,7 @@ class Log
         static void log(const std::string& message);
 
         /* servers to send a welcome message to a client upon a successful connection. */
-        static std::string GetRPLWELCOME(const std::string& nickName, const std::string& userName, const std::string& hostName);
+        static std::string GetRPLWELCOME(const std::string& clientPrefix, const std::string& nickname);
         
         /* lient is not permitted to send messages to a specific channel */
         static std::string GetERRCANNOTSENDTOCHAN(const std::string& channel);
@@ -55,10 +53,10 @@ class Log
         static std::string GetERRUNAVAILRESOURCE(const std::string& overlappedName);
 
         /* 채널에 들어온 유저에게 채널 안 유저 목록을 보냄 */
-        static std::string GetRPLNAMREPLY(const std::string& channelName, const std::string& users);
+        static std::string GetRPLNAMREPLY(const std::string& clientPrefix, const std::string& nickname, const std::string& channelName, const std::string& users);
         
         /* 위의 RPLNAMREPLY에서 리스트가 끝났음을 알림 */
-        static std::string GetRPLENDOFNAMES(const std::string& channelName);
+        static std::string GetRPLENDOFNAMES(const std::string& clientPrefix, const std::string& nickname, const std::string& channelName);
         
         /* 유저가 채널에 등록했을 때 메세지를 남김 */
         static std::string GetRPLJOIN(const std::string& clientPrefix, const std::string& channelName);
@@ -73,7 +71,7 @@ class Log
         static std::string GetERRNEEDMOREPARAMS(const std::string& clientPrefix, const std::string& commandName);
 
         /* 해당하는 채널이 없을 때 */
-        static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName);
+        static std::string GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& clientNickname, const std::string& channelName);
 
         /* 서버에게 응답 보낼 때 쓰는 메세지 */
         static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message);

@@ -25,7 +25,7 @@ void    Part::Execute(Client* client, std::vector<std::string> args)
 
     if (chan == NULL) 
     {
-        client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetNickname(), name));
+        client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetPrefix(), client->GetNickname(), name));
         return;
     }
 

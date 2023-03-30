@@ -159,7 +159,7 @@ void            Client::handleClientLoginAndLog()
     }
 
     mState = REGISTERED;
-    trySend(Log::GetRPLWELCOME(mNickname, mUsername, mHostname));
+    trySend(Log::GetRPLWELCOME(GetPrefix(), mNickname));
 
     char buffer[100];
     sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
