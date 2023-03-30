@@ -40,4 +40,5 @@ void    Pass::Execute(Client* client, std::vector<std::string> args)
     }
 
     client->SetState(LOGIN);
+    client->TryClientLogin();
 }

@@ -36,14 +36,12 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
 
     std::string nickname = args[0];
 
-    if (mServer->GetClient(nickname))
+    if (mServer->GetClientNickname(nickname))
     {
         client->SendErrorToClient(ERR_NICKNAMEINUSE(client->GetNickname()));
         return ;
     }
     
-    // ERR_ERRONEUSNICKNAME 잘못된 형식의 닉네임 (구현예정)
-
     client->SetNickname(nickname);
-    // client->Welcome();
+    client->TryClientLogin();
 }
