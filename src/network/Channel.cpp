@@ -142,6 +142,43 @@ void                        Channel::Broadcast(const std::string& message, Clien
     }
 }
 
+
+void                        Channel::AddClientOperator(Client *client)
+{
+    assert(client != NULL);
+    
+    // Client가 이 채널에 속해 있는지 확인한다.
+
+    //Client를 Operator에 추가한다
+    mClientsSet.insert(client);
+    
+    //채널에 참여한 클라이언트 이름을 추가한다
+    std::string clientsOnChannel = "";
+
+    clientsOnChannel.append(mClientsArray[0]->GetNickname());
+    for (size_t i = 1; i < mClientsArray.size(); ++i)
+    {
+        clientsOnChannel.append(" ");
+        clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
+    }
+
+    // 클라이언트에 대답을 보낸다
+    client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
+    client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
+
+
+    // 클라이언트의 채널 참여를 알린다
+    Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
+    Log::log(client->GetNickname() + " has joined to the channel " + mName);
+
+
+
+
+    mClientOperatorSet.insert(client);
+
+
+}
+
 bool                        Channel::IsClientInChannel(Client *client)
 {
     std::set<Client *>::iterator itSet = mClientsSet.find(client);
@@ -155,6 +192,16 @@ bool                        Channel::IsClientInChannel(Client *client)
 std::string                 Channel::GetName() const
 {
     return mName;
+}
+
+bool                        Channel::IsOperatorInChannel(Client *client) const
+{
+    std::set<Client *>::iterator itSet = mClientOperatorSet.find(client);
+    if (itSet == mClientOperatorSet.end())
+    {
+        return false;
+    }
+    return true;
 }
 
 Client*                     Channel::GetClientOperator() const
