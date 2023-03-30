@@ -64,6 +64,7 @@
         "__hash_table": "cpp",
         "array": "cpp",
         "complex": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "__functional_03": "cpp"
     }
 }

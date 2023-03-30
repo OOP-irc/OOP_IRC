@@ -51,43 +51,43 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         }
     }
 
-    // GetJoindInChannel 아직 미구현 
-    Channel *channel = client->GetJoindInChannel();
+    // // GetJoindInChannel 아직 미구현 
+    // Channel *channel = client->GetJoindInChannel();
 
-    // 명령을 입력한 본인이 채널에 속해있는지 확인 ERR_NOTONCHANNEL
-    if (!channel || channel->GetName() != name)
-    {
-        client->SendErrorToClient(ERR_NOTONCHANNEL(client->GetNickname(), name));
-        return;
-    }
+    // // 명령을 입력한 본인이 채널에 속해있는지 확인 ERR_NOTONCHANNEL
+    // if (!channel || channel->GetName() != name)
+    // {
+    //     client->SendErrorToClient(ERR_NOTONCHANNEL(client->GetNickname(), name));
+    //     return;
+    // }
 
-    // if (channel->GetAdmin() != client)
+    // // if (channel->GetAdmin() != client)
+    // // {
+    // //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
+    // //     return;
+    // // }
+    
+    // // client를 client->GetClient()          GetClient() {  return (this*);}
+    // if (channel->GetClientOperator() != client->GetClient())
     // {
     //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
     //     return;
     // }
-    
-    // client를 client->GetClient()          GetClient() {  return (this*);}
-    if (channel->GetClientOperator() != client->GetClient())
-    {
-        client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
-        return;
-    }
 
-    Client *targetClient = mServer->GetClient(target);
+    // Client *targetClient = mServer->GetClient(target);
 
-    // 서버 안에 일치하는 클라이언트가 없음  
-    if (!targetClient)
-    {
-        client->SendErrorToClient(ERR_NOSUCHNICK(client->GetNickname(), target));
-        return;
-    }
+    // // 서버 안에 일치하는 클라이언트가 없음  
+    // if (!targetClient)
+    // {
+    //     client->SendErrorToClient(ERR_NOSUCHNICK(client->GetNickname(), target));
+    //     return;
+    // }
 
-    if (!targetClient->GetJoindInChannel() || targetClient->GetJoindInChannel() != channel)
-    {
-        client->SendErrorToClient(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
-        return;
-    }
+    // if (!targetClient->GetJoindInChannel() || targetClient->GetJoindInChannel() != channel)
+    // {
+    //     client->SendErrorToClient(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
+    //     return;
+    // }
 
-    channel->Kick(client, targetClient, reason);
+    // channel->Kick(client, targetClient, reason);
 }

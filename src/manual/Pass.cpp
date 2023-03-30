@@ -23,11 +23,11 @@ void    Pass::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.empty())
     {
-        clinet->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PASS"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PASS"));
         return ;
     }
 
-    if (client->IsRegistered())
+    if (client->GetState())
     {
         client->SendErrorToClient(Log::GetERRALREADYREGISTRED(client->GetNickname()));
         return ;

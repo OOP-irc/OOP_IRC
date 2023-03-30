@@ -143,7 +143,7 @@ void            Client::SetState(eClientState state)
 
 bool            Client::trySend(const std::string& message) const
 {
-    assert(strlen(message.c_str()) == 0);
+    assert(strlen(message.c_str()) != 0);
 
     std::string formattedMessage = message + "\r\n";
 

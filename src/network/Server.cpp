@@ -160,8 +160,6 @@ void            Server::onClientDisconnect(int fd)
             }
             it_b++;
         }
-        // release memory
-        delete client;
     }
     catch (const std::exception &e)
     {

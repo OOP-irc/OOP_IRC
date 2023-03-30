@@ -45,5 +45,5 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
     // ERR_ERRONEUSNICKNAME 잘못된 형식의 닉네임 (구현예정)
 
     client->SetNickname(nickname);
-    client->Welcome();
+    // client->Welcome();
 }

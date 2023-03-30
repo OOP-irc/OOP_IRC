@@ -37,18 +37,18 @@ void    User::Execute(Client* client, std::vector<std::string> args)
         return;
     }
 
-    if ((args[2] & 12) == 8)
-    {
-        // 모드를 i 모드로 변경
-    }
-    else if ((args[2] & 12) == 4)
-    {
-        // 모드를 w 모드로 변경
-    }
+    // if ((args[2] & 12) == 8)
+    // {
+    //     // 모드를 i 모드로 변경
+    // }
+    // else if ((args[2] & 12) == 4)
+    // {
+    //     // 모드를 w 모드로 변경
+    // }
     
     client->SetUsername(args[0]);
     client->SetRealname(args[3]);
     //
-    client->Welcome();
+    //client->Welcome();
 
 }
