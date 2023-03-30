@@ -25,7 +25,7 @@ Parser::Parser(Server* server)
     mManuals["JOIN"] = new Join(mServer);
     mManuals["PART"] = new Part(mServer);
     // mManuals["KICK"] = new Kick(mServer);
-    // mManuals["MODE"] = new Mode(mServer);
+    mManuals["MODE"] = new Mode(mServer);
 
 	mManuals["PRIVMSG"] = new PrivMsg(mServer);
 	// mManuals["NOTICE"] = new Notice(mServer);

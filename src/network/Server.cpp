@@ -138,12 +138,8 @@ void            Server::onClientDisconnect(int fd)
         Client* client = mClients.at(fd);
         assert(client != NULL);
 
-        removeClientOnServerAndChannel(fd, client);
-
-        // log about disconnecting 
-        char message[1000];
-		sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
-		Log::log(message);
+        client->LeaveAllChannel();
+        removeClientOnServerAndLog(fd, client);
 
         // removing the client fd from the poll
 
@@ -199,9 +195,12 @@ std::string     Server::readMessage(int fd)
     return message;
 }
 
-void            Server::removeClientOnServerAndChannel(int fd, Client *client)
+void            Server::removeClientOnServerAndLog(int fd, Client *client)
 {
-    client->LeaveAllChannel();
+    // log about disconnecting 
+    char message[1000];
+    sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
+    Log::log(message);
 
     delete client;
 
@@ -255,7 +254,7 @@ std::string     Server::GetPassword() const
     return mPassword;
 }
 
-Client*         Server::GetClient(const std::string& nickname)
+Client*         Server::GetClientNickname(const std::string& nickname)
 {
     client_iterator it_b = mClients.begin();
     client_iterator it_e = mClients.end();

@@ -30,7 +30,7 @@ class Client
         /* Send/Recieve Actions */
         void            SendToClient(const std::string& message, Channel& channel) const;
         void            SendErrorToClient(const std::string& message) const;
-        void            HandleClientLoginAndLog();
+        void            TryClientLogin();
         void            AddJoindInChannel(Channel *channel);
         void            RemoveJoindInChannel(Channel *channel);
         bool            IsFullJoindInChannlCount();
@@ -58,6 +58,8 @@ class Client
         Client(const Client &src);
 
         bool            trySend(const std::string& message) const;
+        void            handleClientLoginAndLog();
+        bool            isReadLogin();
         
         int             mFd;
         int             mPort;

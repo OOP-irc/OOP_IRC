@@ -22,10 +22,7 @@ User::~User() {}
 
 void    User::Execute(Client* client, std::vector<std::string> args)
 {
-    // 이미 USER 등록된 유저가 또 USER를 한 경우 
-    
-    // LOGIN 상태가 정확히 어떤 상태인지 애매함
-    if (client->GetState() == REGISTERED || client->GetState() == LOGIN)
+    if (client->GetState() == REGISTERED)
     {
         client->SendErrorToClient(ERR_ALREADYREGISTRED(client->GetNickname()));
         return;
@@ -36,19 +33,9 @@ void    User::Execute(Client* client, std::vector<std::string> args)
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "USER"));
         return;
     }
-
-    if ((args[2] & 12) == 8)
-    {
-        // 모드를 i 모드로 변경
-    }
-    else if ((args[2] & 12) == 4)
-    {
-        // 모드를 w 모드로 변경
-    }
     
     client->SetUsername(args[0]);
     client->SetRealname(args[3]);
-    //
-    client->Welcome();
-
+    
+    client->TryClientLogin();
 }

@@ -17,9 +17,9 @@ void Log::log(const std::string &message)
     std::cerr << "\033[31m" << message << "\033[0m" << std::endl;
 }
 
-std::string Log::GetRPLWELCOME(const std::string& nickName, const std::string& userName, const std::string& hostName) 
+std::string Log::GetRPLWELCOME(const std::string& clientPrefix, const std::string& nickname) 
 {
-    return "001 Welcome to the Internet Relay Network " + nickName + "!" + userName + "@" + hostName;
+    return ":" + clientPrefix + " " + "001 " + nickname + " :Welcome " + nickname + " to the ft_irc network";
 }
 
 std::string Log::GetERRCANNOTSENDTOCHAN(const std::string& channel)
@@ -32,14 +32,14 @@ std::string Log::GetERRNOTREGISTERED()
     return "451 :You have not registered";
 }
 
-std::string Log::GetRPLNAMREPLY(const std::string& channelName, const std::string& users) 
+std::string Log::GetRPLNAMREPLY(const std::string& clientPrefix, const std::string& nickname, const std::string& channelName, const std::string& users) 
 {
-    return "353 = " + channelName + " :" + users;
+    return ":" + clientPrefix + " " + "353 " + nickname + " = " + channelName + " :" + users;
 }
 
-std::string Log::GetRPLENDOFNAMES(const std::string& channelName) 
+std::string Log::GetRPLENDOFNAMES(const std::string& clientPrefix, const std::string& nickname, const std::string& channelName) 
 {
-    return "366 " + channelName + " :End of /NAMES list.";
+    return ":" + clientPrefix + " " + "366 " + nickname + " " + channelName + " :End of /NAMES list.";
 }
 
 std::string Log::GetRPLJOIN(const std::string& clientPrefix, const std::string& channelName)
@@ -82,9 +82,9 @@ std::string Log::GetERRNEEDMOREPARAMS(const std::string& clientNickname, const s
     return "461 " + clientNickname + " " + commandName + " :Not enough parameters";
 }
 
-std::string Log::GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& channelName)
+std::string Log::GetERRNOSUCHCHANNEL(const std::string& clientPrefix, const std::string& clientNickname, const std::string& channelName)
 {
-    return "403 " + clientPrefix + " " + channelName + " :No such channel";
+    return ":" + clientPrefix + " " + "403 " + clientNickname + " " + channelName + " :No such channel";
 }
 
 std::string Log::GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message)
