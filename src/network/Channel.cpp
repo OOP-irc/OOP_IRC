@@ -143,9 +143,9 @@ std::string                 Channel::GetName() const
     return mName;
 }
 
-Client&                     Channel::GetClientOperator() const
+Client*                     Channel::GetClientOperator() const
 {
-    return *mClientOperator;
+    return mClientOperator;
 }
 
 unsigned int                Channel::GetClientCount() const

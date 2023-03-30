@@ -26,20 +26,22 @@ class Channel
         //void                        RemoveClient(Client* client);
         void                        Kick(Client* client, Client* target, const std::string& reason);
         bool                        IsClientInChannel(Client *client);
-
+        void                        AddClientOperator(Client *client);
 
         /* Getters */
         std::string                 GetName() const;
-        Client&                     GetClientOperator() const;
         unsigned int                GetClientCount() const;
         std::string                 GetPassword() const;
         int                         GetModeClientLimitCount() const;
-        bool                        GetModeN() const;
+        // Client*                     GetClientOperator() const;
+        std::set<Client *>          GetClientOperator() const;
+
+
+        // bool                        GetModeN() const;
 
         //bool                        ExtMsg() const;
         // size_t                      GetSize() const;
         // std::vector<std::string>    GetNicknames();
-
 
 
         /* Setters */
@@ -52,16 +54,19 @@ class Channel
         Channel(const Channel& src);
 
         std::string             mName;
-        Client*                 mClientOperator;
+        // Client*                 mClientOperator;
         unsigned int            mClientCount;
         int                     mClientLimitCount;
         const int               MAXIMUM_CLIENT_COUNT;
 
         std::set<Client *>      mClientsSet;
         std::vector<Client *>   mClientsArray;
+        std::set<Client *>      mClientOperatorSet;
+
+
 
         /* Modes */
-        std::string             mPassword; // channel key  
+        std::string             mPassword; // channel key
 };
 
 #endif
