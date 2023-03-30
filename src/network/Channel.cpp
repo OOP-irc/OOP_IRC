@@ -116,7 +116,7 @@ void                        Channel::Leave(Client *client)
     client->RemoveJoindInChannel(this);
 
     // 떠났음을 채널에 알리고 로그를 찍는다
-    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName), client);
+    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
     Log::log(client->GetPrefix() + " has left the channel");
 }
 
