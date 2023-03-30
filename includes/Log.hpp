@@ -92,6 +92,9 @@ class Log
 
         /* 서버 접속 비밀번호가 틀림 */
         static std::string GetERRPASSWDMISMATCH(const std::string& clientPrefix);
+
+        /* 채널 어퍼레이터 권한이 없음 */
+        static std::string GetCHANOPRIVSNEEDED(const std::string& clientPrefix, const std::string& channelName);
 };
 
 #endif
