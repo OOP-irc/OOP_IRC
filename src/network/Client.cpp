@@ -4,7 +4,7 @@ Client::Client(int fd, int port, const std::string &hostname)
     : mFd(fd)
     , mPort(port)
     , mJoinedInChannel(0)
-    , MAX_JOINED_IN_CHANNEL(0)
+    , MAX_JOINED_IN_CHANNEL(10)
     , mNickname("")
     , mUsername("")
     , mRealname("")
@@ -49,7 +49,7 @@ void            Client::AddJoindInChannel(Channel *channel)
 void            Client::RemoveJoindInChannel(Channel *channel)
 {
     mJoinedInChannel--;
-    assert(mJoinedInChannel < 0);
+    assert(mJoinedInChannel >= 0);
 
     mChannels.erase(channel);
 }
@@ -67,7 +67,7 @@ void            Client::LeaveAllChannel()
 
 bool            Client::IsFullJoindInChannlCount()
 {
-    return mJoinedInChannel < MAX_JOINED_IN_CHANNEL ? true : false;
+    return mJoinedInChannel < MAX_JOINED_IN_CHANNEL ? false : true;
 }
 
 int             Client::GetFd() const

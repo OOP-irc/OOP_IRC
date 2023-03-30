@@ -41,7 +41,7 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
 
     if (channelName.at(0) == '#')
     {
-        Channel* channel = mServer->GetChannel(channelName.substr(1));
+        Channel* channel = mServer->GetChannel(channelName);
 
         if (channel == NULL)
         {
@@ -56,7 +56,7 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
             return ;
         }
 
-        channel->Broadcast(Log::GetRPLPRIVMSG(client->GetPrefix(), channelName, message));
+        channel->Broadcast(Log::GetRPLPRIVMSG(client->GetPrefix(), channelName, message), client);
         return;
     }
 

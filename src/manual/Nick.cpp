@@ -28,6 +28,13 @@ Nick::~Nick()
 
 void    Nick::Execute(Client*   client, std::vector<std::string> args)
 {
+    if (args.size() != 1)
+    {
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PASS"));
+        return ;
+    }
+
+    
     if (args.empty() || args[0].empty())
     {
         client->SendErrorToClient(ERR_NONICKNAMEGIVEN(client->GetNickname()));

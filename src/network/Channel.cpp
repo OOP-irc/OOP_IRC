@@ -51,7 +51,7 @@ void                        Channel::Join(Client *client, const std::string& pas
         return;
     }
 
-    if (GetClientCount() == (unsigned int)GetModeClientLimitCount())
+    if (GetClientCount() >= (unsigned int)GetModeClientLimitCount())
     {
         /* 이 오류는 사용자가 최대 사용자 제한(+l 채널 모드로 설정)에 도달한 채널에 가입하려고 할 때 발생합니다. 사용자는 더 많은 사용자를 위한 공간이 생길 때까지 채널에 참여할 수 없습니다 */
         client->SendErrorToClient(Log::GetERRCHANNELISFULL(client->GetPrefix(), mName));
@@ -116,7 +116,7 @@ void                        Channel::Leave(Client *client)
     client->RemoveJoindInChannel(this);
 
     // 떠났음을 채널에 알리고 로그를 찍는다
-    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
+    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName), client);
     Log::log(client->GetPrefix() + " has left the channel");
 }
 
@@ -125,6 +125,18 @@ void                        Channel::Broadcast(const std::string& message)
     for (size_t i = 0; i < mClientsArray.size(); ++i)
     {
         mClientsArray[i]->SendToClient(message, *this);
+    }
+}
+
+void                        Channel::Broadcast(const std::string& message, Client *sender)
+{
+    for (size_t i = 0; i < mClientsArray.size(); ++i)
+    {
+        if (mClientsArray[i] != sender)
+        {
+            mClientsArray[i]->SendToClient(message, *this);
+        }
+
     }
 }
 

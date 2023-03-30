@@ -13,7 +13,7 @@ Join::~Join()
 
 void    Join::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.empty())
+    if (args.empty() || args.size() < 1 || args.size() > 2)
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "JOIN"));
         return;
