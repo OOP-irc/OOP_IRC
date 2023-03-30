@@ -1,6 +1,6 @@
 #include "manual/Manual.hpp"
 
-Mode::Mode(Server* server) 
+Mode::Mode(Server* server)
     : Manual(server) 
 {
 }

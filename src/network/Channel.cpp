@@ -179,11 +179,6 @@ int                      Channel::GetModeClientLimitCount() const
     return mClientLimitCount;
 }
 
-bool                        Channel::GetModeN() const
-{
-    return mModeN;
-}
-
 void                        Channel::SetPassword(std::string key)
 {
     mPassword = key;
