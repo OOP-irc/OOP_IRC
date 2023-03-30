@@ -13,7 +13,7 @@ Part::~Part()
 
 void    Part::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.empty())
+    if (args.empty() || args.size() != 1)
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "JOIN"));
         return;
@@ -25,7 +25,7 @@ void    Part::Execute(Client* client, std::vector<std::string> args)
 
     if (chan == NULL) 
     {
-        client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetNickname(), name));
+        client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetPrefix(), client->GetNickname(), name));
         return;
     }
 

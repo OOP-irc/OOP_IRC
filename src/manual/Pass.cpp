@@ -21,7 +21,7 @@ Pass::~Pass() {}
 
 void    Pass::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.empty())
+    if (args.size() != 1)
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PASS"));
         return ;
@@ -42,4 +42,5 @@ void    Pass::Execute(Client* client, std::vector<std::string> args)
     }
 
     client->SetState(LOGIN);
+    client->TryClientLogin();
 }

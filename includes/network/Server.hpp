@@ -48,7 +48,7 @@ class Server
 
         /* Getters */
         Channel*		GetChannel(const std::string &name);
-        Client*			GetClient(const std::string &nickname);
+        Client*			GetClientNickname(const std::string &nickname);
         std::string		GetPassword() const;
 
         /* manage channel and client*/
@@ -79,7 +79,7 @@ class Server
 
         /* Handle Clients */
         std::string     readMessage(int fd); // 소켓에서 읽어온 메서지 검증
-        void            removeClientOnServerAndChannel(int fd, Client *client);
+        void            removeClientOnServerAndLog(int fd, Client *client);
 
         /* 소켓 생성 */
         int             createSocket();

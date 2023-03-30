@@ -21,7 +21,7 @@ class Channel
         void                        Join(Client *client, const std::string& password);
         void                        Leave(Client *client);
         void                        Broadcast(const std::string& message);
-        //void                        Broadcast(const std::string& message, Client* exclude);
+        void                        Broadcast(const std::string& message, Client *sender);
         //void                        AddClient(Client* client);
         //void                        RemoveClient(Client* client);
         void                        Kick(Client* client, Client* target, const std::string& reason);

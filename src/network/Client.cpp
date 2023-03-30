@@ -30,23 +30,12 @@ void            Client::SendErrorToClient(const std::string& message) const
     trySend(message);
 }
 
-/*
-    PASS -> NICK -> USER 커맨드완료 후 서버에 등록 상태로 변경 후 로그를 찍어줌
-*/
-void            Client::HandleClientLoginAndLog()
+void            Client::TryClientLogin()
 {
-    if (mState != LOGIN || mUsername.empty() || mRealname.empty() || mNickname.empty())
+    if (isReadLogin() == true)
     {
-        trySend(Log::GetERRNOTREGISTERED());
-		return;
+        handleClientLoginAndLog();
     }
-
-    mState = REGISTERED;
-    trySend(Log::GetRPLWELCOME(mNickname, mUsername, mHostname));
-
-    char buffer[100];
-    sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
-    Log::log(buffer);
 }
 
 void            Client::AddJoindInChannel(Channel *channel)
@@ -60,7 +49,7 @@ void            Client::AddJoindInChannel(Channel *channel)
 void            Client::RemoveJoindInChannel(Channel *channel)
 {
     mJoinedInChannel--;
-    assert(mJoinedInChannel < 0);
+    assert(mJoinedInChannel >= 0);
 
     mChannels.erase(channel);
 }
@@ -78,7 +67,7 @@ void            Client::LeaveAllChannel()
 
 bool            Client::IsFullJoindInChannlCount()
 {
-    return mJoinedInChannel < MAX_JOINED_IN_CHANNEL ? true : false;
+    return mJoinedInChannel < MAX_JOINED_IN_CHANNEL ? false : true;
 }
 
 int             Client::GetFd() const
@@ -143,7 +132,7 @@ void            Client::SetState(eClientState state)
 
 bool            Client::trySend(const std::string& message) const
 {
-    assert(strlen(message.c_str()) == 0);
+    assert(strlen(message.c_str()) != 0);
 
     std::string formattedMessage = message + "\r\n";
 
@@ -154,5 +143,34 @@ bool            Client::trySend(const std::string& message) const
         return false;
     }
 
+    return true;
+}
+
+/*
+    PASS -> NICK -> USER 커맨드완료 후 서버에 등록 상태로 변경 후 로그를 찍어줌
+*/
+
+void            Client::handleClientLoginAndLog()
+{
+    if (isReadLogin() == false)
+    {
+        trySend(Log::GetERRNOTREGISTERED());
+		return;
+    }
+
+    mState = REGISTERED;
+    trySend(Log::GetRPLWELCOME(GetPrefix(), mNickname));
+
+    char buffer[100];
+    sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
+    Log::log(buffer);
+}
+
+bool            Client::isReadLogin()
+{
+    if (mState != LOGIN || mUsername.empty() || mRealname.empty() || mNickname.empty())
+    {
+        return false;
+    }
     return true;
 }
