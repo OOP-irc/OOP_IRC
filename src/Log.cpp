@@ -116,3 +116,8 @@ std::string Log::GetERRPASSWDMISMATCH(const std::string& clientPrefix)
 {
     return "464 " + clientPrefix + " :Password is incorrect";
 }
+
+std::string Log::GetCHANOPRIVSNEEDED(const std::string& clientPrefix, const std::string& channelName)
+{
+    return "482 " + clientPrefix + " " + channelName + " :You're not channel operator";
+}

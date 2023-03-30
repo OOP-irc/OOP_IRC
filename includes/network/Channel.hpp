@@ -53,7 +53,7 @@ class Channel
 
         std::string             mName;
         Client*                 mClientOperator;
-        bool                    mClientCount;
+        unsigned int            mClientCount;
         int                     mClientLimitCount;
         const int               MAXIMUM_CLIENT_COUNT;
 
@@ -61,9 +61,7 @@ class Channel
         std::vector<Client *>   mClientsArray;
 
         /* Modes */
-        std::string             mPassword; // channel key
-        size_t                  mModeL; // limit of channel members
-        bool                    mModeN; // yes/no external messages    
+        std::string             mPassword; // channel key  
 };
 
 #endif

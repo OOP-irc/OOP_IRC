@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/27 19:28:37 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/03/30 14:16:43 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,6 @@ void            Server::onClientDisconnect(int fd)
             }
             it_b++;
         }
-        // release memory
-        delete client;
     }
     catch (const std::exception &e)
     {
