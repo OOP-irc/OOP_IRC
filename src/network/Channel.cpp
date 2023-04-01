@@ -2,11 +2,12 @@
 
 Channel::Channel(const std::string &name, const std::string &password, Client* clientOperator)
     : mName(name)
-    , mClientOperator(clientOperator)
     , mClientLimitCount(3)
     , MAXIMUM_CLIENT_COUNT(3)
     , mPassword(password)
-{    
+    , mSecurityMode(false)
+{
+    mClientOperatorSet.insert(clientOperator);
 }
 
 Channel::~Channel()
@@ -24,7 +25,7 @@ void                        Channel::Join(Client *client, const std::string& pas
         return;
     }
 
-    if (!mPassword.empty() && mPassword != password)
+    if (mSecurityMode && !mPassword.empty() && mPassword != password)
     {
         /* 사용자가 키(비밀번호)로 채널에 가입하려고 하는데 제공된 키가 올바르지 않을 때   보내는 오류입니다. 사용자가 채널에 참여하려면 올바른 키가 필요합니다. */
         client->SendErrorToClient(Log::GetERRBADCHANNELKEY(client->GetPrefix(), client->GetNickname(), mName));
@@ -65,7 +66,6 @@ void                        Channel::Join(Client *client, const std::string& pas
     // 클라이언트에 대답을 보낸다
     client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
     client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
-
 
     // 클라이언트의 채널 참여를 알린다
     Broadcast(Log::GetRPLJOIN(client->GetNickname(), mName));
@@ -147,6 +147,54 @@ void                        Channel::Kick(Client* client, Client* receiver, cons
     Log::log(client->GetNickname() + " kicked " + receiver->GetNickname() + " from channel " + mName);
 }
 
+void                        Channel::AddClientOperator(Client *client)
+{
+    assert(client != NULL);
+    
+    // Client가 이 채널에 속해 있는지 확인한다.
+    if (!IsClientInChannel(client))
+    {
+        return ;
+    }
+
+    //Client를 Operator에 추가한다
+    mClientOperatorSet.insert(client);
+    
+    //채널에 참여한 클라이언트 이름을 추가한다
+    // std::string clientsOnChannel = "";
+
+    // clientsOnChannel.append(mClientsArray[0]->GetNickname());
+    // for (size_t i = 1; i < mClientsArray.size(); ++i)
+    // {
+    //     clientsOnChannel.append(" ");
+    //     clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
+    // }
+
+    // // 클라이언트에 대답을 보낸다
+    // client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
+    // client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
+
+    // 클라이언트의 채널 참여를 알린다
+    // Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
+    // Log::log(client->GetNickname() + " has joined to the channel " + mName);
+
+}
+
+void                        Channel::DeleteClientOperator(Client *client)
+{
+    assert(client != NULL);
+
+    // Client가 이 채널에 속해 있는지 확인한다.
+    if (!IsClientInChannel(client))
+    {
+        return ;
+    }
+
+    // Set 목록에서 제거
+    mClientOperatorSet.erase(client);
+}
+
+
 bool                        Channel::IsClientInChannel(Client *client)
 {
     std::set<Client *>::iterator itSet = mClientsSet.find(client);
@@ -162,10 +210,21 @@ std::string                 Channel::GetName() const
     return mName;
 }
 
-Client&                     Channel::GetClientOperator() const
+bool                        Channel::IsOperatorInChannel(Client *client) const
 {
-    return *mClientOperator;
+    std::set<Client *>::iterator itSet = mClientOperatorSet.find(client);
+    if (itSet == mClientOperatorSet.end())
+    {
+        return false;
+    }
+    return true;
 }
+
+// IsOperatorInChannel이면 충분함
+// Client*                     Channel::GetClientOperator() const
+// {
+//     return mClientOperator;
+// }
 
 unsigned int                Channel::GetClientCount() const
 {
@@ -192,4 +251,9 @@ void                        Channel::SetPassword(std::string key)
 void                        Channel::SetLimit(int clientLimitCount)
 {
     mClientLimitCount = clientLimitCount > MAXIMUM_CLIENT_COUNT ? MAXIMUM_CLIENT_COUNT : clientLimitCount;
+}
+
+void                        Channel::SetSecurityMode(bool SecurityMode)
+{
+    mSecurityMode = SecurityMode;
 }
