@@ -20,17 +20,17 @@ Quit::~Quit() {}
 
 void	Quit::Execute(Client* client, std::vector<std::string> args)
 {
+	if (args.size() > 1)
+    {
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "QUIT"));
+        return;
+    }
+	
 	std::string reason = args.empty() ? "Leaving..." : args.at(0);
 
 	// 클라이언트 형식에 따라 ':'가 붙어서 올때가 있는거 처리
 	if (reason.at(0) == ':')
         reason = reason.substr(1);
 
-    client->SendErrorToClient(Log::GetRPLQUIT(client->GetNickname(), reason));
-	
-	// onClientDisconnect를 실행하면 클라이언트가 자체적으로 끊어버리는 경우도 있어서
-	// 이미 나간 클라이인트를 서버가 또 Disconnect하는 경우가 발생한다. 어쩔수 없다.
-	// private 여서 안되나?? 나중에 다시보기
-	//mServer->onClientDisconnect(client->GetFd());
-
+    client->SendErrorToClient(Log::GetRPLQUIT(client->GetPrefix(), reason));
 }

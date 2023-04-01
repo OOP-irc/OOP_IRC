@@ -68,7 +68,7 @@ void                        Channel::Join(Client *client, const std::string& pas
     client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
 
     // 클라이언트의 채널 참여를 알린다
-    Broadcast(Log::GetRPLJOIN(client->GetNickname(), mName));
+    Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
     Log::log(client->GetNickname() + " has joined to the channel " + mName);
 }
 
@@ -78,7 +78,7 @@ void                        Channel::Leave(Client *client)
     assert(client != NULL);
 
     // 떠났음을 채널에 알리고 로그를 찍는다
-    Broadcast(Log::GetRPLPART(client->GetNickname(), mName));
+    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
     Log::log(client->GetPrefix() + " has left the channel");
 
 

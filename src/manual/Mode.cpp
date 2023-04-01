@@ -19,7 +19,7 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.size() < 2)
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "KICK"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "MODE"));
         return;
     }
 
@@ -127,14 +127,14 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
                 {
                     channel->SetSecurityMode(true);
                     channel->SetPassword(args[target_location]);
-                    channel->Broadcast(Log::GetRPLMODE(client->GetNickname(), channel->GetName(), ("+k"), (target_name)));
+                    channel->Broadcast(Log::GetRPLMODE(client->GetPrefix(), channel->GetName(), ("+k"), (target_name)));
                 }
                 // 비밀번호 모드를 껐다 키는 멤버변수를 추가할지 고민됨
                 else if (prev_c == '-')
                 {
                     channel->SetSecurityMode(false);
                     channel->SetPassword("");
-                    channel->Broadcast(Log::GetRPLMODE(client->GetNickname(), channel->GetName(), ("-k"), (target_name)));
+                    channel->Broadcast(Log::GetRPLMODE(client->GetPrefix(), channel->GetName(), ("-k"), (target_name)));
                 }
                 break;
             }
@@ -155,13 +155,13 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
                     if ((int)channel->GetClientCount() <= atoi(args[target_location].c_str()))
                     {
                         channel->SetLimit(atoi(args[target_location].c_str()));
-                        channel->Broadcast(Log::GetRPLMODE(client->GetNickname(), channel->GetName(), ("+l"), (target_name)));
+                        channel->Broadcast(Log::GetRPLMODE(client->GetPrefix(), channel->GetName(), ("+l"), (target_name)));
                     }
                 }
                 else if (prev_c == '-')
                 {
                     channel->SetLimit(10);
-                    channel->Broadcast(Log::GetRPLMODE(client->GetNickname(), channel->GetName(), ("-l"), (target_name)));
+                    channel->Broadcast(Log::GetRPLMODE(client->GetPrefix(), channel->GetName(), ("-l"), (target_name)));
                 }
                 break;
             }

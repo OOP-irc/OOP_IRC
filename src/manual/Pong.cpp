@@ -27,5 +27,5 @@ void    Pong::Execute(Client* client, std::vector<std::string> args)
         return ;
     }
 
-    client->SendErrorToClient(Log::GetRPLPING(client->GetNickname(), args.at(0)));
+    client->SendErrorToClient(Log::GetRPLPING(client->GetPrefix(), args.at(0)));
 }

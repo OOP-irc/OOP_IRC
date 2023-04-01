@@ -122,34 +122,34 @@ std::string Log::GetERRUSERNOTINCHANNEL(const std::string& clientPrefix, const s
     return ":" + clientPrefix + " " + "441 " + clientNickname + " " + clientNickname + " " + channelName + " :They aren't on that channel";
 }
 
-std::string Log::GetRPLJOIN(const std::string& clientNickname, const std::string& channelName)
+std::string Log::GetRPLJOIN(const std::string& clientPrefix, const std::string& channelName)
 {
-    return ":" + clientNickname + " Join :" + "" + channelName;
+    return ":" + clientPrefix + " Join :" + "" + channelName;
 }
 
-std::string Log::GetRPLPART(const std::string& clientNickname, const std::string& channelName)
+std::string Log::GetRPLPART(const std::string& clientPrefix, const std::string& channelName)
 {
-    return ":" + clientNickname + " PART :" + channelName;
+    return ":" + clientPrefix + " PART :" + channelName;
 }
 
-std::string Log::GetRPLPRIVMSG(const std::string& clientNickname, const std::string& channelName, const std::string& message)
+std::string Log::GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message)
 {
-    return ":" + clientNickname + " PRIVMSG " + channelName + " :" + message;
+    return ":" + clientPrefix + " PRIVMSG " + channelName + " :" + message;
 }
 
-std::string Log::GetRPLPING(const std::string& clientNickname, const std::string& token)
+std::string Log::GetRPLPING(const std::string& clientPrefix, const std::string& token)
 {
-    return ":" + clientNickname + " PONG :" + token;
+    return ":" + clientPrefix + " PONG :" + token;
 }
 
-std::string Log::GetRPLNOTICE(const std::string& clientNickname, const std::string& channelName, const std::string& message)
+std::string Log::GetRPLNOTICE(const std::string& clientPrefix, const std::string& channelName, const std::string& message)
 {
-    return ":" + clientNickname + " NOTICE " + channelName + " :" + message;
+    return ":" + clientPrefix + " NOTICE " + channelName + " :" + message;
 }
 
-std::string Log::GetRPLQUIT(const std::string& clientNickname, const std::string& message)
+std::string Log::GetRPLQUIT(const std::string& clientPrefix, const std::string& message)
 {
-    return ":" + clientNickname + " QUIT :Quit: " + message;
+    return ":" + clientPrefix + " QUIT :Quit: " + message;
 }
 
 std::string Log::GetRPLKICK(const std::string& clientPrefix, const std::string& channelName, const std::string& clientNickname, const std::string& message)
@@ -157,7 +157,7 @@ std::string Log::GetRPLKICK(const std::string& clientPrefix, const std::string& 
     return  ":" + clientPrefix + " KICK " + channelName + " " + clientNickname + " :" + message;
 }
 
-std::string Log::GetRPLMODE(const std::string& clientNickname, const std::string& channelName, const std::string& modes, const std::string& arguments)
+std::string Log::GetRPLMODE(const std::string& clientPrefix, const std::string& channelName, const std::string& modes, const std::string& arguments)
 {
-    return  ":" + clientNickname + " MODE " + channelName + " " + modes + " " + arguments;
+    return  ":" + clientPrefix + " MODE " + channelName + " " + modes + " " + arguments;
 }

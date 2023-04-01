@@ -30,7 +30,7 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
 {
     if (args.size() != 1)
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "PASS"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "NICK"));
         return ;
     }
 

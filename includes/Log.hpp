@@ -73,23 +73,23 @@ class Log
         static std::string GetERRUSERNOTINCHANNEL(const std::string& clientPrefix, const std::string& clientNickname, const std::string& channelName);
 
         /* 유저가 채널에 등록했을 때 메세지를 남김 */
-        static std::string GetRPLJOIN(const std::string& clientNickname, const std::string& channelName);
+        static std::string GetRPLJOIN(const std::string& clientPrefix, const std::string& channelName);
 
         /* 유저가 떠났을 떄 메세지를 남김*/
-        static std::string GetRPLPART(const std::string& clientNickname, const std::string& channelName);
+        static std::string GetRPLPART(const std::string& clientPrefix, const std::string& channelName);
 
         /* 서버에게 응답 보낼 때 쓰는 메세지 */
-        static std::string GetRPLPRIVMSG(const std::string& clientNickname, const std::string& channelName, const std::string& message);
+        static std::string GetRPLPRIVMSG(const std::string& clientPrefix, const std::string& channelName, const std::string& message);
 
-        static std::string GetRPLPING(const std::string& clientNickname, const std::string& token);
+        static std::string GetRPLPING(const std::string& clientPrefix, const std::string& token);
 
-        static std::string GetRPLNOTICE(const std::string& clientNickname, const std::string& channelName, const std::string& message);
+        static std::string GetRPLNOTICE(const std::string& clientPrefix, const std::string& channelName, const std::string& message);
 
-        static std::string GetRPLQUIT(const std::string& clientNickname, const std::string& message);
+        static std::string GetRPLQUIT(const std::string& clientPrefix, const std::string& message);
 
         static std::string GetRPLKICK(const std::string& clientPrefix, const std::string& channelName, const std::string& clientNickname, const std::string& message);
 
-        static std::string GetRPLMODE(const std::string& clientNickname, const std::string& channelName, const std::string& modes, const std::string& arguments);
+        static std::string GetRPLMODE(const std::string& clientPrefix, const std::string& channelName, const std::string& modes, const std::string& arguments);
 };
 
 #endif
