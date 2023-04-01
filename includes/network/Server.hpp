@@ -1,6 +1,8 @@
 #ifndef IRC_SERVER_HPP
 #define IRC_SERVER_HPP
 
+#define NDEBUG
+
 #include <sys/socket.h>
 #include <sys/poll.h>
 #include <arpa/inet.h>
