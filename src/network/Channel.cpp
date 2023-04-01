@@ -2,13 +2,12 @@
 
 Channel::Channel(const std::string &name, const std::string &password, Client* clientOperator)
     : mName(name)
-    , mClientOperator(clientOperator)
     , mClientLimitCount(10)
     , MAXIMUM_CLIENT_COUNT(10)
     , mPassword(password)
+    , mSecurityMode(false)
 {
-    // mClientsSet , mClientsArray, mClientOperatorSet에 대한 처리도 같이 해줘야 할지 생각하기
-    // 위에  , mClientOperator(clientOperator) 지우고  mClientOperatorSet만 추가해주는게 맞을듯
+    mClientOperatorSet.insert(clientOperator);
 }
 
 Channel::~Channel()
@@ -46,7 +45,7 @@ void                        Channel::Join(Client *client, const std::string& pas
         return;
     }
 
-    if (!mPassword.empty() && mPassword != password)
+    if (mSecurityMode && !mPassword.empty() && mPassword != password)
     {
         /* 사용자가 키(비밀번호)로 채널에 가입하려고 하는데 제공된 키가 올바르지 않을 때   보내는 오류입니다. 사용자가 채널에 참여하려면 올바른 키가 필요합니다. */
         client->SendErrorToClient(Log::GetERRBADCHANNELKEY(client->GetPrefix(), client->GetNickname(), mName));
@@ -87,7 +86,6 @@ void                        Channel::Join(Client *client, const std::string& pas
     // 클라이언트에 대답을 보낸다
     client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
     client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
-
 
     // 클라이언트의 채널 참여를 알린다
     Broadcast(Log::GetRPLJOIN(client->GetNickname(), mName));
@@ -144,7 +142,6 @@ void                        Channel::Broadcast(const std::string& message, Clien
     }
 }
 
-
 void                        Channel::AddClientOperator(Client *client)
 {
     assert(client != NULL);
@@ -176,9 +173,22 @@ void                        Channel::AddClientOperator(Client *client)
     // Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
     // Log::log(client->GetNickname() + " has joined to the channel " + mName);
 
-
-
 }
+
+void                        Channel::DeleteClientOperator(Client *client)
+{
+    assert(client != NULL);
+
+    // Client가 이 채널에 속해 있는지 확인한다.
+    if (!IsClientInChannel(client))
+    {
+        return ;
+    }
+
+    // Set 목록에서 제거
+    mClientOperatorSet.erase(client);
+}
+
 
 bool                        Channel::IsClientInChannel(Client *client)
 {
@@ -236,4 +246,9 @@ void                        Channel::SetPassword(std::string key)
 void                        Channel::SetLimit(int clientLimitCount)
 {
     mClientLimitCount = clientLimitCount > MAXIMUM_CLIENT_COUNT ? MAXIMUM_CLIENT_COUNT : clientLimitCount;
+}
+
+void                        Channel::SetSecurityMode(bool SecurityMode)
+{
+    mSecurityMode = SecurityMode;
 }
