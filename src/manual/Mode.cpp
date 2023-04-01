@@ -24,7 +24,7 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
     }
 
     std::string target = args.at(0);
-    
+
     // 인자로 받은 channel이 존재하는지 확인
     Channel *channel = mServer->GetChannel(target); 
     if (!channel)
@@ -120,7 +120,7 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
                 if (prev_c == '+' && target_name.empty())
                 {
                     channel->SetSecurityMode(true);
-                    // client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "MODE"));
+                    channel->Broadcast(Log::GetRPLMODE(client->GetNickname(), channel->GetName(), ("+k"), (target_name)));
                     return ;
                 }
                 else if (prev_c == '+')
@@ -150,8 +150,6 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
                 }
                 else if (prev_c == '+')
                 {
-                    // 현재 인원보다 적은 수로 제한 시켰을때의 오류코드가 딱히 없음
-                    // 이게 맞나 싶음
                     if ((int)channel->GetClientCount() <= atoi(args[target_location].c_str()))
                     {
                         channel->SetLimit(atoi(args[target_location].c_str()));
