@@ -32,5 +32,4 @@ void	Quit::Execute(Client* client, std::vector<std::string> args)
 	// 이미 나간 클라이인트를 서버가 또 Disconnect하는 경우가 발생한다. 어쩔수 없다.
 	// private 여서 안되나?? 나중에 다시보기
 	//mServer->onClientDisconnect(client->GetFd());
-
 }
