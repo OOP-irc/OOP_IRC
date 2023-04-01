@@ -27,9 +27,4 @@ void	Quit::Execute(Client* client, std::vector<std::string> args)
         reason = reason.substr(1);
 
     client->SendErrorToClient(Log::GetRPLQUIT(client->GetNickname(), reason));
-	
-	// onClientDisconnect를 실행하면 클라이언트가 자체적으로 끊어버리는 경우도 있어서
-	// 이미 나간 클라이인트를 서버가 또 Disconnect하는 경우가 발생한다. 어쩔수 없다.
-	// private 여서 안되나?? 나중에 다시보기
-	//mServer->onClientDisconnect(client->GetFd());
 }
