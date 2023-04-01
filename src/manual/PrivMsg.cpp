@@ -15,7 +15,7 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
 {
     if (arr.size() < 2 || arr[0].empty() || arr[1].empty())
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "JOIN"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "PRIVMSG"));
         return;
     }
 

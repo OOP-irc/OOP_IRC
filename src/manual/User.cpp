@@ -28,7 +28,7 @@ void    User::Execute(Client* client, std::vector<std::string> args)
         return;
     }
 
-    if (args.size() < 4) 
+    if (args.size() != 4) 
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "USER"));
         return;

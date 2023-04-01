@@ -15,7 +15,7 @@ void    Notice::Execute(Client* client, std::vector<std::string> arr)
 {
     if (arr.size() < 2 || arr[0].empty() || arr[1].empty())
     {
-        Log::log((Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "JOIN")));
+        Log::log((Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "NOCTICE")));
         return;
     }
 

@@ -20,6 +20,12 @@ Quit::~Quit() {}
 
 void	Quit::Execute(Client* client, std::vector<std::string> args)
 {
+	if (args.size() > 1)
+    {
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "QUIT"));
+        return;
+    }
+	
 	std::string reason = args.empty() ? "Leaving..." : args.at(0);
 
 	// 클라이언트 형식에 따라 ':'가 붙어서 올때가 있는거 처리
