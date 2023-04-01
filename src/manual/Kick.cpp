@@ -41,9 +41,23 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
     {
         reason = "";
 
-        std::vector<std::string>::iterator it = args.begin();
+        std::vector<std::string>::iterator it = args.begin() + 2;
         std::vector<std::string>::iterator end = args.end();
-
+        reason.append(*it + " ");
+        std::cout << reason << std::endl;
+        if (reason[0] == ':')
+        {
+            if (reason[1] == ':')
+            {
+                reason = reason.substr(2);
+            }
+            else
+            {
+                reason = reason.substr(1);
+            }
+        }
+        std::cout << reason << std::endl;
+        it++;
         while (it != end)
         {
 			reason.append(*it + " ");
