@@ -27,8 +27,6 @@ void    Pass::Execute(Client* client, std::vector<std::string> args)
         return ;
     }
 
-    // client->IsRegistered()이거 였는데
-    // REGISTERED , Login
     if (client->GetState() == REGISTERED || client->GetState() == LOGIN)
     {
         client->SendErrorToClient(Log::GetERRALREADYREGISTRED(client->GetPrefix(), client->GetNickname()));

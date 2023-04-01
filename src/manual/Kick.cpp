@@ -31,12 +31,12 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         return;
     }
 
-    std::string name = args[0];
-    std::string target = args[1];
-    // 클라이언트에게 보낼 이유(reason)
+    std::string channelName = args[0];
+    std::string clientName = args[1];
+
     std::string reason = "No reason specified!";
 
-    // if there is a reason
+
     if (args.size() >= 3 && (args[2][0] != ':' || args[2].size() > 1))
     {
         reason = "";
@@ -51,43 +51,34 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         }
     }
 
-    // // GetJoindInChannel 아직 미구현 
-    // Channel *channel = client->GetJoindInChannel();
-
-    // // 명령을 입력한 본인이 채널에 속해있는지 확인 ERR_NOTONCHANNEL
-    // if (!channel || channel->GetName() != name)
-    // {
-    //     client->SendErrorToClient(ERR_NOTONCHANNEL(client->GetNickname(), name));
-    //     return;
-    // }
-
-    // // if (channel->GetAdmin() != client)
-    // // {
-    // //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
-    // //     return;
-    // // }
     
-    // // client를 client->GetClient()          GetClient() {  return (this*);}
-    // if (channel->GetClientOperator() != client->GetClient())
+
+    // Channel *channel = client->get_channel();
+    // if (!channel || channel->get_name() != channelName)
     // {
-    //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
+    //     client->reply(ERR_NOTONCHANNEL(client->get_nickname(), channelName));
     //     return;
     // }
 
-    // Client *targetClient = mServer->GetClient(target);
-
-    // // 서버 안에 일치하는 클라이언트가 없음  
-    // if (!targetClient)
+    // if (channel->get_admin() != client)
     // {
-    //     client->SendErrorToClient(ERR_NOSUCHNICK(client->GetNickname(), target));
+    //     client->reply(ERR_CHANOPRIVSNEEDED(client->get_nickname(), channelName));
     //     return;
     // }
 
-    // if (!targetClient->GetJoindInChannel() || targetClient->GetJoindInChannel() != channel)
+    // Client *dest = _srv->get_client(clientName);
+    // if (!dest)
     // {
-    //     client->SendErrorToClient(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
+    //     client->reply(ERR_NOSUCHNICK(client->get_nickname(), clientName));
     //     return;
     // }
 
-    // channel->Kick(client, targetClient, reason);
+    // if (!dest->get_channel() || dest->get_channel() != channel)
+    // {
+    //     client->reply(ERR_USERNOTINCHANNEL(client->get_nickname(), dest->get_nickname(), channelName));
+    //     return;
+    // }
+
+    // // if everything is fine
+    // channel->kick(client, dest, reason);
 }

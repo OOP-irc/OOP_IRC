@@ -27,7 +27,5 @@ void    Pong::Execute(Client* client, std::vector<std::string> args)
         return ;
     }
 
-    // 접근해서 RPL_PING문자를 send해줘야 될것 같은데 접근 불가
-    // 접근해야 될것 같은데 접근 불가
     client->SendErrorToClient(Log::GetRPLPING(client->GetNickname(), args.at(0)));
 }

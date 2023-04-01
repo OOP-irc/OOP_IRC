@@ -28,7 +28,7 @@ Parser::Parser(Server* server)
     mManuals["MODE"] = new Mode(mServer);
 
 	mManuals["PRIVMSG"] = new PrivMsg(mServer);
-	// mManuals["NOTICE"] = new Notice(mServer);
+	mManuals["NOTICE"] = new Notice(mServer);
 }
 
 Parser::~Parser ()
