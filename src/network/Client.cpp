@@ -21,7 +21,7 @@ void            Client::SendToClient(const std::string& message, Channel& channe
 {
     if (trySend(message) == false)
     {
-        SendErrorToClient(Log::GetERRCANNOTSENDTOCHAN(channel.GetName()));
+        SendErrorToClient(Log::GetERRCANNOTSENDTOCHAN(GetPrefix(), mNickname, channel.GetName()));
     }
 }
 
@@ -154,7 +154,7 @@ void            Client::handleClientLoginAndLog()
 {
     if (isReadLogin() == false)
     {
-        trySend(Log::GetERRNOTREGISTERED());
+        trySend(Log::GetERRNOTREGISTERED(GetPrefix(), GetNickname()));
 		return;
     }
 

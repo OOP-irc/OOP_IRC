@@ -40,28 +40,28 @@ void                        Channel::Join(Client *client, const std::string& pas
     if (client->GetState() != REGISTERED)
     {
         /* 유저가 아직 등록되지 않았음을 알림 */
-        client->SendErrorToClient(Log::GetERRNOTREGISTERED());
+        client->SendErrorToClient(Log::GetERRNOTREGISTERED(client->GetPrefix(), client->GetNickname()));
         return;
     }
 
     if (!mPassword.empty() && mPassword != password)
     {
         /* 사용자가 키(비밀번호)로 채널에 가입하려고 하는데 제공된 키가 올바르지 않을 때   보내는 오류입니다. 사용자가 채널에 참여하려면 올바른 키가 필요합니다. */
-        client->SendErrorToClient(Log::GetERRBADCHANNELKEY(client->GetPrefix(), mName));
+        client->SendErrorToClient(Log::GetERRBADCHANNELKEY(client->GetPrefix(), client->GetNickname(), mName));
         return;
     }
 
     if (GetClientCount() >= (unsigned int)GetModeClientLimitCount())
     {
         /* 이 오류는 사용자가 최대 사용자 제한(+l 채널 모드로 설정)에 도달한 채널에 가입하려고 할 때 발생합니다. 사용자는 더 많은 사용자를 위한 공간이 생길 때까지 채널에 참여할 수 없습니다 */
-        client->SendErrorToClient(Log::GetERRCHANNELISFULL(client->GetPrefix(), mName));
+        client->SendErrorToClient(Log::GetERRCHANNELISFULL(client->GetPrefix(), client->GetNickname(), mName));
         return;
     }
 
     if (client->IsFullJoindInChannlCount() == true)
     {   
         /* 이 오류는 사용자가 서버에서 허용한 것보다 더 많은 채널에 참여하려고 할 때 전송됩니다. 사용자는 새 채널에 가입하기 전에 일부 채널을 나가야 합니다. */
-        client->SendErrorToClient(Log::GetERRTOOMANYCHANNELS(client->GetPrefix(), mName));
+        client->SendErrorToClient(Log::GetERRTOOMANYCHANNELS(client->GetPrefix(), client->GetNickname(), mName));
         return;
     }
 
@@ -88,7 +88,7 @@ void                        Channel::Join(Client *client, const std::string& pas
 
 
     // 클라이언트의 채널 참여를 알린다
-    Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
+    Broadcast(Log::GetRPLJOIN(client->GetNickname(), mName));
     Log::log(client->GetNickname() + " has joined to the channel " + mName);
 }
 
@@ -98,7 +98,7 @@ void                        Channel::Leave(Client *client)
     assert(client != NULL);
 
     // 떠났음을 채널에 알리고 로그를 찍는다
-    Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
+    Broadcast(Log::GetRPLPART(client->GetNickname(), mName));
     Log::log(client->GetPrefix() + " has left the channel");
 
 
@@ -107,7 +107,7 @@ void                        Channel::Leave(Client *client)
     if (itSet == mClientsSet.end())
     {
         /* 클라이언트가 채널에 없을 때 */
-        client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), mName));
+        client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), client->GetNickname(), mName));
         return ;
     }
     mClientsSet.erase(itSet);

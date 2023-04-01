@@ -23,11 +23,11 @@ void    Pong::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.empty())
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PONG"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "PONG"));
         return ;
     }
 
     // 접근해서 RPL_PING문자를 send해줘야 될것 같은데 접근 불가
     // 접근해야 될것 같은데 접근 불가
-    client->SendErrorToClient(RPL_PING(client->GetPrefix(), args.at(0)));
+    client->SendErrorToClient(Log::GetRPLPING(client->GetNickname(), args.at(0)));
 }
