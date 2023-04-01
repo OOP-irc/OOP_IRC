@@ -33,7 +33,8 @@ class Channel
         unsigned int                GetClientCount() const;
         std::string                 GetPassword() const;
         int                         GetModeClientLimitCount() const;
-        Client*                     GetClientOperator() const;
+        // Client*                     GetClientOperator() const;
+        // Client*                     GetClientOperator(const std::string nickname) const;
         bool                        IsOperatorInChannel(Client *client) const;
 
         // bool                        GetModeN() const;
@@ -53,6 +54,7 @@ class Channel
         Channel(const Channel& src);
 
         std::string             mName;
+        Client*                 mClientOperator;// 나중에 없애기
         unsigned int            mClientCount;
         int                     mClientLimitCount;
         const int               MAXIMUM_CLIENT_COUNT;

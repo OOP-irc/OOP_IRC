@@ -6,7 +6,9 @@ Channel::Channel(const std::string &name, const std::string &password, Client* c
     , mClientLimitCount(10)
     , MAXIMUM_CLIENT_COUNT(10)
     , mPassword(password)
-{    
+{
+    // mClientsSet , mClientsArray, mClientOperatorSet에 대한 처리도 같이 해줘야 할지 생각하기
+    // 위에  , mClientOperator(clientOperator) 지우고  mClientOperatorSet만 추가해주는게 맞을듯
 }
 
 Channel::~Channel()
@@ -148,33 +150,32 @@ void                        Channel::AddClientOperator(Client *client)
     assert(client != NULL);
     
     // Client가 이 채널에 속해 있는지 확인한다.
-
-    //Client를 Operator에 추가한다
-    mClientsSet.insert(client);
-    
-    //채널에 참여한 클라이언트 이름을 추가한다
-    std::string clientsOnChannel = "";
-
-    clientsOnChannel.append(mClientsArray[0]->GetNickname());
-    for (size_t i = 1; i < mClientsArray.size(); ++i)
+    if (!IsClientInChannel(client))
     {
-        clientsOnChannel.append(" ");
-        clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
+        return ;
     }
 
-    // 클라이언트에 대답을 보낸다
-    client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
-    client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
+    //Client를 Operator에 추가한다
+    mClientOperatorSet.insert(client);
+    
+    //채널에 참여한 클라이언트 이름을 추가한다
+    // std::string clientsOnChannel = "";
 
+    // clientsOnChannel.append(mClientsArray[0]->GetNickname());
+    // for (size_t i = 1; i < mClientsArray.size(); ++i)
+    // {
+    //     clientsOnChannel.append(" ");
+    //     clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
+    // }
+
+    // // 클라이언트에 대답을 보낸다
+    // client->SendToClient(Log::GetRPLNAMREPLY(client->GetPrefix(), client->GetNickname(), mName, clientsOnChannel), *this);
+    // client->SendToClient(Log::GetRPLENDOFNAMES(client->GetPrefix(), client->GetNickname(), mName), *this);
 
     // 클라이언트의 채널 참여를 알린다
-    Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
-    Log::log(client->GetNickname() + " has joined to the channel " + mName);
+    // Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
+    // Log::log(client->GetNickname() + " has joined to the channel " + mName);
 
-
-
-
-    mClientOperatorSet.insert(client);
 
 
 }
@@ -204,10 +205,11 @@ bool                        Channel::IsOperatorInChannel(Client *client) const
     return true;
 }
 
-Client*                     Channel::GetClientOperator() const
-{
-    return mClientOperator;
-}
+// IsOperatorInChannel이면 충분함
+// Client*                     Channel::GetClientOperator() const
+// {
+//     return mClientOperator;
+// }
 
 unsigned int                Channel::GetClientCount() const
 {
