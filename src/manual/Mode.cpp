@@ -116,7 +116,6 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
             //      /MODE #mychat -k
 			case 'k':
             {
-                // +인데 3번째 인자 비어있음
                 if (prev_c == '+' && target_name.empty())
                 {
                     channel->SetSecurityMode(true);
