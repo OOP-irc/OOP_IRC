@@ -28,6 +28,10 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
     std::vector<std::string>::iterator end = arr.end();
 
     // "메세지가 여러 개 일 때 1개로 합친다"
+    message.append(*it + " ");
+    if (message[0] == ':')
+        message = message.substr(1);
+    it++;
     while (it != end)
     {
         message.append(*it + " ");
