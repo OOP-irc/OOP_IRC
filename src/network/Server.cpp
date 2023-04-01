@@ -74,7 +74,7 @@ void            Server::Start()
 
 			if ((it->revents & POLLHUP) == POLLHUP)
 			{
-				this->onClientDisconnect(it->fd);
+				this->OnClientDisconnect(it->fd);
 				break;
 			}
 
@@ -130,13 +130,17 @@ void            Server::onClientConnect()
     Log::log(message);
 }
 
-void            Server::onClientDisconnect(int fd)
+void            Server::OnClientDisconnect(int fd)
 {
     try
     {
         // finding the client and removing
         Client* client = mClients.at(fd);
-        assert(client != NULL);
+        if (client == NULL)
+        {
+            Log::log("client already exit");
+            return ;
+        }
 
         client->LeaveAllChannel();
         removeClientOnServerAndLog(fd, client);

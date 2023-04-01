@@ -36,4 +36,5 @@ void    Part::Execute(Client* client, std::vector<std::string> args)
     }
 
     channel->Leave(client);
+    client->RemoveJoindInChannel(channel);
 }

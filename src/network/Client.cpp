@@ -4,7 +4,7 @@ Client::Client(int fd, int port, const std::string &hostname)
     : mFd(fd)
     , mPort(port)
     , mJoinedInChannel(0)
-    , MAX_JOINED_IN_CHANNEL(3)
+    , MAX_JOINED_IN_CHANNEL(4)
     , mNickname("")
     , mUsername("")
     , mRealname("")
@@ -61,8 +61,11 @@ void            Client::LeaveAllChannel()
     while (channel_iter != channel_end)
     {
         (*channel_iter)->Leave(this);
-        ++channel_iter;
+        channel_iter++;
     }
+
+    mChannels.clear();
+    mJoinedInChannel = 0;
 }
 
 bool            Client::IsFullJoindInChannlCount()

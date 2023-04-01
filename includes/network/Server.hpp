@@ -53,6 +53,7 @@ class Server
 
         /* manage channel and client*/
         Channel*        CreateChannel(const std::string &name, const std::string &password, Client *client);
+        void            OnClientDisconnect(int fd);
 
     private:
         int                     mSock;
@@ -74,7 +75,6 @@ class Server
 
         // 캡슐화이동
         void            onClientConnect();
-        void            onClientDisconnect(int fd);
         void            onClientMessage(int fd);
 
         /* Handle Clients */
