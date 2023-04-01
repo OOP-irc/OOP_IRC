@@ -22,9 +22,7 @@ class Channel
         void                        Leave(Client *client);
         void                        Broadcast(const std::string& message);
         void                        Broadcast(const std::string& message, Client *sender);
-        //void                        AddClient(Client* client);
-        //void                        RemoveClient(Client* client);
-        void                        Kick(Client* client, Client* target, const std::string& reason);
+        void                        Kick(Client* client, Client* receiver, const std::string& reason);
         bool                        IsClientInChannel(Client *client);
         void                        AddClientOperator(Client *client);
         void                        DeleteClientOperator(Client *client);
@@ -38,16 +36,10 @@ class Channel
         // Client*                     GetClientOperator(const std::string nickname) const;
         bool                        IsOperatorInChannel(Client *client) const;
 
-        //bool                        ExtMsg() const;
-        // size_t                      GetSize() const;
-        // std::vector<std::string>    GetNicknames();
-
 
         /* Setters */
         void                        SetPassword(std::string key);
         void                        SetLimit(int clientLimitCount);
-        //void                        SetExtMsg(bool flag);
-        //                            Set_client(std::vector<Client *>   clients);
         void                        SetSecurityMode(bool SecurityMode);
 
     private:

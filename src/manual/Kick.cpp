@@ -25,18 +25,18 @@ Kick::~Kick()
 
 void    Kick::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.size() < 2)
+    if (args.size() < 2 || args.size() > 3)
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "KICK"));
         return;
     }
 
-    std::string name = args[0];
-    std::string target = args[1];
-    // 클라이언트에게 보낼 이유(reason)
+    std::string channelName = args[0];
+    std::string receiverName = args[1];
+
     std::string reason = "No reason specified!";
 
-    // if there is a reason
+
     if (args.size() >= 3 && (args[2][0] != ':' || args[2].size() > 1))
     {
         reason = "";
@@ -51,43 +51,39 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         }
     }
 
-    // // GetJoindInChannel 아직 미구현 
-    // Channel *channel = client->GetJoindInChannel();
+    Channel *channel = mServer->GetChannel(channelName);
 
-    // // 명령을 입력한 본인이 채널에 속해있는지 확인 ERR_NOTONCHANNEL
-    // if (!channel || channel->GetName() != name)
+    if (channel == NULL || channel->GetName() != channelName)
+    {
+        client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), client->GetNickname(), channelName));
+        return;
+    }
+
+    // mode 추가되면 수정할 것
+    // if (channel->GetClientOperator() != client)
     // {
-    //     client->SendErrorToClient(ERR_NOTONCHANNEL(client->GetNickname(), name));
+    //     client->reply(ERR_CHANOPRIVSNEEDED(client->get_nickname(), channelName));
     //     return;
     // }
 
-    // // if (channel->GetAdmin() != client)
-    // // {
-    // //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
-    // //     return;
-    // // }
-    
-    // // client를 client->GetClient()          GetClient() {  return (this*);}
-    // if (channel->GetClientOperator() != client->GetClient())
-    // {
-    //     client->SendErrorToClient(ERR_CHANOPRIVSNEEDED(client->GetNickname(), name));
-    //     return;
-    // }
+    Client *receiverClient = mServer->GetClientNickname(receiverName);
+    if (receiverClient == NULL)
+    {
+        client->SendErrorToClient(Log::GetERRNOSUCHNICK(client->GetPrefix(), receiverName, channelName));
+        return;
+    }
 
-    // Client *targetClient = mServer->GetClient(target);
+    if (channel->IsClientInChannel(receiverClient) == false) 
+    {
+        client->SendErrorToClient(Log::GetERRUSERNOTINCHANNEL(client->GetPrefix(), receiverClient->GetNickname(), channelName));
+        return;
+    }
 
-    // // 서버 안에 일치하는 클라이언트가 없음  
-    // if (!targetClient)
-    // {
-    //     client->SendErrorToClient(ERR_NOSUCHNICK(client->GetNickname(), target));
-    //     return;
-    // }
+    if (channel->IsClientInChannel(client) == false)
+    {
+        client->SendErrorToClient(Log::GetERRUSERNOTINCHANNEL(client->GetPrefix(), client->GetNickname(), channelName));
+        return;
+    }
 
-    // if (!targetClient->GetJoindInChannel() || targetClient->GetJoindInChannel() != channel)
-    // {
-    //     client->SendErrorToClient(ERR_USERNOTINCHANNEL(client->GetNickname(), targetClient->GetNickname(), name));
-    //     return;
-    // }
-
-    // channel->Kick(client, targetClient, reason);
+    channel->Kick(client, receiverClient, reason);
 }
