@@ -27,7 +27,7 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.size() < 2)
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "KICK"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "KICK"));
         return;
     }
 

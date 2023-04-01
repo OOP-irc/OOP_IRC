@@ -84,7 +84,7 @@ void            Parser::Invoke(Client* client, const std::string& message)
 
             if (client->GetState() == false && manual->AuthRequired())
             {
-                client->SendErrorToClient(Log::GetERRNOTREGISTERED());
+                client->SendErrorToClient(Log::GetERRNOTREGISTERED(client->GetPrefix(), client->GetNickname()));
                 return;
             }
 
@@ -92,7 +92,7 @@ void            Parser::Invoke(Client* client, const std::string& message)
         }
         catch (const std::exception& e)
         {
-            client->SendErrorToClient(Log::GetERRUNKNOWNCOMMAND(client->GetNickname(), name));
+            client->SendErrorToClient(Log::GetERRUNKNOWNCOMMAND(client->GetPrefix(), client->GetNickname(), name));
         }
     }
 }
