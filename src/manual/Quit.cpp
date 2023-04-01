@@ -33,4 +33,6 @@ void	Quit::Execute(Client* client, std::vector<std::string> args)
         reason = reason.substr(1);
 
     client->SendErrorToClient(Log::GetRPLQUIT(client->GetPrefix(), reason));
+
+    mServer->OnClientDisconnect(client->GetFd());
 }

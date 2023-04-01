@@ -18,7 +18,7 @@ Parser::Parser(Server* server)
     mManuals["PASS"] = new Pass(mServer, false);
     mManuals["NICK"] = new Nick(mServer, false);
     mManuals["USER"] = new User(mServer, false);
-    // mManuals["QUIT"] = new Quit(mServer, false);
+    mManuals["QUIT"] = new Quit(mServer, false);
 
     mManuals["PING"] = new Ping(mServer);
     mManuals["PONG"] = new Pong(mServer);

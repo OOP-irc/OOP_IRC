@@ -96,10 +96,6 @@ void                        Channel::Leave(Client *client)
     assert(itArray != mClientsArray.end());
 
     mClientsArray.erase(itArray);
-
-
-    // 클라이언트에서 자신이 등록된 채널을 줄인다
-    client->RemoveJoindInChannel(this);
 }
 
 void                        Channel::Broadcast(const std::string& message)
