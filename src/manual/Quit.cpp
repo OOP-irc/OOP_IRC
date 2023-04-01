@@ -32,5 +32,5 @@ void	Quit::Execute(Client* client, std::vector<std::string> args)
 	if (reason.at(0) == ':')
         reason = reason.substr(1);
 
-    client->SendErrorToClient(Log::GetRPLQUIT(client->GetNickname(), reason));
+    client->SendErrorToClient(Log::GetRPLQUIT(client->GetPrefix(), reason));
 }

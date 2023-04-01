@@ -53,7 +53,7 @@ void    Notice::Execute(Client* client, std::vector<std::string> arr)
             return ;
         }
 
-        channel->Broadcast(Log::GetRPLNOTICE(client->GetNickname(), recieverName, message), client);
+        channel->Broadcast(Log::GetRPLNOTICE(client->GetPrefix(), recieverName, message), client);
         return;
     }
     else
@@ -78,7 +78,7 @@ void    Notice::Execute(Client* client, std::vector<std::string> arr)
 
         for (size_t i = 0; i < list->size(); ++i)
         {
-            receivedClient->SendToClient(Log::GetRPLNOTICE(client->GetNickname(), list->at(i)->GetName(), message), *(list->at(i)));
+            receivedClient->SendToClient(Log::GetRPLNOTICE(client->GetPrefix(), list->at(i)->GetName(), message), *(list->at(i)));
         }
 
         delete list;

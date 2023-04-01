@@ -56,7 +56,7 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
             return ;
         }
 
-        channel->Broadcast(Log::GetRPLPRIVMSG(client->GetNickname(), channelName, message), client);
+        channel->Broadcast(Log::GetRPLPRIVMSG(client->GetPrefix(), channelName, message), client);
         return;
     }
 
