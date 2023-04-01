@@ -3,8 +3,8 @@
 Channel::Channel(const std::string &name, const std::string &password, Client* clientOperator)
     : mName(name)
     , mClientOperator(clientOperator)
-    , mClientLimitCount(10)
-    , MAXIMUM_CLIENT_COUNT(10)
+    , mClientLimitCount(3)
+    , MAXIMUM_CLIENT_COUNT(3)
     , mPassword(password)
 {    
 }
