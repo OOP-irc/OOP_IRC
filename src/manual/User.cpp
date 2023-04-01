@@ -24,13 +24,13 @@ void    User::Execute(Client* client, std::vector<std::string> args)
 {
     if (client->GetState() == REGISTERED)
     {
-        client->SendErrorToClient(ERR_ALREADYREGISTRED(client->GetNickname()));
+        client->SendErrorToClient(Log::GetERRALREADYREGISTRED(client->GetPrefix(), client->GetNickname()));
         return;
     }
 
     if (args.size() < 4) 
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "USER"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "USER"));
         return;
     }
     

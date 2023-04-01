@@ -15,7 +15,7 @@ void    Part::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.empty() || args.size() != 1)
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "JOIN"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "JOIN"));
         return;
     }
 

@@ -23,9 +23,9 @@ void	Ping::Execute(Client* client, std::vector<std::string> args)
 {
 	if (args.empty())
 	{
-		client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PING"));
+		client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "PING"));
 		return ;
 	}
 
-	client->SendErrorToClient(RPL_PING(client->GetPrefix(), args.at(0)));
+	client->SendErrorToClient(Log::GetRPLPING(client->GetNickname(), args.at(0)));
 }

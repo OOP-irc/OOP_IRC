@@ -23,7 +23,7 @@ void    Pass::Execute(Client* client, std::vector<std::string> args)
 {
     if (args.size() != 1)
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PASS"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "PASS"));
         return ;
     }
 
@@ -31,13 +31,13 @@ void    Pass::Execute(Client* client, std::vector<std::string> args)
     // REGISTERED , Login
     if (client->GetState() == REGISTERED || client->GetState() == LOGIN)
     {
-        client->SendErrorToClient(Log::GetERRALREADYREGISTRED(client->GetNickname()));
+        client->SendErrorToClient(Log::GetERRALREADYREGISTRED(client->GetPrefix(), client->GetNickname()));
         return ;
     }
 
     if (mServer->GetPassword() != args[0].substr(args[0][0] == ':' ? 1 : 0))
     {
-        client->SendErrorToClient(Log::GetERRPASSWDMISMATCH(client->GetNickname()));
+        client->SendErrorToClient(Log::GetERRPASSWDMISMATCH(client->GetPrefix(), client->GetNickname()));
         return ;
     }
 

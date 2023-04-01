@@ -15,7 +15,7 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
 {
     if (arr.size() < 2 || arr[0].empty() || arr[1].empty())
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "JOIN"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "JOIN"));
         return;
     }
 
@@ -52,11 +52,11 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
         // check if client is in the channel
         if (channel->IsClientInChannel(client) == false)
         {
-            client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), channelName));
+            client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), client->GetNickname(), channelName));
             return ;
         }
 
-        channel->Broadcast(Log::GetRPLPRIVMSG(client->GetPrefix(), channelName, message), client);
+        channel->Broadcast(Log::GetRPLPRIVMSG(client->GetNickname(), channelName, message), client);
         return;
     }
 

@@ -30,14 +30,14 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
 {
     if (args.size() != 1)
     {
-        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetNickname(), "PASS"));
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "PASS"));
         return ;
     }
 
     
     if (args.empty() || args[0].empty())
     {
-        client->SendErrorToClient(ERR_NONICKNAMEGIVEN(client->GetNickname()));
+        client->SendErrorToClient(Log::GetERRNONICKNAMEGIVEN(client->GetPrefix(), client->GetNickname()));
         return ;
     }
 
@@ -45,7 +45,7 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
 
     if (mServer->GetClientNickname(nickname))
     {
-        client->SendErrorToClient(ERR_NICKNAMEINUSE(client->GetNickname()));
+        client->SendErrorToClient(Log::GetERRNICKNAMEINUSE(client->GetPrefix(), client->GetNickname()));
         return ;
     }
     
