@@ -112,6 +112,7 @@ void                        Channel::Broadcast(const std::string& message)
 
 void                        Channel::Broadcast(const std::string& message, Client *sender)
 {
+    std::cout << message << std::endl;
     for (size_t i = 0; i < mClientsArray.size(); ++i)
     {
         if (mClientsArray[i] != sender)
