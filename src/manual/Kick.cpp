@@ -59,12 +59,11 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         return;
     }
 
-    // mode 추가되면 수정할 것
-    // if (channel->GetClientOperator() != client)
-    // {
-    //     client->reply(ERR_CHANOPRIVSNEEDED(client->get_nickname(), channelName));
-    //     return;
-    // }
+    if (channel->IsOperatorInChannel(client) == false)
+    {
+        client->SendErrorToClient(Log::GetERRCHANOPRIVSNEEDED(client->GetPrefix(), client->GetNickname(), channelName));
+        return;
+    }
 
     Client *receiverClient = mServer->GetClientNickname(receiverName);
     if (receiverClient == NULL)
