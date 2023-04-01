@@ -11,26 +11,6 @@ Channel::Channel(const std::string &name, const std::string &password, Client* c
 
 Channel::~Channel()
 {
-    // {
-    //     std::set<Client *>::iterator start = mClientsSet.begin();
-    //     std::set<Client *>::iterator end = mClientsSet.end();
-    //     while (start != end)
-    //     {
-    //         delete *start;
-    //         ++start;
-    //     }
-    //     mClientsSet.clear();
-    // }
-    // {
-    //     std::vector<Client *>::iterator start = mClientsArray.begin();
-    //     std::vector<Client *>::iterator end = mClientsArray.end();
-    //     while (start != end)
-    //     {
-    //         delete *start;
-    //         ++start;
-    //     }
-    //     mClientsArray.clear();
-    // }
 }
 
 void                        Channel::Join(Client *client, const std::string& password)
@@ -140,6 +120,31 @@ void                        Channel::Broadcast(const std::string& message, Clien
         }
 
     }
+}
+
+void                        Channel::Kick(Client* client, Client* receiver, const std::string& reason)
+{
+    Broadcast(Log::GetRPLKICK(client->GetPrefix(), mName, receiver->GetNickname(), reason));
+    
+    // 채널에서 클라이언트를 삭제한다
+    std::set<Client *>::iterator itSet = mClientsSet.find(receiver);
+    if (itSet == mClientsSet.end())
+    {
+        /* 클라이언트가 채널에 없을 때 */
+        receiver->SendErrorToClient(Log::GetERRNOTONCHANNEL(receiver->GetPrefix(), receiver->GetNickname(), mName));
+        return ;
+    }
+    mClientsSet.erase(itSet);
+    
+    std::vector<Client *>::iterator itArray = std::find(mClientsArray.begin(), mClientsArray.end(), receiver);
+    assert(itArray != mClientsArray.end());
+
+    mClientsArray.erase(itArray);
+
+    // 클라이언트에서 자신이 등록된 채널을 줄인다
+    receiver->RemoveJoindInChannel(this);
+
+    Log::log(client->GetNickname() + " kicked " + receiver->GetNickname() + " from channel " + mName);
 }
 
 bool                        Channel::IsClientInChannel(Client *client)

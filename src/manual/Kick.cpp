@@ -25,14 +25,14 @@ Kick::~Kick()
 
 void    Kick::Execute(Client* client, std::vector<std::string> args)
 {
-    if (args.size() < 2)
+    if (args.size() < 2 || args.size() > 3)
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "KICK"));
         return;
     }
 
     std::string channelName = args[0];
-    std::string clientName = args[1];
+    std::string receiverName = args[1];
 
     std::string reason = "No reason specified!";
 
@@ -51,34 +51,39 @@ void    Kick::Execute(Client* client, std::vector<std::string> args)
         }
     }
 
-    
+    Channel *channel = mServer->GetChannel(channelName);
 
-    // Channel *channel = client->get_channel();
-    // if (!channel || channel->get_name() != channelName)
-    // {
-    //     client->reply(ERR_NOTONCHANNEL(client->get_nickname(), channelName));
-    //     return;
-    // }
+    if (channel == NULL || channel->GetName() != channelName)
+    {
+        client->SendErrorToClient(Log::GetERRNOTONCHANNEL(client->GetPrefix(), client->GetNickname(), channelName));
+        return;
+    }
 
-    // if (channel->get_admin() != client)
+    // mode 추가되면 수정할 것
+    // if (channel->GetClientOperator() != client)
     // {
     //     client->reply(ERR_CHANOPRIVSNEEDED(client->get_nickname(), channelName));
     //     return;
     // }
 
-    // Client *dest = _srv->get_client(clientName);
-    // if (!dest)
-    // {
-    //     client->reply(ERR_NOSUCHNICK(client->get_nickname(), clientName));
-    //     return;
-    // }
+    Client *receiverClient = mServer->GetClientNickname(receiverName);
+    if (receiverClient == NULL)
+    {
+        client->SendErrorToClient(Log::GetERRNOSUCHNICK(client->GetPrefix(), receiverName, channelName));
+        return;
+    }
 
-    // if (!dest->get_channel() || dest->get_channel() != channel)
-    // {
-    //     client->reply(ERR_USERNOTINCHANNEL(client->get_nickname(), dest->get_nickname(), channelName));
-    //     return;
-    // }
+    if (channel->IsClientInChannel(receiverClient) == false) 
+    {
+        client->SendErrorToClient(Log::GetERRUSERNOTINCHANNEL(client->GetPrefix(), receiverClient->GetNickname(), channelName));
+        return;
+    }
 
-    // // if everything is fine
-    // channel->kick(client, dest, reason);
+    if (channel->IsClientInChannel(client) == false)
+    {
+        client->SendErrorToClient(Log::GetERRUSERNOTINCHANNEL(client->GetPrefix(), client->GetNickname(), channelName));
+        return;
+    }
+
+    channel->Kick(client, receiverClient, reason);
 }

@@ -66,10 +66,6 @@ void    Notice::Execute(Client* client, std::vector<std::string> arr)
             return;
         }
 
-        //클라이언트a와 다른 클라이언트 b가 속한 채널을 알아낸다
-        // 클라이언트 에이에 대한 채널을 가져온다
-        // 클라이언트 비에 대한 채널을 가져온다
-        // 서로 비교 후 새로운 채널리스트를 가져온다
         std::vector<Channel *> *list = new std::vector<Channel *>();
         receivedClient->GetChannelListByOther(client, list);
 
@@ -87,15 +83,4 @@ void    Notice::Execute(Client* client, std::vector<std::string> arr)
 
         delete list;
     }
-
-    // else if notice is for a client
-
-    // Client  *dest = _srv->get_client(target);
-    // if (!dest)
-    // {
-    //     client->reply(ERR_NOSUCHNICK(client->get_nickname(), target));
-	// 	return;
-    // }
-
-    // dest->write(RPL_PRIVMSG(client->get_prefix(), target, message));
 }
