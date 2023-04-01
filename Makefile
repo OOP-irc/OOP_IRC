@@ -16,7 +16,7 @@ SRCS = $(wildcard src/*.cpp src/network/*.cpp src/manual/*.cpp)
 OBJS = $(SRCS:.cpp=.o)
 
 CC = c++
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g3
+FLAGS = -Wall -Wextra -Werror -std=c++98
 INCLUDES = -I ./includes
 
 RM = rm -rf
