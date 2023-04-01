@@ -26,20 +26,21 @@ class Channel
         //void                        RemoveClient(Client* client);
         void                        Kick(Client* client, Client* target, const std::string& reason);
         bool                        IsClientInChannel(Client *client);
-
+        void                        AddClientOperator(Client *client);
+        void                        DeleteClientOperator(Client *client);
 
         /* Getters */
         std::string                 GetName() const;
-        Client&                     GetClientOperator() const;
         unsigned int                GetClientCount() const;
         std::string                 GetPassword() const;
         int                         GetModeClientLimitCount() const;
-        bool                        GetModeN() const;
+        // Client*                     GetClientOperator() const;
+        // Client*                     GetClientOperator(const std::string nickname) const;
+        bool                        IsOperatorInChannel(Client *client) const;
 
         //bool                        ExtMsg() const;
         // size_t                      GetSize() const;
         // std::vector<std::string>    GetNicknames();
-
 
 
         /* Setters */
@@ -47,21 +48,24 @@ class Channel
         void                        SetLimit(int clientLimitCount);
         //void                        SetExtMsg(bool flag);
         //                            Set_client(std::vector<Client *>   clients);
+        void                        SetSecurityMode(bool SecurityMode);
+
     private:
         Channel();
         Channel(const Channel& src);
 
         std::string             mName;
-        Client*                 mClientOperator;
-        unsigned int            mClientCount;
+        // Client*                 mClientOperator;// 나중에 없애기
         int                     mClientLimitCount;
         const int               MAXIMUM_CLIENT_COUNT;
 
         std::set<Client *>      mClientsSet;
         std::vector<Client *>   mClientsArray;
+        std::set<Client *>      mClientOperatorSet;
 
         /* Modes */
-        std::string             mPassword; // channel key  
+        std::string             mPassword; // channel key
+        bool                    mSecurityMode; // 비밀번호로 채널을 잠근다. 
 };
 
 #endif
