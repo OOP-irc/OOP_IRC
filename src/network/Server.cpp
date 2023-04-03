@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/30 14:16:43 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/03 11:05:39 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Server::Server(const std::string &port, const std::string &password)
 Server::~Server()
 {
 	delete mParser;
-    
+
     {
         channel_iterator start = mChannels.begin();
         channel_iterator end = mChannels.end();
@@ -101,7 +101,7 @@ void            Server::onClientConnect()
     socklen_t   size = sizeof(addr);
 
     // accept()로 서버 소켓과 연결된 클라이언트의 fd 생성
-	
+
     fd = accept(mSock, (sockaddr *) &addr, &size);
     if (fd < 0)
         throw std::runtime_error("Error while accepting a new client!");
@@ -173,10 +173,10 @@ void            Server::onClientMessage(int fd)
     {
         Client*     client = mClients.at(fd);
         std::string message = this->readMessage(fd);
-        
+
         mParser->Invoke(client, message);
     }
-    catch (const std::exception& e) 
+    catch (const std::exception& e)
     {
         std::cout << "Error while handling the client message! " << e.what() << std::endl;
     }
@@ -201,7 +201,7 @@ std::string     Server::readMessage(int fd)
 
 void            Server::removeClientOnServerAndLog(int fd, Client *client)
 {
-    // log about disconnecting 
+    // log about disconnecting
     char message[1000];
     sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
     Log::log(message);
@@ -221,7 +221,7 @@ int             Server::createSocket()
     if (socketFd < 0)
         throw std::runtime_error("Error while opening a socket!");
 
-    // 포트에 소켓을 강제로 연결하여 재사용 가능하게 만드는 것 
+    // 포트에 소켓을 강제로 연결하여 재사용 가능하게 만드는 것
 	// 한 클라이언트를 받고 다음 클라이언트를 받으려고 할때 에러가 나버린다.?
     int optionValue = 1;
     if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &optionValue, sizeof(optionValue)))
@@ -230,11 +230,11 @@ int             Server::createSocket()
     // 소켓을 NON-BLOCKING 모드로 만드는 것
     if (fcntl(socketFd, F_SETFL, O_NONBLOCK))
         throw std::runtime_error("Error while setting socket to NON-BLOCKING!");
-    
+
 	// 바인딩을 위해 필요한 데이터 수집
     struct sockaddr_in  serverAddr = {};
     memset((char*) &serverAddr, 0, sizeof(serverAddr));
-    
+
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(atoi(mPort.c_str()));
@@ -253,7 +253,7 @@ int             Server::createSocket()
 
 /* Getters */
 
-std::string     Server::GetPassword() const 
+std::string     Server::GetPassword() const
 {
     return mPassword;
 }

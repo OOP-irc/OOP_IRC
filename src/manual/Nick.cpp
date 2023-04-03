@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   NICK.cpp                                           :+:      :+:    :+:   */
+/*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 19:38:57 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/03 10:55:01 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "manual/Manual.hpp"
 
-Nick::Nick(Server* server, bool auth) 
-    : Manual(server, auth) 
+Nick::Nick(Server* server, bool auth)
+    : Manual(server, auth)
 {
 }
 
-Nick::~Nick() 
+Nick::~Nick()
 {
 }
 
 // syntax : NICK <nickname>
-// ERR_NONICKNAMEGIVEN             ERR_ERRONEUSNICKNAME
-// ERR_NICKNAMEINUSE               ERR_NICKCOLLISION
-// ERR_UNAVAILRESOURCE             ERR_RESTRICTED
 
 void    Nick::Execute(Client*   client, std::vector<std::string> args)
 {
@@ -34,7 +31,7 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
         return ;
     }
 
-    
+
     if (args.empty() || args[0].empty())
     {
         client->SendErrorToClient(Log::GetERRNONICKNAMEGIVEN(client->GetPrefix(), client->GetNickname()));
@@ -48,7 +45,7 @@ void    Nick::Execute(Client*   client, std::vector<std::string> args)
         client->SendErrorToClient(Log::GetERRNICKNAMEINUSE(client->GetPrefix(), client->GetNickname()));
         return ;
     }
-    
+
     client->SetNickname(nickname);
     client->TryClientLogin();
 }

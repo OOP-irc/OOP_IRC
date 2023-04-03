@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Manual.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:46:48 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/28 13:46:49 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/03 10:47:59 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ class Manual;
 
 #include "network/Server.hpp"
 
-//==========================
 //  THE BASE Manual CLASS
-//==========================  
 
 class Manual
 {
@@ -44,10 +42,7 @@ class Manual
         virtual void Execute(Client* client, std::vector<std::string> args) = 0;
 };
 
-
-//=======================
 //  THE Manual CLASSES
-//=======================
 
 class Notice : public Manual
 {

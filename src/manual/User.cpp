@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 19:56:53 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/03 11:01:19 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ User::~User() {}
 
 // syntax : USER <user> <mode> <unused> <realname>
 // syntax : USER <user> <mode>  *  :<realname>
-// ERR_NEEDMOREPARAMS              ERR_ALREADYREGISTRED
 
 void    User::Execute(Client* client, std::vector<std::string> args)
 {
@@ -28,14 +27,14 @@ void    User::Execute(Client* client, std::vector<std::string> args)
         return;
     }
 
-    if (args.size() < 4) 
+    if (args.size() < 4)
     {
         client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "USER"));
         return;
     }
-    
+
     client->SetUsername(args[0]);
     client->SetRealname(args[3]);
-    
+
     client->TryClientLogin();
 }
