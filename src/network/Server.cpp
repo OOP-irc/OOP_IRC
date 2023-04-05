@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/04/03 11:05:39 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/05 11:20:39 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ Server::~Server()
         }
         mClients.clear();
     }
-}
-
-void    deleteMemberMap()
-{
-
 }
 
 /* Initialize and Listen */
@@ -222,7 +217,6 @@ int             Server::createSocket()
         throw std::runtime_error("Error while opening a socket!");
 
     // 포트에 소켓을 강제로 연결하여 재사용 가능하게 만드는 것
-	// 한 클라이언트를 받고 다음 클라이언트를 받으려고 할때 에러가 나버린다.?
     int optionValue = 1;
     if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &optionValue, sizeof(optionValue)))
         throw std::runtime_error("Error while setting socket options!");
