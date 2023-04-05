@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/04/05 11:20:39 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/05 11:27:45 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,12 +113,12 @@ void            Server::onClientConnect()
     if (res != 0)
         throw std::runtime_error("Error while getting a hostname on a new client!");
 
-    // creating and saving a new client
+    // 클라이언트 만들고 저장
 
     Client* client = new Client(fd, ntohs(addr.sin_port), hostname);
     mClients.insert(std::make_pair(fd, client));
 
-    // logging connect message
+    // 로그 출력
 
     char message[1000];
     sprintf(message, "%s:%d has connected.", client->GetHostname().c_str(), client->GetPort());
@@ -129,7 +129,7 @@ void            Server::OnClientDisconnect(int fd)
 {
     try
     {
-        // finding the client and removing
+        // 클라이언트를 찾고  제거
         Client* client = mClients.at(fd);
         if (client == NULL)
         {
@@ -140,7 +140,7 @@ void            Server::OnClientDisconnect(int fd)
         client->LeaveAllChannel();
         removeClientOnServerAndLog(fd, client);
 
-        // removing the client fd from the poll
+        // pollfd 목록에서 제거
 
         pfd_iterator it_b = mPollFd.begin();
         pfd_iterator it_e = mPollFd.end();
@@ -196,7 +196,6 @@ std::string     Server::readMessage(int fd)
 
 void            Server::removeClientOnServerAndLog(int fd, Client *client)
 {
-    // log about disconnecting
     char message[1000];
     sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
     Log::log(message);
@@ -211,7 +210,7 @@ int             Server::createSocket()
 {
     // Descriptor
     // opening a socket
-	// AF_INET  SOCK_STREAM == stream socket
+	// AF_INET == IPV4  SOCK_STREAM == stream socket
     int socketFd = socket(AF_INET, SOCK_STREAM, 0);
     if (socketFd < 0)
         throw std::runtime_error("Error while opening a socket!");

@@ -32,8 +32,6 @@ class Channel
         unsigned int                GetClientCount() const;
         std::string                 GetPassword() const;
         int                         GetModeClientLimitCount() const;
-        // Client*                     GetClientOperator() const;
-        // Client*                     GetClientOperator(const std::string nickname) const;
         bool                        IsOperatorInChannel(Client *client) const;
 
 

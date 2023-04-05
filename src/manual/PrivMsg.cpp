@@ -1,11 +1,11 @@
 #include "manual/Manual.hpp"
 
 PrivMsg::PrivMsg(Server* srv)
- : Manual(srv) 
+ : Manual(srv)
 {
 }
 
-PrivMsg::~PrivMsg() 
+PrivMsg::~PrivMsg()
 {
 }
 
@@ -63,15 +63,4 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
         channel->Broadcast(Log::GetRPLPRIVMSG(client->GetPrefix(), channelName, message), client);
         return;
     }
-
-    // else if notice is for a client
-
-    // Client  *dest = _srv->get_client(target);
-    // if (!dest)
-    // {
-    //     client->reply(ERR_NOSUCHNICK(client->get_nickname(), target));
-	// 	return;
-    // }
-
-    // dest->write(RPL_PRIVMSG(client->get_prefix(), target, message));
 }
