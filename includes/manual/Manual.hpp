@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 15:46:48 by mikim3            #+#    #+#             */
-/*   Updated: 2023/04/03 10:47:59 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/05 13:46:58 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Manual
 
     public:
 
-        explicit Manual(Server* server, bool auth = true);
+        Manual(Server* server, bool auth = true);
         virtual ~Manual();
 
         bool AuthRequired() const;
