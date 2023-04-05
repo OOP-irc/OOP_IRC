@@ -1,16 +1,15 @@
 #include "manual/Manual.hpp"
 
 Mode::Mode(Server* server)
-    : Manual(server) 
+    : Manual(server)
 {
 }
 
-Mode::~Mode() 
+Mode::~Mode()
 {
 }
 
-// syntax:  MODE <nickname> <flags> (user)
-//          MODE <channel> <flags> [<args>]
+// syntax:  MODE <channel> <flags> [<args>]
 // o - give/take channel operator privilege;
 // k - set/remove the channel key (password);
 // l - set/remove the user limit to channel;
@@ -26,7 +25,7 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
     std::string target = args.at(0);
 
     // 인자로 받은 channel이 존재하는지 확인
-    Channel *channel = mServer->GetChannel(target); 
+    Channel *channel = mServer->GetChannel(target);
     if (!channel)
     {
         client->SendErrorToClient(Log::GetERRNOSUCHCHANNEL(client->GetPrefix(), client->GetNickname(), target));
@@ -82,7 +81,7 @@ void    Mode::Execute(Client* client, std::vector<std::string> args)
 			case 'o':
             {
                 Client *target_client = mServer->GetClientNickname(target_name);
-                
+
                 if (target_client == NULL)
                 {
                     client->SendErrorToClient(Log::GetERRUSERNOTINCHANNEL(client->GetPrefix(), client->GetNickname(), channel->GetName()));

@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   Pass.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mikim3 <mikim3@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 19:53:08 by mikim3            #+#    #+#             */
-/*   Updated: 2023/03/29 19:57:22 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/03 10:55:30 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "manual/Manual.hpp"
 
-// auth 필요한지 고민됨
 Pass::Pass(Server* server, bool auth) : Manual(server, auth) {}
 
 Pass::~Pass() {}

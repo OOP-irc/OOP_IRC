@@ -10,7 +10,7 @@ class Channel;
 #include "../Log.hpp"
 
 
-class Channel 
+class Channel
 {
     public:
         /* Constructor and Destructor */
@@ -47,7 +47,6 @@ class Channel
         Channel(const Channel& src);
 
         std::string             mName;
-        // Client*                 mClientOperator;// 나중에 없애기
         int                     mClientLimitCount;
         const int               MAXIMUM_CLIENT_COUNT;
 
@@ -57,7 +56,7 @@ class Channel
 
         /* Modes */
         std::string             mPassword; // channel key
-        bool                    mSecurityMode; // 비밀번호로 채널을 잠근다. 
+        bool                    mSecurityMode; // 비밀번호로 채널이 잠겼는지 체크
 };
 
 #endif
