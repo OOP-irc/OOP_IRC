@@ -190,7 +190,6 @@ std::string     Server::readMessage(Client *client, int fd)
     if (client->GetSilcedMsg().length() != 0)
     {
         message.append(client->GetSilcedMsg());
-        std::cout << "message = " << message << std::endl;
         client->SetSilcedMsg("");
     }
 	memset(buffer, 0, 100);
@@ -208,7 +207,6 @@ std::string     Server::readMessage(Client *client, int fd)
     {
         message.append(buffer);
     }
-    std::cout << message << std::endl;
     return message;
 }
 
