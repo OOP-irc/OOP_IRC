@@ -9,6 +9,7 @@ Client::Client(int fd, int port, const std::string &hostname)
     , mUsername("")
     , mRealname("")
     , mHostname(hostname)
+    , mSilcedMsg("")
     , mState(CONNECTED)
 {
 }
@@ -108,6 +109,12 @@ std::string     Client::GetPrefix() const
     return mNickname + "!" + mUsername + "@" + mHostname;
 }
 
+std::string     Client::GetSilcedMsg() const
+{
+    return mSilcedMsg;
+}
+
+
 eClientState    Client::GetState() const
 {
     return mState;
@@ -147,6 +154,12 @@ void            Client::SetState(eClientState state)
 {
     mState = state;
 }
+
+void            Client::SetSilcedMsg(std::string silcedMsg)
+{
+    mSilcedMsg = silcedMsg;
+}
+
 
 bool            Client::trySend(const std::string& message) const
 {

@@ -167,8 +167,12 @@ void            Server::onClientMessage(int fd)
     try
     {
         Client*     client = mClients.at(fd);
-        std::string message = this->readMessage(fd);
+        std::string message = this->readMessage(client, fd);
 
+        if (message.size() == 0)
+        {
+            return ;
+        }
         mParser->Invoke(client, message);
     }
     catch (const std::exception& e)
@@ -177,18 +181,30 @@ void            Server::onClientMessage(int fd)
     }
 }
 
-std::string     Server::readMessage(int fd)
+std::string     Server::readMessage(Client *client, int fd)
 {
     std::string message;
     char buffer[100];
 	memset(buffer, 0, 100);
 
-    while (!strstr(buffer, "\n"))
+    if (client->GetSilcedMsg().length() != 0)
     {
-		memset(buffer, 0, 100);
-        // EWOULDBLOCK은 아직은 클라이언트가 write를 하지 않았음을 의미
-        if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
-            throw std::runtime_error("Error while reading buffer from a client!");
+        message.append(client->GetSilcedMsg());
+        client->SetSilcedMsg("");
+    }
+	memset(buffer, 0, 100);
+    // EWOULDBLOCK은 아직은 클라이언트가 write를 하지 않았음을 의미
+    if ((recv(fd, buffer, 100, 0) < 0) and (errno != EWOULDBLOCK))
+    {
+        throw std::runtime_error("Error while reading buffer from a client!");
+    }
+    if (!strstr(buffer, "\n"))
+    {
+        client->SetSilcedMsg(client->GetSilcedMsg() + buffer);
+        return "";
+    }
+    else
+    {
         message.append(buffer);
     }
     return message;

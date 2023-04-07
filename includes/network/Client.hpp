@@ -45,6 +45,7 @@ class Client
         std::string             GetHostname() const;
         std::string             GetPrefix() const; // 클라이언트에게 메세지 보낼 때 쓰는 접두사
         eClientState            GetState() const;
+        std::string             GetSilcedMsg() const;
         void                    GetChannelListByOther(Client *other, std::vector<Channel *> *list);
     
 
@@ -53,6 +54,7 @@ class Client
         void                    SetUsername(const std::string &username);
         void                    SetRealname(const std::string &realname);
         void                    SetState(eClientState state);
+        void                    SetSilcedMsg(std::string silcedMsg);
 
     private:
         Client();
@@ -73,7 +75,7 @@ class Client
         std::string     mUsername;
         std::string     mRealname;
         std::string     mHostname;
-
+        std::string     mSilcedMsg;
         eClientState     mState;
 };
 
