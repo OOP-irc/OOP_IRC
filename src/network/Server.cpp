@@ -200,7 +200,7 @@ std::string     Server::readMessage(Client *client, int fd)
     }
     if (!strstr(buffer, "\n"))
     {
-        client->SetSilcedMsg(client->GetSilcedMsg() + buffer);
+        client->SetSilcedMsg(message + buffer);
         return "";
     }
     else
