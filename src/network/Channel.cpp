@@ -25,6 +25,13 @@ void                        Channel::Join(Client *client, const std::string& pas
         return;
     }
 
+    if (IsClientInChannel(client))
+    {
+        /* 클라이언트가 자신이 있는 채널에 들어오려고 함 */
+        client->SendErrorToClient(Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "JOIN"));
+        return;
+    }
+
     if (mSecurityMode && !mPassword.empty() && mPassword != password)
     {
         /* 사용자가 키(비밀번호)로 채널에 가입하려고 하는데 제공된 키가 올바르지 않을 때   보내는 오류입니다. 사용자가 채널에 참여하려면 올바른 키가 필요합니다. */

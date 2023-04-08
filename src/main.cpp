@@ -2,12 +2,13 @@
 
 int main(int ac, char **av)
 {
-
-    if (ac != 3)
-        throw std::runtime_error("Usage: ./ircserv <port> <password>");
-
     try
     {
+        if (ac != 3)
+        {
+            throw std::runtime_error("Usage: ./ircserv <port> <password>");
+        }
+
         Server  server(av[1], av[2]);
 
         server.Start();
