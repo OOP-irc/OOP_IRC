@@ -1,11 +1,11 @@
 #include "manual/Manual.hpp"
 
 Notice::Notice(Server* srv)
- : Manual(srv) 
+ : Manual(srv)
 {
 }
 
-Notice::~Notice() 
+Notice::~Notice()
 {
 }
 
@@ -15,7 +15,7 @@ void    Notice::Execute(Client* client, std::vector<std::string> arr)
 {
     if (arr.size() < 2 || arr[0].empty() || arr[1].empty())
     {
-        Log::log((Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "NOCTICE")));
+        Log::log((Log::GetERRNEEDMOREPARAMS(client->GetPrefix(), client->GetNickname(), "NOTICE")));
         return;
     }
 

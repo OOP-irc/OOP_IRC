@@ -17,7 +17,7 @@ Channel::~Channel()
 void                        Channel::Join(Client *client, const std::string& password)
 {
     assert(client != NULL);
-    
+
     if (client->GetState() != REGISTERED)
     {
         /* 유저가 아직 등록되지 않았음을 알림 */
@@ -47,7 +47,7 @@ void                        Channel::Join(Client *client, const std::string& pas
     }
 
     if (client->IsFullJoindInChannlCount() == true)
-    {   
+    {
         /* 이 오류는 사용자가 서버에서 허용한 것보다 더 많은 채널에 참여하려고 할 때 전송됩니다. 사용자는 새 채널에 가입하기 전에 일부 채널을 나가야 합니다. */
         client->SendErrorToClient(Log::GetERRTOOMANYCHANNELS(client->GetPrefix(), client->GetNickname(), mName));
         return;
@@ -56,18 +56,18 @@ void                        Channel::Join(Client *client, const std::string& pas
     //Client를 Channel에 추가한다
     mClientsArray.push_back(client);
     mClientsSet.insert(client);
-    
+
     //Client의 등록된 채널을 증가시킨다
     client->AddJoindInChannel(this);
 
     //채널에 참여한 클라이언트 이름을 추가한다
     std::string clientsOnChannel = "";
 
-    clientsOnChannel.append(mClientsArray[0]->GetNickname()); 
+    clientsOnChannel.append(mClientsArray[0]->GetNickname());
     for (size_t i = 1; i < mClientsArray.size(); ++i)
     {
         clientsOnChannel.append(" ");
-        clientsOnChannel.append(mClientsArray[i]->GetNickname()); 
+        clientsOnChannel.append(mClientsArray[i]->GetNickname());
     }
 
     // 클라이언트에 대답을 보낸다
@@ -76,7 +76,7 @@ void                        Channel::Join(Client *client, const std::string& pas
 
     // 클라이언트의 채널 참여를 알린다
     Broadcast(Log::GetRPLJOIN(client->GetPrefix(), mName));
-    Log::log(client->GetNickname() + " has joined to the channel " + mName);
+    ///Log::log(client->GetNickname() + " has joined to the channel " + mName);
 }
 
 void                        Channel::Leave(Client *client)
@@ -86,7 +86,7 @@ void                        Channel::Leave(Client *client)
 
     // 떠났음을 채널에 알리고 로그를 찍는다
     Broadcast(Log::GetRPLPART(client->GetPrefix(), mName));
-    Log::log(client->GetPrefix() + " has left the channel");
+    ///Log::log(client->GetPrefix() + " has left the channel");
 
 
     // 채널에서 클라이언트를 삭제한다
@@ -98,7 +98,7 @@ void                        Channel::Leave(Client *client)
         return ;
     }
     mClientsSet.erase(itSet);
-    
+
     std::vector<Client *>::iterator itArray = std::find(mClientsArray.begin(), mClientsArray.end(), client);
     assert(itArray != mClientsArray.end());
 
@@ -129,7 +129,7 @@ void                        Channel::Broadcast(const std::string& message, Clien
 void                        Channel::Kick(Client* client, Client* receiver, const std::string& reason)
 {
     Broadcast(Log::GetRPLKICK(client->GetPrefix(), mName, receiver->GetNickname(), reason));
-    
+
     // 채널에서 클라이언트를 삭제한다
     std::set<Client *>::iterator itSet = mClientsSet.find(receiver);
     if (itSet == mClientsSet.end())
@@ -139,7 +139,7 @@ void                        Channel::Kick(Client* client, Client* receiver, cons
         return ;
     }
     mClientsSet.erase(itSet);
-    
+
     std::vector<Client *>::iterator itArray = std::find(mClientsArray.begin(), mClientsArray.end(), receiver);
     assert(itArray != mClientsArray.end());
 
@@ -148,13 +148,13 @@ void                        Channel::Kick(Client* client, Client* receiver, cons
     // 클라이언트에서 자신이 등록된 채널을 줄인다
     receiver->RemoveJoindInChannel(this);
 
-    Log::log(client->GetNickname() + " kicked " + receiver->GetNickname() + " from channel " + mName);
+    ///Log::log(client->GetNickname() + " kicked " + receiver->GetNickname() + " from channel " + mName);
 }
 
 void                        Channel::AddClientOperator(Client *client)
 {
     assert(client != NULL);
-    
+
     // Client가 이 채널에 속해 있는지 확인한다.
     if (!IsClientInChannel(client))
     {
@@ -163,7 +163,7 @@ void                        Channel::AddClientOperator(Client *client)
 
     //Client를 Operator에 추가한다
     mClientOperatorSet.insert(client);
-    
+
 }
 
 void                        Channel::DeleteClientOperator(Client *client)

@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/04/05 11:27:45 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/10 18:20:07 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void            Server::onClientConnect()
     mPollFd.push_back(pollFd);
 
     // getting hostname from the client address
-
     char hostname[NI_MAXHOST];
+
 	// 클라이언트의 IP주소에서 호스트네임을 가져온다.
     int res = getnameinfo((struct sockaddr *) &addr, sizeof(addr), hostname, NI_MAXHOST, NULL, 0, NI_NUMERICSERV);
     if (res != 0)
@@ -120,9 +120,9 @@ void            Server::onClientConnect()
 
     // 로그 출력
 
-    char message[1000];
-    sprintf(message, "%s:%d has connected.", client->GetHostname().c_str(), client->GetPort());
-    Log::log(message);
+    /// char message[1000];
+    /// sprintf(message, "%s:%d has connected.", client->GetHostname().c_str(), client->GetPort());
+    /// Log::log(message);
 }
 
 void            Server::OnClientDisconnect(int fd)
@@ -133,7 +133,7 @@ void            Server::OnClientDisconnect(int fd)
         Client* client = mClients.at(fd);
         if (client == NULL)
         {
-            Log::log("client already exit");
+            ///Log::log("client already exit");
             return ;
         }
 
@@ -212,9 +212,9 @@ std::string     Server::readMessage(Client *client, int fd)
 
 void            Server::removeClientOnServerAndLog(int fd, Client *client)
 {
-    char message[1000];
-    sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
-    Log::log(message);
+    ///char message[1000];
+    ///sprintf(message, "%s:%d has disconnected!", client->GetHostname().c_str(), client->GetPort());
+    ///Log::log(message);
 
     delete client;
 
