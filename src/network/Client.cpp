@@ -170,7 +170,6 @@ bool            Client::trySend(const std::string& message) const
     if (send(mFd, formattedMessage.c_str(), strlen(formattedMessage.c_str()), 0) == -1)
     {
         ///Log::log("Error Send it client");
-
         return false;
     }
 

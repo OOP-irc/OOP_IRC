@@ -6,7 +6,7 @@
 /*   By: mikim3 <mikim3@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 19:37:58 by mikim3            #+#    #+#             */
-/*   Updated: 2023/04/10 18:20:07 by mikim3           ###   ########.fr       */
+/*   Updated: 2023/04/10 18:53:57 by mikim3           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void            Server::OnClientDisconnect(int fd)
     }
     catch (const std::exception &e)
     {
-        std::cout << "Error while disconnecting! " << e.what() << std::endl;
+        /// std::cout << "Error while disconnecting! " << e.what() << std::endl;
     }
 }
 
@@ -177,7 +177,7 @@ void            Server::onClientMessage(int fd)
     }
     catch (const std::exception& e)
     {
-        std::cout << "Error while handling the client message! " << e.what() << std::endl;
+        /// std::cout << "Error while handling the client message! " << e.what() << std::endl;
     }
 }
 
