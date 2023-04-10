@@ -38,9 +38,6 @@ void    PrivMsg::Execute(Client* client, std::vector<std::string> arr)
         it++;
     }
 
-    // if (message.at(0) == ':')
-    //     message = message.substr(1);
-
     // if notice is for a channel
 
     if (channelName.at(0) == '#')

@@ -75,7 +75,7 @@ bool            Client::IsFullJoindInChannlCount()
 }
 
 int             Client::GetFd() const
-{  
+{
     return mFd;
 }
 
@@ -169,8 +169,8 @@ bool            Client::trySend(const std::string& message) const
 
     if (send(mFd, formattedMessage.c_str(), strlen(formattedMessage.c_str()), 0) == -1)
     {
-        Log::log("Error Send it client");
-        
+        ///Log::log("Error Send it client");
+
         return false;
     }
 
@@ -192,9 +192,9 @@ void            Client::handleClientLoginAndLog()
     mState = REGISTERED;
     trySend(Log::GetRPLWELCOME(GetPrefix(), mNickname));
 
-    char buffer[100];
-    sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
-    Log::log(buffer);
+    ///char buffer[100];
+    ///sprintf(buffer, "%s:%d is %s And Login complete.", mHostname.c_str(), mPort, mNickname.c_str());
+    ///Log::log(buffer);
 }
 
 bool            Client::isReadLogin()
